@@ -1,0 +1,11 @@
+def whoIsNext(names, r):
+  lastn = 0
+  incr = 5
+  while lastn + incr < r:
+    lastn += incr
+    incr *= 2
+  return names[(r - lastn - 1) // (incr // 5)]
+Best Practices2Clever0
+0ForkCompare with your solutionLink
+werneckpaiva
+import math
