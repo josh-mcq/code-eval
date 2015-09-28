@@ -1,0 +1,4 @@
+# New code challenges should include a folder, which contains a
+ solutions file saved as text file, as well as a test cases file.  The folder 
+be named the same as the name of the challenge.  All solutions
+should have the same function name and signature.

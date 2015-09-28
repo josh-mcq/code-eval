@@ -1,0 +1,1997 @@
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list) and len(original) == len(other):
+        for o1, o2 in zip(original, other):
+            if not same_structure_as(o1, o2): return False
+        else: return True
+    else: return not isinstance(original, list) and not isinstance(other, list)
+Best Practices7Clever2
+0ForkCompare with your solutionLink
+MMMAAANNN
+
+def same_structure_as(a, b):
+    return (False if not (isinstance(a, list) and isinstance(b, list)) or len(a) != len(b)
+            else all(same_structure_as(c, d) for c, d in zip(a, b) if isinstance(c, list)))
+Best Practices2Clever0
+0ForkCompare with your solutionLink
+killer_mike
+
+def same_structure_as(original,other):
+    if not (isinstance(original, list) and isinstance(other, list)): return False 
+    if len(original) != len(other): return False
+    for i in range(len(original)):
+        if isinstance(original[i], list) != isinstance(other[i], list): return False
+        if isinstance(original[i], list):
+            if not same_structure_as(original[i], other[i]): return False
+    return True
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+rffrancon
+
+def make_hash(nest):
+    if isinstance(nest, list):
+        elems = ''
+        for elem in nest:
+            elems += make_hash(elem)
+        return '[' + elems + ']'
+    else:
+        return '*'
+
+def same_structure_as(original,other):
+    if make_hash(original) == make_hash(other):
+        return True
+    else:
+        return False
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+Lau-Rent
+
+def same_structure_as(original,other):
+    if type(original) != list or type(other) != list:
+        if type(original) != list and type(other) != list:
+            return True
+        else:
+            return False
+    
+    if len(original) == len(other):
+        for el1, el2 in zip(original,other):
+            if not same_structure_as(el1,el2):
+                return False
+    else:
+        return False
+            
+    
+    return True
+    #your code here
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Dront
+
+def same_structure_as(original,other):
+    if isinstance(original, list) != isinstance(other, list):
+        return False
+    
+    if isinstance(original, list):
+        if len(original) != len(other):
+            return False
+        return all(same_structure_as(a, b) for a, b in zip(original, other))
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Whyte
+
+import re
+
+def sameify(l):
+    return re.sub(r"\d+|'.*?'", 'x', str(l))
+
+def same_structure_as(original,other):
+    return sameify(original) == sameify(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Whyte
+
+def sameify(l):
+    for i in xrange(len(l)):
+        if isinstance(l[i], list):
+            sameify(l[i])
+        else:
+            l[i] = 1
+
+def same_structure_as(original,other):
+    sameify([original])
+    sameify([other])
+    return original == other
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SleepingCode
+
+def same_structure_as(original,other):
+    if isinstance(original,(int,dict)) or isinstance(other,(int,dict)): return original==other
+    def flatten(l):
+      return [flatten(el) if isinstance(el,list) else 1 for el in l]
+    return flatten(original)==flatten(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Kaldonis
+
+def same_structure_as(original, other):
+    def normalize_list(lst):
+        return [normalize_list(i) if isinstance(i, list) else 0 for i in lst] if isinstance(lst, list) else None
+    return normalize_list(original) == normalize_list(other)
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+antonkonovalov
+
+def same_structure_as(original, other):
+    if isinstance(original, (list, tuple)) != isinstance(other, (list, tuple)):
+        return False
+    if isinstance(original, (list, tuple)):
+        if len(original) != len(other):
+            return False
+        for i, item in enumerate(original):
+            if not same_structure_as(item, other[i]):
+                return False
+
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lth_CB
+
+def check(list1):
+    tem=False
+    try:
+        for i in list1:
+            if isinstance(i,(list,tuple)):
+                tem=True
+    except:
+        pass
+    return tem
+def check2(one):
+    result=[]
+    for i in one:
+        if isinstance(i,(list,tuple)):
+            result.append(1)
+        else:
+            result.append(0)
+    return result
+def convertonum(one):
+    tem=[]
+    if check(one):
+        tem.append(check2(one))
+        for i in one:
+            if isinstance(i,(list,tuple)):
+                tem.append(convertonum(i))
+            else:
+                pass
+    elif type(one)==int:
+        tem=one
+    else:
+        tem.append(len(one))
+    return tem
+def same_structure_as(original,other):
+    if convertonum(original)==convertonum(other) and type(original)==type(other):
+        return True
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Boota
+
+from itertools import izip
+def same_structure_as(l,o):
+    if type(l) is list and type(o) is list:
+        if len(l) != len(o):
+            return False
+        
+        for x, y in izip(l, o):
+            if not same_structure_as(x, y):
+                return False
+    elif type(l) is list or type(o) is list:
+        return False
+            
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jmira
+
+def is_list(var):
+    return type(var) == type ([])
+    
+def same_structure_as(original,other):
+    if is_list(original) == is_list(other):
+        if is_list(original):
+            if len(original) != len(other):
+                return False
+            for i in xrange(len(original)):
+                if not same_structure_as(original[i],other[i]):
+                    return False
+            return True
+        return True
+    return False
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JensSvalgaard
+
+def same_structure_as(a, b):
+    if type(a) != list:
+        return type(b) != list
+    if type(b) != list or len(a) != len(b):
+        return False
+    return not [ab for ab in zip(a,b) if not same_structure_as(*ab)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+timla
+
+def same_structure_as(original,other):
+    if not (isinstance(original, list) and isinstance(other, list)) or len(original) != len(other):
+        return False
+    return all([(not isinstance(original[i], list) and not isinstance(other[i], list)) or (same_structure_as(original[i], other[i])) for i in range(len(original))])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yangyanzhan
+
+def same_structure_as(original,other):
+    if not isinstance(original, list) and not isinstance(other, list):
+        return True
+    if type(original) == type(other) == list:
+        if len(original) != len(other):
+            return False
+        same = True
+        for i in range(len(original)):
+            if not same_structure_as(original[i], other[i]):
+                return False
+        return True
+    return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+javafreak
+
+def same_structure_as(original,other):
+    if size(original) != size(other):
+        return False
+
+    for a,b in zip(original, other):
+        if not size(a) == size(b):
+            return False
+        if type(a) == list:
+            if not same_structure_as(a,b):
+                return False
+    return True
+
+def size(x):
+    if type(x) == list:
+        return len(x)
+    return -1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+plarionov
+
+def same_structure_as(original, other):
+    def convert(array):
+        new_ = array.__class__()
+        for i in array:
+            if hasattr(i, '__iter__'):
+                new_.append(convert(i))
+            else:
+                new_.append(0)
+        return new_
+        
+    return convert(original) == convert(other) if hasattr(original, '__iter__') and hasattr(other, '__iter__') else False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+saurus
+
+def same_structure_as(l1, l2):
+  f1, f2 = l1.__class__ == list, l2.__class__ == list
+  if not (f1 or f2): return True
+  if f1 ^ f2: return False
+  if len(l1) != len(l2): return False
+  for a, b in zip(l1, l2):
+    if not same_structure_as(a, b): return False
+  return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Joon
+
+def same_structure_as(original,other):
+    if (type(original)==list) !=(type(other)==list) :return False
+    if type(original)==list:
+        if len(original) !=len(other) :return False
+        for a,b in zip(original,other):
+            if same_structure_as(a,b)== False: return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+joon.song
+
+def same_structure_as(original,other):
+    if (type(original)== list )!=(type(other)==list):
+        return False
+    if len(original)!=len(other):return False
+    for a,b in zip(original,other):
+        if type(a)==list and type(b)==list:
+            if same_structure_as(a,b)== False:
+                return False
+        if (type(a)== list )!=(type(b)==list):
+            return False
+    return True
+                
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+toras_2249
+
+def same_structure_as(original, other):
+    print original, other
+    if isinstance(original, type([])) and isinstance(other, type([])):
+        if len(original) != len(other):
+            return False
+        for ind in range(0, len(original)):    
+            if not same_structure_as(original[ind], other[ind]):
+                return False
+        return True
+    else:
+        return not isinstance(original, type([])) and not isinstance(other, type([]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jernmon
+
+def same_structure_as(original,other):
+    if not isinstance(original, list) and not isinstance(other, list):
+        return True
+        
+    if isinstance(original, list) and isinstance(other, list) and len(original) == len(other):
+        for i, j in zip(original, other):
+            if not same_structure_as(i,j):
+                return False
+        return True
+        
+    return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wverne
+
+def same_structure_as(original,other):
+   if type(original) != list:
+       return type(other) != list
+   if type(other) != list:
+       return False
+   if len(original) != len(other):
+       return False
+   for i in range(len(original)):
+       if not same_structure_as(original[i], other[i]):
+           return False
+   return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ecolban
+
+def same_structure_as(original,other):
+    return (type(original) == list) == (type(other) == list) and (type(original) != list or \
+        len(original) == len(other) and all(same_structure_as(x[0], x[1]) for x in zip(original, other)))
+        
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+r24
+
+def same_structure_as(original,other): 
+    if type(original) != type(other):
+        return False
+    while "[" in original:
+        original.remove("[")
+    while "]" in original:
+        original.remove("]")
+    while "[" in other:
+        other.remove("[")
+    while "]" in other:
+        other.remove("]")
+    s1 = ""
+    s2 = ""
+    print original
+    print str(original)
+    for i in str(original):
+        if i in "[],":
+            s1 += i
+    print other
+    print str(other)
+    for i in str(other):
+        if i in "[],":
+            s2 += i
+    return s1 == s2
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rennat
+
+def same_structure_as(original, other):
+    if type(original) not in [list, dict, tuple] and type(other) not in [list, dict, tuple]:
+        return True
+    if type(original) != type(other):
+        return False
+    if len(original) != len(other):
+        return False
+    for x,y in zip(original, other):
+        if not same_structure_as(x,y):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nguyen_v
+
+def same_structure_as(a, b):
+    return False if not isinstance(a, 
+        list) or not isinstance(b, 
+        list) else zf(a) == zf(b)
+    
+def zf(l):
+    for i in range(len(l)):
+        if isinstance(l[i], list): zf(l[i])
+        else: l[i] = 0
+    return l
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Giedrius
+
+def same_structure_as(a,b):
+    if is_list(a) != is_list(b):
+        return False
+    if is_list(a):
+        if len(a) != len(b): 
+            return False
+        return all(same_structure_as(aa, bb) for aa, bb in zip(a, b))
+    else:
+        return True
+
+def is_list(a): return type(a) is list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Mend
+
+def same_structure_as(original,other):
+    if not isinstance(original,list) or not isinstance(other,list):
+        return False
+
+    if len(original) != len(other):
+        return False
+    for i in range(len(original)):
+        if isinstance(original[i], list):
+            if not isinstance(other[i], list):
+                return False
+            if not same_structure_as(original[i], other[i]):
+                return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+h1994st
+
+def same_structure_as(original, other):
+    if isinstance(original, list) and isinstance(other, list) and len(original) == len(other):
+        for i1, i2 in zip(original, other):
+            if not same_structure_as(i1, i2):
+                return False
+        else:
+            return True
+    else:
+        return not isinstance(original, list) and not isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+h1994st
+
+def same_structure_as(original, other):
+    if original == other:
+        return True
+    
+    if type(original) != list and type(other) != list:
+        return True
+    
+    if (type(original) != list) ^ (type(other) != list):
+        return False
+        
+    if len(original) != len(other):
+        return False
+    
+    ans = True
+    for i in xrange(len(other)):
+        ans = ans and same_structure_as(original[i], other[i])
+    
+    return ans
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hgbarrow
+
+def same_structure_as(list_a, list_b):
+    print "{}, {}".format(list_a, list_b)
+    if type(list_a) is not type(list_b):
+        if type(list_a) is list or type(list_b) is list:
+            return False
+    if type(list_a) is list:
+        if len(list_a) != len(list_b):
+            return False
+        for i in range(0, len(list_a)):
+            if (type(list_a[i]) is not list) and (type(list_b[i]) is not list):
+                pass
+            elif type(list_a[i]) is not type(list_b[i]):
+                return False
+            if (type(list_a[i]) is list) and (len(list_a[i]) != len(list_b[i])):
+                return False
+                
+            else:
+                out = same_structure_as(list_a[i], list_b[i])
+                if not out:
+                    return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cts1988
+
+def same_structure_as(original,other):
+    def iter_check(a, b):
+        if type(a) is list and type(b) is not list:
+            return False
+        if type(a) is not list and type(b) is list:
+            return False
+        if type(a) is not list:
+            return True
+        if len(a) != len(b):
+            return False
+        for i, elem_a in enumerate(a):
+            if not iter_check(elem_a, b[i]):
+                return False
+        return True
+    return iter_check(original, other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Rockybilly
+
+def is_list(input):
+    if type(input)==list:
+        return True
+    else:
+        return False
+def same_structure_as(original,other):
+    if is_list(original) and is_list(other):
+        if len(original)==len(other):
+            
+            zp=zip(original,other)
+            print zp
+            for i in range(len(original)):
+                if type(zp[i][0])==type(zp[i][1]) or type(str(zp[i][0]))==type(zp[i][1]) or type(zp[i][0])==type(str(zp[i][1])) :
+                    if is_list(zp[i][0]):
+                        return same_structure_as(zp[i][0],zp[i][1])
+                    else:
+                        continue
+                            
+                else:
+                    return False
+                        
+                
+            
+        else:
+            return False
+        return True
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+retikulum
+
+def same_structure_as(o,ot):
+    cont1=[]
+    cont2=[]
+    a=0
+    b=0
+    c=isinstance(o,list)
+    d=isinstance(ot,list)
+    if c and d is True:
+        for number in o:
+            cont=isinstance(number,list)
+            if cont ==True:
+                a=len(number)
+                for number1 in number:
+                    contz=isinstance(number1,list)
+                    if contz==True:
+                        cont1.append(1)
+                    else:
+                        cont1.append(2)
+            else:
+                cont1.append(3)
+        for number in ot:
+            cont=isinstance(number,list)
+            if cont ==True:
+                b=len(number)
+                for number1 in number:
+                    contz=isinstance(number1,list)
+                    if contz==True:
+                        cont2.append(1)
+                    else:
+                        cont2.append(2)
+            else:
+                cont2.append(3)
+        if cont1==cont2 and a==b:
+            return True
+        else:
+            return False
+    else:
+       return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+josh-mcq
+
+def same_structure_as(original,other):
+    def fun(x):
+        r = []
+        g = 0
+        if type(x)==type([]):
+            pass
+        else:
+            return "umm.. come again?"
+        for i in list(x):
+            if type(i) in [type(1), type(1.2), type('a'),type({})]:
+                g+=1
+            elif type(i) == type([]):
+                r.append(g)
+                r.append(fun(i))
+                g=0
+            else:
+                return i
+        r.append(g)         
+        return r
+    return fun(other) == fun(original)
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tko
+
+def same_structure_as(original,other):
+    if isinstance(original, list) != isinstance(other, list):
+        return False
+    if not isinstance(original, list):
+        return True
+    if len(original) != len(other):
+        return False
+    return all(same_structure_as(x, y) for (x, y) in zip(original, other))
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+timp
+
+def same_structure_as(a,b):
+    if type(a)!=type(b) or len(a)!=len(b): return False
+    aa = [x if type(x) in [list,tuple,dict] else None for x in a]
+    bb = [x if type(x) in [list,tuple,dict] else None for x in b]
+    sa = ''.join([c for c in str(aa) if c in ['[',']','(',')','{','}',',']])
+    sb = ''.join([c for c in str(bb) if c in ['[',']','(',')','{','}',',']])
+    return sa==sb
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+alexdy2007
+
+def same_structure_as(original,other):
+
+    def go_in_further(nest, nest_num, source):
+        if type(nest) is list:
+            for item in nest:
+                go_in_further(item, nest_num + 1, source)
+        else:
+            if source == "original":
+                original_loop.append(nest_num)
+            else :
+                other_loop.append(nest_num)
+
+    original_loop, other_loop = [], []
+
+    #check if list
+    if type(original) is not list or type(other) is not list:
+        return type(original) == type(other)
+
+    #get structure of original
+    for nest in original:
+        go_in_further(nest, 1, "original")
+
+    #get structure of other
+    for nest in other:
+        go_in_further(nest, 1, "other")
+    return original_loop == other_loop
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+BrieflyX
+
+def same_structure_as(original,other):
+    x = original
+    y = other
+    if type(x) is not list and type(y) is not list:
+        return True
+    if type(x) is list and type(y) is not list:
+        return False
+    if type(x) is not list and type(y) is list:
+        return False
+    if len(original) != len(other):
+        return False
+    for x,y in zip(original, other):
+        if type(x) is list and type(y) is list:
+            if not same_structure_as(x, y):
+                return False
+        else:
+            if type(x) is list or type(y) is list:
+                return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+comatose_11
+
+def same_structure_as(original,other):
+    if type(other) is not list and type(original) is not list:
+        return True
+    if not (type(other) is list and type(original) is list):
+        return False
+    if len(original) != len(other):
+        return False
+    for i in range(len(original)):
+        result = same_structure_as(original[i], other[i])
+        if not result:
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deviousmind
+
+def same_structure_as(original,other):
+    if not isinstance(original, list) and not isinstance(other, list):
+        return True
+    elif not isinstance(original, list) or not isinstance(other, list):
+        return type(original) == type(other)
+    elif len(original) != len(other):
+        return False
+    else:
+        original_types = [type(item) for item in original]
+        other_types = [type(item) for item in other]
+        combined_types = zip(original, other)
+        for a, b in enumerate(combined_types):
+            same = same_structure_as(b[0], b[1])
+            if not same:
+                return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gogo77
+
+def same_structure_as(original,other):
+    if not isinstance(original, list) or not isinstance(other, list) or not len(original) == len(other):
+        return False
+    else:
+        return get_structure_data(original) == get_structure_data(other)
+        
+def get_structure_data(array, level=0):
+    structure = []
+    for element in array:
+        if isinstance(element, list):
+            structure.extend(get_structure_data(element, level + 1))
+        else:
+            structure.append(level)
+    return structure
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+martijnter
+
+def same_structure_as(original,other):
+    if not isinstance(original, list):
+        if isinstance(other, list):
+            return False
+        return True
+    elif not isinstance(other, list):
+        return False
+    elif len(original) != len(other):
+        return False
+
+    for index, element in enumerate(original):
+        element2 = other[index]
+        if isinstance(element, list):
+            if not isinstance(element2, list):
+                return False
+            if not same_structure_as(element, element2):
+                return False
+        elif isinstance(element2, list):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+chanshik
+
+def same_structure_as(original, other):
+    if not isinstance(original, list) or not isinstance(other, list):
+        return False
+
+    if len(original) != len(other):
+        return False
+
+    for left, right in zip(original, other):
+        if isinstance(left, list) and isinstance(right, list):
+            if not same_structure_as(left, right):
+                return False
+
+        elif not isinstance(left, list) and not isinstance(right, list):
+            # Don't care item content itself.
+            continue
+
+        else:
+            return False
+
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deamonsoul
+
+def same_structure_as(original,other):
+    return depth(original) == depth(other) 
+    
+def depth(nested):
+  instring = False
+  retval = ""
+  last = ''
+  stringopen = ''
+  for char in repr(nested):
+    if char == '"' or char == "'" and last !='\\':
+      if (char == stringopen and instring):
+        instring = not instring
+        stringopen =''
+      elif not instring:
+        stringopen = char
+        instring = not instring
+    elif not instring and char == "[":
+      retval += "[";
+    elif not instring and char == "]":
+      retval += "]";
+    elif not instring and char == ",":
+      retval += ",";
+    last = char
+  return(retval)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+fenekku
+
+def same_structure_as(original, other):
+    if isinstance(original, list) and isinstance(other, list):
+        if len(original) != len(other): return False
+        for e1, e2 in zip(original, other):
+            if not same_structure_as(e1, e2): return False
+        return True
+    elif not isinstance(original, list) and not isinstance(other, list):
+        return True
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Alsen
+
+def same_structure_as(original,other):
+    if type(original) == type(other):
+        if isinstance(original,list):
+            if not len(original) == len(other): return False
+        else:
+            return True
+    else:
+        return False
+        
+    is_same = True
+    for i, o in enumerate(original):
+        if isinstance(o,list): is_same &= same_structure_as(o, other[i])
+    
+    return is_same
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+CodingMachine
+
+
+def same_structure_as(original,other):
+   retVal = True
+   if isArray(original):
+      if not isArray(other):
+         return False
+   try:   
+           for idx, a in enumerate(original):
+              if isArray(a):
+                 if isArray(other[idx]):
+                    if same_structure_as(a, other[idx]) == False:
+                       retVal = False
+                       break
+                 else:
+                    retVal = False   
+                    break
+              else:
+                 if isArray(other[idx]):
+                    retVal = False
+                 else:
+                    continue  
+   except: 
+         retVal = False
+   return retVal
+
+def isArray(a):
+   return isinstance(a, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+CodingMachine
+
+
+def same_structure_as(original,other):
+   print "in same_structure"
+   print "original = ", original
+   print "other = ", other
+   retVal = True
+   if isArray(original):
+      if not isArray(other):
+         return False
+   try:   
+           for idx, a in enumerate(original):
+              print "a = ", a
+              print "other[idx] = ", other[idx]
+              if isArray(a):
+                 if isArray(other[idx]):
+                    print "in 1"
+                    if same_structure_as(a, other[idx]) == False:
+                       retVal = False
+                       break
+                 else:
+                    print "in 2"
+                    retVal = False   
+                    break
+              else:
+                 if isArray(other[idx]):
+                    print "in 4"
+                    retVal = False
+                 else:
+                    print "in 5"
+                    continue  
+   except: 
+         print "in 6"
+         retVal = False
+   return retVal
+
+def isArray(a):
+   return isinstance(a, list)
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nju_wangyue@163.com
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list) and len(original) == len(other):
+        for o1, o2 in zip(original, other):
+            if not same_structure_as(o1, o2): return False
+        return True
+    else: return not isinstance(original, list) and not isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+suic
+
+from re import sub
+
+get_struct = lambda l: sub("[^\[\]\,]", "", str(l)) 
+same_structure_as = lambda *i: all(type(x) == list for x in i) and (list.__eq__(*map(sorted, i)) or str.__eq__(*map(get_struct, i)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dasdy
+
+def types_arr(arr):
+    def map_func(x):
+        if isinstance(x,list):
+            return types_arr(x)
+        return 1
+    if isinstance(arr,list):
+        return list(map(map_func,arr))
+    return type(arr)
+
+
+def same_structure_as(original,other):
+    print("original:%s,other:%s" %(original, other))
+    return types_arr(original) == types_arr(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yanykin
+
+L = lambda l: type(l) == list
+def same_structure_as(x, y):
+        return (not L(x) and not L(y)) or L(x) and L(y) and len(x) == len(y) and all(same_structure_as(x_, y_) for x_, y_ in zip(x, y))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hwtdstrngls
+
+def same_structure_as(original, other):
+    def structure(l):
+        struct = [str(type(l))]
+        try:
+            for i in l:
+                if type(i) in [list, tuple, dict, set]:
+                    if i:
+                        struct.append('{}{}'.format(str(type(i)), structure(i)))
+                    else:
+                        struct.append(''.format(str(type(i))))
+                else:
+                    struct.append('i')
+            return struct
+        except TypeError:
+            return 'i'
+
+    return structure(original) == structure(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+osoba
+
+def same_structure_as(original,other):
+    original = [original]
+    other = [other]
+    while len(original)>0:
+        a = original.pop(0)
+        b = other.pop(0)
+        if type(a) is list or type(b) is list:
+            if type(a) is list and type(b) is list:
+                if len(a)==len(b):
+                    original.extend(a)
+                    other.extend(b)
+                else: return False
+            else: return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+shadikka
+
+def flatten(lst):
+    return [flatten(x) if type(x) == list else None for x in lst] if type(lst) == list else None
+
+def same_structure_as(original, other):
+    return flatten(original) == flatten(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+NaMe613
+
+def same_structure_as(original,other):
+    if type(original) != type(other):
+        return False
+    if len(original) != len(other):
+        return False
+    original.reverse()
+    if other == original:
+        return True
+    original.reverse()
+    for i1 in range(len(original)):
+        a = original[i1]
+        b = other[i1]
+        if len(str(a)) == len(str(b)):
+            continue
+        if type(a) != type(b):
+            return False
+        if type(a) == list:
+            return same_structure_as(a,b)
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kpeker
+
+def same_structure_as(original,other):
+    if not isinstance(original,list) or not isinstance(other, list):
+        return False
+    if len(original) != len(other): return False
+    for i in range(len(original)):
+        if isinstance(original[i],list):
+            if not isinstance(other[i],list):
+                return False
+            else:
+                if not same_structure_as(original[i], other[i]):
+                    return False
+        elif isinstance(other[i], list):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tsiemens
+
+def islist(o):
+    return isinstance(o, list)
+
+def same_structure_as(original,other):
+    if islist(original) != islist(other):
+        return False
+    elif not islist(original):
+        return True
+    elif len(original) != len(other):
+        return False
+    for a, b in zip(original, other):
+        if not same_structure_as(a, b):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tsiemens
+
+def islist(o):
+    return type(o).__name__ == 'list'
+
+def same_structure_as(original,other):
+    if islist(original) != islist(other):
+        return False
+    elif not islist(original):
+        return True
+    elif len(original) != len(other):
+        return False
+    for a, b in zip(original, other):
+        if not same_structure_as(a, b):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cepe
+
+def same_structure_as(a, b):
+    def isa(arr):
+        return isinstance(arr, list)
+    
+    if isa(a) and not isa(b):
+        return False
+    elif not isa(a) and isa(b):
+        return False
+    elif not isa(a) and not isa(b):
+        return True
+    else:
+        return len(filter(lambda (x,y): same_structure_as(x,y), zip(a,b))) == len(a)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+michalseweryn
+
+def same_structure_as(original,other):
+  if type(original) is list and type(other) is list:
+    if len(original) is not len(other):
+      return False
+    return all(same_structure_as(x, y) for x,y in zip(original, other))
+  return type(original) is not list and type(other) is not list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+PurplePowder
+
+def same_structure_as(original,other):
+    def modify_list(l):
+        if not isinstance(l, list):
+            return 1
+
+        return [modify_list(x) for x in l]
+    return modify_list(original) == modify_list(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dorpuppet
+
+def same_structure_as(original,other):
+    is_same = True
+    if type(original) != type(other) or len(original) != len(other): return False
+    for i in range(len(original)):
+        ori, ot = original[i], other[i]
+        if not isinstance(ori, basestring) and isinstance(ori, list) and not isinstance(ot, basestring) and isinstance(ot, list):
+            is_same = same_structure_as(ori,ot)
+        if not isinstance(ori, basestring) and isinstance(ori, list) and (isinstance(ot, basestring) or not isinstance(ot, list)):
+            is_same = False
+        if (isinstance(ori, basestring) or not isinstance(ori, list)) and not isinstance(ot, basestring) and isinstance(ot, list):
+            is_same = False
+        if not is_same: break
+        
+    return is_same
+    #your code here
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+scasagrande
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list):
+        if len(original) == len(other) and len(original) > 0:
+            value = True
+            for (idx,item) in enumerate(original):
+                value = value and same_structure_as(original[idx], other[idx])
+            return value
+        elif len(original) == 0:
+            return True
+        else:
+            return False
+    elif not isinstance(original, list) and not isinstance(other, list):
+        return True
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hobbez1
+
+import re
+def same_structure_as(one, two):
+    return re.sub("['0-9a-zA-Z]+", '_', str(one).replace(' ', '').replace("'['",'_').replace("']'",'_')) == re.sub('[0-9a-zA-Z]+', '_', str(two).replace(' ', '').replace("'['",'_').replace("']'",'_'))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+papercat
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list):
+        return len(original) == len(other) and all(same_structure_as(ori, oth) for ori, oth in zip(original, other))
+    else:
+        return not isinstance(original, list) and not isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Kundun
+
+def same_structure_as(original,other):
+    if type(original) != type(other):
+        if type(original) == list:
+            return False
+        if type(other) == list:
+            return False
+        
+    if type(original) == type(other) == list:
+        if len(original) != len(other):
+            return False
+        for index in range(len(original)):
+           if not same_structure_as(original[index], other[index]):
+               return False
+    return True
+            
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gyc0218
+
+def same_structure_as(original, other):
+    set_null(original)
+    set_null(other)
+    if original == other:
+        return True
+    return False
+
+def set_null(arr):
+    if isinstance(arr, list):
+        for index, data in enumerate(arr):
+            if isinstance(data, list):
+                set_null(arr[index])
+            else:
+                arr[index] = 1
+    else:
+        arr = 1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Darigaaz
+
+def same_structure_as(original,other):
+    original_is_seq, other_is_seq = isinstance(original, list), isinstance(other, list) 
+    
+    if not (original_is_seq and other_is_seq) or len(original) != len(other):
+        return False
+    else:
+        return all(same_structure_as(c, d) for c, d in zip(original, other) if isinstance(c, list))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Darigaaz
+
+def same_structure_as(original,other):    
+    print original,other
+    original_is_seq, other_is_seq = isinstance(original, list), isinstance(other, list)
+    print original_is_seq, other_is_seq
+    
+    if original_is_seq != other_is_seq:
+        return False
+    else:
+        if original_is_seq:
+            if len(original) == len(other):
+                if len(original) == 0:
+                    return True
+                elif len(original) == 1:
+                    return same_structure_as(original[0], other[0])
+                else:
+                    return same_structure_as(original[0], other[0]) and same_structure_as(original[1:], other[1:])
+            else:
+                return False        
+        else:
+            return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Blauelf
+
+def same_structure_as(original,other):
+    return (type(original) is list) and (type(other) is list) and \
+           (len(original) == len(other)) and \
+           all((type(original[i]) is not list and type(other[i]) is not list) or
+               same_structure_as(original[i],other[i])
+               for i in range(len(original)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SandyJoe
+
+def same_structure_as(original, other):
+    if type(original) is not list and type(other) is not list:
+        return True
+    if type(original) is not type(other):
+        return False
+    if len(original) != len(other):
+        return False
+
+    for i in range(len(original)):
+        if not same_structure_as(original[i], other[i]):
+            return False
+
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lincheney
+
+def same_structure_as(original,other):
+    islist = (isinstance(original, list), isinstance(other, list))
+    if islist[0] != islist[1]:
+        return False
+    if not islist[0]:
+        return True
+
+    if len(original) != len(other):
+        return False
+    for x, y in zip(original, other):
+        if not same_structure_as(x, y):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+markdev
+
+def same_structure_as(original,other):
+    def replace(arr):
+        return [1 if type(i) != list else replace(i) for i in arr] if type(arr) == list else 1
+    return replace(original) == replace(other)
+                
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TheRealOC
+
+def same_structure_as(original, other):    
+    if isinstance(original, list) ^ isinstance(other, list):
+        return False
+    elif isinstance(original, list) & isinstance(other, list):
+        return False if len(original) != len(other) else all(map(lambda x: same_structure_as(*x), zip(original, other)))
+    else:
+        return True
+    
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zieglerk
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list) and len(original) == len(other):
+        for o1, o2 in zip(original, other):
+            if not same_structure_as(o1, o2): return False
+        return True
+    return not isinstance(original, list) and not isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zieglerk
+
+def same_structure_as(original,other):
+    if type(original) != list or type(other) != list:
+        return False
+    if len(original) != len(other):
+        return False
+    for i,x in enumerate(original):
+        if bool(type(x) == list) ^ bool(type(other[i]) == list):
+            return False
+        elif type(x) == list and type(other[i]) == list:
+            return same_structure_as(original[i], other[i])
+    return True
+    #your code here
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+adam-tokarski
+
+import re
+def same_structure_as(original,other):
+    return re.sub('[^\[\],]', '', str(original).replace("']'", "X").replace("'['", "X")) == re.sub('[^\[\],]', '', str(other).replace("']'", "X").replace("'['", "X"))
+    # pfff, shortcuts...
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+5ia
+
+def same_structure_as(original,other):
+    def unify(list): 
+        if not type(list)==type([]): return type(list)
+        for i in range(0,len(list)):        
+            if type(list[i])==type([]):           
+                unify(list[i])            
+            else:
+                list[i]='a'
+        return list
+    return unify(original)==unify(other)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kszuster
+
+def same_structure_as(original, other):
+    are_arrays = [isinstance(i, list) for i in (original, other)]
+    if all(are_arrays) and len(original) == len(other):
+        return all(same_structure_as(i, j) for i, j in zip(original, other))
+    elif any(are_arrays):
+        return False
+    else:
+        return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mjanvier
+
+def same_structure_as(A,B):
+    if not isinstance(A,list) and not isinstance(B,list):
+        return True
+    
+    if isinstance(A,list) and isinstance(B,list):
+        if not A and not B:
+            return True
+        if len(A)==len(B):
+            return reduce(lambda x,y: x and y,[same_structure_as(a,b) for a,b in zip(A,B)])
+        
+    return False
+
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rowjay
+
+def make_same(inlist):
+    outlist = []
+    for i in inlist:
+        if type(i) is list:
+            i = make_same(i)
+        else:
+            i = 1
+        outlist.append(i)
+    return outlist
+
+def same_structure_as(original,other):
+    if type(original) is list and type(other) is list:
+        return make_same(original) == make_same(other)
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hgazibara
+
+def same_structure_as(original, other):
+    check = (isinstance(original, list), isinstance(other, list))
+
+    if all(not c == True for c in check):
+        return True
+
+    if any(check) and not all(check):
+        return False
+
+    if len(original) != len(other):
+        return False
+
+    for left, right in zip(original, other):
+        if not same_structure_as(left, right):
+            return False
+
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+opatut
+
+def same_structure_as(original,other):
+    if (not isinstance(original, list)) and (not isinstance(other, list)): return True
+    if (not isinstance(original, list)) or  (not isinstance(other, list)): return False
+    if original == [] and other == []: return True
+    if original == [] or  other == []: return False
+    return same_structure_as(original[0], other[0]) and same_structure_as(original[1:], other[1:])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+theworstpossiblename
+
+same_structure_as = lambda *args: False if not all(map(lambda x: isinstance(x, list), args)) else reduce(lambda x, y: x == y, map(lambda n: (lambda f, a: f(f, a))(lambda rec, n: [rec(rec, i) if isinstance(i, list) else None for i in n], n), args))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+marc8
+
+def same_structure_as(original,other):
+    if (type(original) is list) != (type(other) is list):
+        return False
+    l = len(original)
+    if l != len(other):
+        return False
+    for i in range(l):
+        a,b = original[i],other[i]
+        if type(a) is list and type(b) is list:
+            return same_structure_as(a,b)
+        if type(a) is list or type(b) is list:
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+theworstpossiblename
+
+def same_structure_as(*args):
+    return False if not all(map(lambda x: isinstance(x, list), args)) else reduce(lambda x, y: x == y, map(lambda n: (lambda f, a: f(f, a))(lambda rec, n: [rec(rec, i) if isinstance(i, list) else None for i in n], n), args))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rthiggins
+
+def same_structure_as(original,other):
+    ret_val = True
+    print original, other
+    if isinstance(original, list):
+        if not isinstance(other, list):
+            return False
+    for i in xrange(len(original)):
+        if isinstance(original[i], list):
+            if not isinstance(other[i], list) or len(other[i]) != len(original[i]):
+                return False
+            ret_val &= same_structure_as(original[i], other[i])
+            if ret_val == False:
+                return ret_val
+        
+    return ret_val
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jesuscheng
+
+def same_structure_as(original,other):
+    struct1 = check(original, "")
+    struct2 = check(other, "")
+    return struct1 == struct2
+    
+def check(arr, current):
+    if type(arr) is list:
+        current += '['
+        for a in arr:
+            if type(a) is list:
+                current += check(a, current)
+            else:
+                current += 'x'
+            
+        current += ']'
+    return current
+        
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rtoal
+
+def same_structure_as(original,other):
+    if type(original) == list:
+        if type(other) != list:
+            return False
+        elif len(original) != len(other):
+            return False
+        return all(same_structure_as(*p) for p in zip(original, other))
+    return type(other) != list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tmikkelsen
+
+def same_structure_as(original,other):
+    if type(original) is not list or type(other) is not list:
+        return not (type(original) is list or type(other) is list)
+    else:
+        return (len(original) == len(other) 
+                and all(same_structure_as(a, b) for a, b in zip(original, other)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+student003
+
+def same_structure_as(original, other):
+    if not isinstance(original, list) and not isinstance(other, list):
+        return True
+    if isinstance(original, list) != isinstance(other, list):
+        return False
+    return len(original) == len(other) and all(
+        same_structure_as(l, r) for l, r in zip(original, other))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+atk-
+
+def same_structure_as(a, b):
+    if (type(a) == list) != (type(b) == list): return False
+    if type(a) == type(b) == list:
+        if len(a) != len(b): return False
+        for x, y in zip(a, b):
+            if same_structure_as(x, y) == False: return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mmshress
+
+def same_structure_as(original,other):
+    structure = []
+    structureOther = []
+    if type(original) != type(other): return False
+    try:
+        for i in original:
+            if type(i) == list:
+                structure.append('list')
+            else:
+                structure.append('data')
+        for i in other:
+            if type(i) == list:
+                structureOther.append('list')
+            else:
+                structureOther.append('data')
+    except TypeError:
+        return False
+        
+    if length_of_nested_lists(original) != length_of_nested_lists(other) : return False
+    for i in range(0, len(structure)):
+        if structure[i] == structureOther[i]:
+            if structure[i] == 'list':
+                if same_structure_as(structure[i], structureOther[i]) == True: 
+                    continue
+                else:
+                    return False
+        else:
+            return False
+    return True
+                
+def length_of_nested_lists(x):
+      length = 0
+      for i in range(0, len(x)):
+          if type(x[i]) == list:
+              length += length_of_nested_lists(x[i])
+          else:
+              length += 1
+      return length
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+staticor
+
+def same_structure_as(alist, blist):
+    if type(alist) != type([1]) and type(blist)!= type([1]):
+        return True
+
+    if type(alist) == type([1]) and type(blist) != type([1]):
+        return False
+
+    if type(blist) == type([1]) and type(alist) != type([1]):
+        return False
+
+    if type(alist) == type([1]) == type(blist):
+        if len(alist) != len(blist):
+            return False
+        for idx, _ in enumerate(alist):
+            if not same_structure_as(alist[idx], blist[idx]):
+                return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+megapctr
+
+def same_structure_as(original,other):
+    lists_no = [type(original), type(other)].count(list)
+    if lists_no == 0:
+        return True
+    elif lists_no == 1:
+        return False  # Structures don't match
+    return (
+        len(original) == len(other)
+        and all(same_structure_as(l, r) for l, r in zip(original, other)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+arthur
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list):
+        return len(original) == len(other) and all(
+            same_structure_as(o, v)
+            for o, v in zip(original, other)
+        )
+    else:
+        return isinstance(original, list) == isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mistr4l
+
+def same_structure_as(a,b):
+    if (type(a) == list and type(b) != list) or (type(b) == list and type(a) != list):     
+        return False
+
+    if type(a) != list and type(b) != list:
+        return True
+
+    if len(a) != len(b):
+        return False
+
+    for i,j in zip(a, b):
+        if not same_structure_as(i,j):
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cndreisbach
+
+def same_structure_as(original,other):
+    return norm_list(original) == norm_list(other)
+    
+def norm_list(a_list):
+    if type(a_list) is list:
+        return [norm_list(el) for el in a_list]
+    else:
+        return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SodaCookie
+
+def same_structure_as(original,other):
+    #your code here
+    if type(original) != type(other): 
+        if type(original) == list or type(other) == list: return False
+        return True
+    if type(original) != list: return True
+    if len(original) != len(other): return False
+    for obj1, obj2 in zip(original, other):
+        if same_structure_as(obj1, obj2) == False:
+            return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hiasen
+
+same_structure_as = lambda a,b: not (isinstance(a, list) or  isinstance(b, list)) or isinstance(a, list)==isinstance(b, list) and len(a) == len(b) and all(map(same_structure_as, a, b))
+Best Practices0Clever2
+0ForkCompare with your solutionLink
+wenright
+
+import re
+
+def same_structure_as(original,other):
+    return re.sub(r"'[\[\]]'|[^,\[\]]", "", str(original)) == re.sub(r"'[\[\]]'|[^,\[\]]", "", str(other))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jolaf
+
+def same_structure_as(original, other):
+    if isinstance(original, list) and isinstance(other, list):
+        return len(original) == len(other) and all(same_structure_as(a, b) for (a, b) in zip(original, other))
+    return not isinstance(original, list) and not isinstance(other, list)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+muesli4
+
+structure = lambda v: map(structure, v) if type(v) == list else ()
+same_structure_as = lambda a, b: structure(a) == structure(b)
+Best Practices0Clever4
+0ForkCompare with your solutionLink
+marcsantiago
+
+def same_structure_as(original,other):
+    if type(original) != list or type(other) != list:
+        return False
+    elif replacenumbers(original) ==  replacenumbers(other):
+        return True
+    else:
+        return False
+
+def replacenumbers(l):
+    
+    cleanl = []
+    for i in l:
+        if i =='[' or i == ']':
+            continue
+        else:
+            cleanl.append(i)
+    
+    l = str(cleanl)
+    temp = []
+    for i in l:
+        if i == '[' or i == ']' or i == ',':
+            temp.append(i)
+    return temp
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bolte-17
+
+def same_structure_as(original,other):
+  print original, other
+  if isinstance(original, list):
+    if isinstance(other, list):
+      return len(original) == len(other) and all(map(lambda t: same_structure_as(*t), zip(original, other)))
+    return False
+  return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+code4food
+
+def same_structure_as(original,other):
+    if isinstance(original, list) and isinstance(other, list):
+        return (len(original) == len(other) and 
+                all(map(same_structure_as, original, other)))
+    else:
+        return not (isinstance(original, list) or isinstance(other, list))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JasonHavenaar
+
+def same_structure_as(original,other):
+    if hasattr(original, "__iter__") and hasattr(other, "__iter__") and isinstance(original, other.__class__):
+        if original == other:
+            return True
+        
+        for x, y in zip(original, other):
+            if hasattr(x, "__iter__") and hasattr(y, "__iter__") and len(x) == len(y):
+                print x, y
+                return same_structure_as(x, y)
+            elif len(str(x)) == len(str(y)):
+                continue
+            else:
+                return False
+        return True
+    return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hiasen
+
+from itertools import starmap
+
+def same_structure_as(original, other):
+    a = isinstance(original, list)
+    b = isinstance(other, list)
+    if not (a or  b):
+        return True
+    if a != b:
+        return False
+    return len(original) == len(other) and all(starmap(same_structure_as, zip(original, other)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RM84
+
+def same_structure_as(original,other):
+    if type(original)==list and type(other)==list:
+        if len(original)==len(other):
+            for i,e in enumerate(original):
+                if not same_structure_as(e,other[i]): return False
+            return True
+        else:
+            return False
+    return not (list in (type(original),type(other)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+coralv
+
+def same_structure_as(original,other):
+    output = False
+    if isinstance(original, list) and (not isinstance(other, list)):
+        return False
+    if (not isinstance(original, list)) and isinstance(other, list):
+        return False
+        
+    for x, y in map(None, original, other):
+        if x == [] and y == []:
+            output = True
+        elif isinstance(x, list) and isinstance(y, list):
+            if len(x) == len(y):
+                output = same_structure_as(x, y)
+            else:
+                return False
+        elif isinstance(x, list) or isinstance(y, list):
+            return False
+        else:
+            output = True
+            
+    return output
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+MatthiasLenz
+
+import re
+def same_structure_as(original,other):
+    p = re.compile(b"'.*'")
+    original = list(p.sub('x',str(original)))
+    other = list(p.sub('x',str(other)))
+    for (i,char1), (j,char2) in zip(enumerate(original), enumerate(other)):
+        if char1 not in '[], ':
+            original[i] = 'x'
+        if char2 not in '[], ':
+            other[i] = 'x'     
+    if original == other:
+        return True
+    else:
+        return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jhyang12345
+
+def same_structure_as(original,other):
+  ret = True
+  if type(original) is not list and type(other) is not list:
+    return True
+  elif type(original) is list and type(other) is not list:
+    return False
+  elif type(original) is not list and type(other) is list:
+    return False
+  if len(original) != len(other):
+    return False
+  for i in range(len(original)):
+    if type(original[i]) is not list and type(other[i]) is not list:
+      ret &= True
+    elif type(original[i]) is list and type(other[i]) is list:
+      ret &= same_structure_as(original[i], other[i])
+    elif type(original[i]) is not list and type(other[i]) is list:
+      return False
+    elif type(original[i]) is list and type(other[i]) is not list:
+      return False
+  return ret
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Osmosis, JasonFTW
+
+def same_structure_as(a, b):
+    if type(a) != type(b) or len(a) != len(b):
+        return False
+    for x, y in zip(a, b):
+        if type(x) == list:
+            if type(y) != list or not same_structure_as(x, y):
+                return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ChristianECooper
+
+def same_structure_as(original, other):
+    def decompose(seq, depth, result):
+        if depth == 0 and not isinstance(seq, list):
+            result.append(-1)
+            return
+        try:
+            for s in seq:
+                if isinstance(s, list):
+                    decompose(s, depth + 1, result)
+                else:
+                    result.append(depth)
+        except:
+            result.append(-1)
+        
+    a, b = [], []
+    decompose(original, 0, a)
+    decompose(other, 0, b)
+    return a == b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dhensche
+
+def same_structure_as(original, other):
+    if type(original) != list or type(other) != list:
+        return type(original) != list and type(other) != list
+    else:
+        if len(original) != len(other):
+            return False
+        else:
+            return all([same_structure_as(x, other[i]) for i, x in enumerate(original)])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+BigMacHomeSlice
+
+def same_structure_as(original,other):
+    if type(original).__name__ != type(other).__name__:
+            return False
+    
+    original = filter(lambda x: isinstance(x, list) or isinstance(x, int), original)
+    other = filter(lambda x: isinstance(x, list) or isinstance(x, int), other)
+    
+    if len(original) != len(other):
+        return False
+        
+    for i, j in zip(original, other):
+        if type(i).__name__ != type(j).__name__:
+            return False
+        
+        if isinstance(i, list) and isinstance(j, list):         
+            if not same_structure_as(i, j):
+                return False
+                    
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nklein
+
+def same_structure_as(original,other):
+    if type(original)!=list or type(other)!=list: return False
+    if len(original)!=len(other): return False
+    for i in range(len(other)):
+        if type(original[i])==list and type(other[i])!=list: return False
+        if type(original[i])!=list and type(other[i])==list: return False
+        if type(original[i])==list and type(other[i])==list and not same_structure_as(original[i],other[i]): return False
+    return True
+Best Practices0Clever0
+0ForkCompare with your solutionLink

@@ -1,0 +1,22 @@
+Test Cases:
+
+Test.describe("Basic Tests")
+Test.it("Testing with ordinary arrays")
+Test.assert_equals(same_structure_as([1,1,1],[2,2,2]), True, "[1,1,1] same as [2,2,2]");
+Test.assert_equals(same_structure_as([1,[1,1]],[2,[2,2]]), True, "[1,[1,1]] same as [2,[2,2]]")
+Test.assert_equals(same_structure_as([1,[1,1]],[[2,2],2]), False, "[1,[1,1]] not same as [[2,2],2]")
+Test.assert_equals(same_structure_as([1,[1,1]],[2,[2]]), False, "[1,[1,1]] not same as [2,[2]]")
+
+Test.it("Testing with empty arrays")
+Test.assert_equals(same_structure_as([[[],[]]],[[[],[]]]), True, "[[[],[]]] same as [[[],[]]]")
+Test.assert_equals(same_structure_as([[[],[]]],[[1,1]]), False, "[[[],[]]] not same as [[1,1]]")
+
+Test.it("Testing with very nested arrays")
+Test.assert_equals(same_structure_as([1,[[[1]]]],[2,[[[2]]]]), True, "[1,[[[1]]]] same as [2,[[[2]]]]")
+
+Test.it("Testing with other kind of classes")
+Test.assert_equals(same_structure_as([],1), False, "[] not same as 1")
+Test.assert_equals(same_structure_as([],{}), False, "[] not same as {}")
+
+Test.it("Testing to see if you tried a certain short-cut")
+Test.assert_equals(same_structure_as([1,'[',']'],['[',']',1]), True, "[1,'[',']'] same as ['[',']',1]")

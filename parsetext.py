@@ -20,18 +20,67 @@ def parse_text(solutions):
 				file.write(line)
 			except Exception:
 				pass
-	
+import re
+def parse_text2(file_gen):
+	#take a open file generator and yield open files
+	import pdb;pdb.set_trace()
+	for f in file_gen:
+		#do something with an open file
+		for line in f:
+			if "Best Practices" in line:
+				try:
+					yield file
+				except Exception:
+					pass
+				file = open('sol.txt','w+')
+			elif re.match('def.*\(.*\):$', line):
+				try:
+					file.write(line)
+				except Exception:
+					pass
+			else:
+				pass
 
+
+def parse_text3(file_gen):
+	#take a open file generator and yield open files
+	#import pdb;pdb.set_trace()
+	import os, re
+	for f in file_gen:
+		#do something with an open file
+		skip = 0
+		fi = open('sol.txt', 'w')
+		for line in f:
+			if skip:
+				skip -= 1
+				continue
+			elif "Best Practices" in line:
+				skip = 3
+				try:
+					#import pdb;pdb.set_trace()
+					fi = open('sol.txt', 'r')
+					yield fi
+					fi.close()
+					os.remove('sol.txt')
+					fi = open('sol.txt','w')
+				except Exception:
+				    continue
+			else:
+				fi.write(line)
+						
   
 # Example use
 
 if __name__ == '__main__':
-	import pdb; pdb.set_trace()
+	#import pdb; pdb.set_trace()
 	from solutionsopen import solutions_open
 	from solutionsfind import solutions_find
 	solutions = solutions_find("*solutions.txt","solutions")
 	solutionfiles = solutions_open(solutions)
-	individuals = parse_text(solutionfiles)
-	for x in individuals:
-		x.seek(0)
-		x.read()
+	individuals = parse_text3(solutionfiles)
+	for function in individuals:
+		print '----------------------------'
+		print function
+		for line in function:
+			print line
+

@@ -1,0 +1,8 @@
+using with statment will auto close the files.  that's cool.
+
+w+ can open a new file and write to it, and as long as seek(0) it will read even.
+if you use w+ to open existing file it will overwrite it.
+nothing will appear in the file until you seek(0) or close the file.
+if you seek(0) and then write it will overwrite as in insert mode..
+ 
+r+ will open a file that you can then write to, whereas w+ will write over the top of it if it exists.
