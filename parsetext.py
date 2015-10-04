@@ -3,7 +3,37 @@
 # Takes a solutions_open generator as input,
 # yields a text file for each solution.
 
-def parse_text(solutions):
+
+def parse_text(solutionsfile):
+	#take a solutions file and yield individual solution open files
+	#import pdb;pdb.set_trace()
+	import os, re
+	#for f in file_gen:
+		#do something with an open file
+	solutionsfile = open(solutionsfile, "r")
+	skip = 0
+	fi = open('sol.txt', 'w')
+	for line in solutionsfile:
+		if skip:
+			skip -= 1
+			continue
+		elif "Best Practices" in line:
+			skip = 3
+			try:
+				#import pdb;pdb.set_trace()
+				fi = open('sol.txt', 'r')
+				yield fi
+				fi.close()
+				os.remove('sol.txt')
+				fi = open('sol.txt','w')
+			except Exception:
+			    continue
+		else:
+			fi.write(line)
+
+			
+
+def parse_text1(solutions):
     
     for line in solutions:
 		if 'same_structure_as' in line:

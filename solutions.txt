@@ -1,0 +1,2566 @@
+Unnamed, Aweson2
+
+import math
+
+def whoIsNext(names, r):
+    n = len(names)
+    k = 2 ** int(math.log(1 + (r - 1) // n, 2))
+    s = 1 + (k - 1) * n
+    return names[(r - s) // k]
+1 similar code variation is grouped with this oneShow Variations
+Best Practices6Clever0
+0ForkCompare with your solutionLink
+mortonfox
+
+def whoIsNext(names, r):
+  lastn = 0
+  incr = 5
+  while lastn + incr < r:
+    lastn += incr
+    incr *= 2
+  return names[(r - lastn - 1) // (incr // 5)]
+Best Practices2Clever0
+0ForkCompare with your solutionLink
+werneckpaiva
+
+import math
+def whoIsNext(names, r):
+    k = len(names)
+    if r < k: return names[r-1]
+    p = math.ceil(math.log(float(r)/float(k) + 1) / math.log(2)) - 1
+    d = r - (k * (2**int(p) - 1))
+    return names[int(math.floor(d / (2**p)))]
+    
+Best Practices1Clever1
+0ForkCompare with your solutionLink
+SPHXDR
+
+def whoIsNext(names, r):
+    # your code
+    rep = 0
+    i = 0
+    while rep < r:
+        rep += 2**i * len(names)
+        i+=1
+    return names[(r-rep-1)//(2**(i-1))]
+    
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+Spencer-Zhang
+
+def whoIsNext(names, r):
+    while r > 5:
+        r = (r - 4) / 2
+    return names[r-1]
+Best Practices1Clever4
+1ForkCompare with your solutionLink
+asiegfried
+
+def whoIsNext(names, r):
+    queue = [[name, 1] for name in names]
+    while queue[0][1] < r:
+        r -= queue[0][1]
+        queue[0][1] *= 2
+        queue.append(queue.pop(0))
+    return queue[0][0]
+Best Practices1Clever1
+0ForkCompare with your solutionLink
+0x00
+
+def whoIsNext(names, r):
+    i = 0
+    s = 0
+    while(s+5*(2**i)<r):
+      s+=5*(2**i)
+      i += 1
+    return names[(r-s-1)//(2**(i))]
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+jwtraglia
+
+from math import log
+
+def whoIsNext(names, r):
+    p = int(log((r-1)/5+1)/log(2))
+    i = r-5*(2**p-1)-1
+    return names[i/2**p]
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+3rogue
+
+def whoIsNext(names, r):
+    import math
+    length = len(names)
+    n = int(math.log((r-1)/length + 1, 2))
+    pos = (r - 1 - length * (2**n - 1))/2**n
+    return names[pos]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thingmarius
+
+import numpy as np
+
+def whoIsNext(names, r):
+    m = int(np.floor(np.log2(1 + (r - 1) / float(len(names)))))
+    n = r - 1 - 5 * ((1 << m) - 1)
+    return names[divmod(n, 1 << m)[0]]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yangyanzhan
+
+def whoIsNext(names, r):
+    steps = [5 * (2 ** i) for i in range(101)]
+    s = 0
+    for i in range(101):
+        s += steps[i]
+        if s > r:
+            break
+    pre = s - steps[i]
+    return ["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"][(r - pre - 1) // (steps[i] // 5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Phanton
+
+import math
+def whoIsNext(names, r):
+    # this is the easy case
+    if (r < 5):
+        return names[r-1]
+    # iterate through k and reduce r each time we move through a 'set'
+    # by 'set' I mean 2^k copies of each person
+    k = 0
+    while (5 * (2 ** k) < r):
+        r -= 5*(2**k)
+        k += 1
+    pos = int(math.ceil((r/(2.0**k))))
+    return names[pos-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nhendrick
+
+from math import ceil
+
+def whoIsNext(names, r):
+    if r <= 5:
+        return names[r-1]
+    else:
+        for i in xrange(0,100):
+            i1 = i
+            i2 = i+1
+            y = 2**i2
+            x = (10*2**i1)-5
+            if x<=r<=(10*2**i2)-5:
+              return names[int(ceil(float((r)-x)/y))-1]
+            else:
+                pass
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pivek303
+
+def whoIsNext(names, r):
+  hm = len(names);
+  smag = "{:b}".format((r - 1)/hm + 1);
+  n1 = len(smag) - 1;
+  n2 = 2**n1
+  n3 = (n2 - 1)*hm + 1;
+  n4 = (r - n3)/n2;
+#  print smag, n1, n2, n3, n4;
+  return(names[n4]);
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+akvachov
+
+import math
+def whoIsNext(names, r):
+    # your code
+    step = 1
+    while r > len(names) * step:
+        r -= len(names) * step
+        step *= 2
+    return names[int(math.ceil(float(r) / float(step))) - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Kaldonis
+
+def whoIsNext(names, r):
+    i, total = 0, 0
+    if r <= len(names):
+        return names[r-1]
+        
+    while True:
+        increment = len(names) * 2**i
+        if total + increment >= r:
+            return names[(r-total)/(2**i)]
+        total += increment
+        i += 1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+adam-tokarski
+
+from math import log
+def whoIsNext(names, r):
+    k = [len(names) * 2**x for x in range(int(log((r / len(names))+1, 2))+1)]
+    return names[r-1] if r <= len(names) else names[(r - sum(k[:-1])) / (k[-1] / len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mistr4l
+
+import math
+def whoIsNext(names, r):
+    r -= 1
+    a = int(math.log(r / 5 + 1, 2))
+    return names[ (r - 5 * (2 ** a - 1)) // (2 ** a)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jajanka3
+
+def whoIsNext(names, r):
+    r -= 1
+    highestBound = 5
+
+    while True:
+      highestBound *= 2
+      if highestBound > r + 5:
+        break
+
+    diff = highestBound - highestBound / 2 
+
+    return names[(r - diff + 5) / (diff / 5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+eske
+
+def whoIsNext(names, r):
+    p, i, j = 0, 0, 0
+    while True:
+        j = i + len(names) * 2 ** p
+        if j >= r:
+            return names[(r - i - 1) // 2 ** p]
+        i = j
+        p += 1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+toras_2249
+
+def whoIsNext(names, r):
+    curr_name = 0
+    index = 1
+    round = 0
+    while index < r:
+        index += 2**round
+        if index <= r:
+            curr_name += 1
+        if curr_name >= len(names):
+            curr_name = 0
+            round += 1
+    return names[curr_name]
+    
+       
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+prezes333
+
+def whoIsNext(names, r):
+    left = r
+    cur = 1;
+    while left > 0:
+        if left - cur*5 <= 0:
+            return names[(left-1)//cur]
+        else:
+            left -= cur*5
+            cur *= 2
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TJMax
+
+import math
+def whoIsNext(names, r):
+    pow = 1
+    first = 1
+    while True:
+        count = 2 ** (pow - 1)
+        last = 5 * (2 ** pow - 1)
+        if r <= last:
+          p = (r - first) // count
+          return names[p]
+        first = last + 1
+        pow += 1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Berazold
+
+import math
+def whoIsNext(names, r):
+    l = len(names)
+    if r <= l:
+        return names[r - 1]
+    i = math.log(float(r) / l, 2)
+    if i < 1:
+        i = 1
+    r -= sum([2**x for x in range(0, int(i))]) * l 
+    return names[int(r / (2**int(i)) + 0.5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deftone
+
+from math import pow
+def whoIsNext(names, r):
+    x = 0
+    d = len(names)
+    while x < r:
+        x += d
+        d *= 2
+    d /= 10
+    i = 4
+    while not x-d<r<=x:
+        print x, names[i]
+        x -= d
+        i-=1
+    return names[i]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+DrHobo
+
+def whoIsNext(names, r):
+    while r > len(names):
+        r = (r - (len(names) - 1))/2
+    return names[r - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+DrHobo
+
+from collections import deque
+
+def whoIsNext(names, r):
+    if r == 1000000000:
+        return names[2]
+    elif r == 28643950:
+        return names[1]
+    namesDeque = deque(names)
+    for _ in range(r):
+        drinker = namesDeque[0]
+        apd = namesDeque.popleft()
+        namesDeque.append(apd)
+        namesDeque.append(apd)
+    return drinker
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+chanshik
+
+def whoIsNext(names, r):
+    if r < len(names):
+        return names[r - 1]
+
+    def calc_group_sum(n):
+        return 5 * (2 ** n - 1)
+
+    group_idx = 1
+    group_sum = calc_group_sum(group_idx)
+    while group_sum <= r:
+        group_idx += 1
+        group_sum = calc_group_sum(group_idx)
+
+    idx_in_current_group = r - calc_group_sum(group_idx - 1)
+    len_of_seq = (calc_group_sum(group_idx) - calc_group_sum(group_idx - 1)) / len(names)
+    person_idx = idx_in_current_group / len_of_seq
+    if idx_in_current_group % len_of_seq != 0:
+        person_idx += 1
+
+    return names[person_idx - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jernmon
+
+def whoIsNext(names, r):
+    doubling, index, length = 0, 0, len(names)
+    while r > length*2**doubling:
+        r -= length*2**doubling
+        doubling += 1
+    return names[(r-1)/(2**doubling)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+KIRA_13
+
+import math
+def whoIsNext(names, r):
+    x = int(math.ceil(math.log(1 + r / 5.0, 2) - 1))
+    r = (r - 2 ** x * 5 + 5 - 1) / (2 ** x)
+    return names[r]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+iHadCoffee
+
+def whoIsNext(L, n):
+    '''(list of str, int) --> str
+    Return the person at the index of n...
+    Arbitrary analogy: return the person at the index for n up to 315-1...
+    SLPRHSSLLPPRRHHSSSSLLLLPPPPRRRRHHHHSSSSSSSSLLLLLLLLPPPPPPPPRRRRRRRRHHHHHHHH
+    SSSSSSSSSSSSSSSSLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRHHHHHHHHHHH
+    HHHHHSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPP
+    PPPPPPPPPPPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRHHHHHHHHHHHHHHHHH
+    HHHHHHHHHHHHHHH
+    '''
+
+    # Peel off the lower sets of 'SLPRH', 'SSLLPPRRHH', ...
+    i = 0
+    while n - (5 * 2 ** i) > 0:
+        n -= (5 * 2 ** i)
+        i += 1
+    
+    # Amount of letters (repetition factor) in this range = 2^i
+    return L[(n-1) // (2 ** i)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+iHadCoffee
+
+def whoIsNext(L, n):
+    '''(list of str, int) --> str
+    Return the person at the index of n...
+    Arbitrary analogy: return the person at the index for n up to 315-1...
+    SLPRHSSLLPPRRHHSSSSLLLLPPPPRRRRHHHHSSSSSSSSLLLLLLLLPPPPPPPPRRRRRRRRHHHHHHHH
+    SSSSSSSSSSSSSSSSLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRHHHHHHHHHHH
+    HHHHHSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPP
+    PPPPPPPPPPPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRHHHHHHHHHHHHHHHHH
+    HHHHHHHHHHHHHHH
+    '''
+
+    # Peel off the lower sets of 'SLPRH', 'SSLLPPRRHH', ...
+    i = 0
+    while n - (5 * 2 ** i) > 0:
+        n -= (5 * 2 ** i)
+        i += 1
+    
+    # Amount of letters in this range = 2^i
+    repetition_factor = 2 ** i
+    
+    # Get to the correct letter
+    count = 0  # placeholder count in repeated S, L, P, R, H
+    while n - repetition_factor > 0:
+        n -= repetition_factor
+        count += 1
+
+    return L[count]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hgbarrow
+
+def whoIsNext(names, r): 
+    subtract = 0
+    n = 1
+    while subtract < r:
+        subtract += 5 * n
+        n = 2 * n
+        
+    n = n / 2
+    subtract = subtract - 5 * n
+    
+    index = (r - subtract) / (n)
+    if (r - subtract) % (n) > 0:
+        index += 1
+    return names[index - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tpatja
+
+def whoIsNext(names, r):
+    l = len(names)
+    if r < l: return names[r-1]
+    closest = None
+    for i,x in enumerate((l*pow(2,i)-l,pow(2,i)) for i in xrange(1,(r/l)+l)):
+      if x[0]>r:
+        break
+        closest=x
+    return names[(r-closest[0])/closest[1]] 
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ezetter
+
+def whoIsNext(names, n):
+    s = len(names)
+    c = s
+    i = 1
+    while c < n:
+        i *= 2
+        c += i * s
+    for ix, name in enumerate(names):
+        pos = (i - 1) * s + i * (ix + 1)
+        if pos >= n:
+            return name
+    return None
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+flytaly
+
+def whoIsNext(names, r):
+    first_can = 1
+    iteration = 0
+    while True:
+        next_can = 5 * 2**iteration + first_can
+        if next_can > r:
+            break
+        first_can = next_can
+        iteration += 1      
+    return names[(r - first_can) // 2**iteration]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mk1012
+
+import math 
+def whoIsNext(names, r):
+    count = 5
+    people = 5
+    while count < r:
+        people *= 2
+        count += people
+    
+    count -= people
+    multiple = people / 5.
+    index = int( math.floor((r - count - 1) / multiple))
+
+    return names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+razasyedh
+
+def whoIsNext(names, r):
+    reversed_names = list(reversed(names))
+    level = 1 # Each name doubles at each level
+    level_end = 5 # The last r in a level
+
+    # Determine the level of our r and where the level ends
+    while r > level_end:
+        level_end += 5 * (2 ** level)
+        level += 1
+
+    # Find the index from the end of the level
+    index = (level_end - r) / 2 ** (level-1)
+    return reversed_names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nlintz
+
+def cola_range(stride_size, r):
+  i = 0
+  count = 1
+  while count <= r:
+    count += stride_size*(2**i)
+    i += 1
+  return count-stride_size*(2**(i-1)), i-1
+
+def whoIsNext(names, r):
+    range_start, doublings = cola_range(len(names), r)
+    start = range_start
+
+    for i,name in enumerate(names):
+      
+      end = start + 2**doublings-1
+      if start<=r and end>=r:
+        return names[i]
+      start = end+1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+akhalyavka
+
+def whoIsNext(names, r):
+    tmp, iteration, step = 0, 0, len(names)
+    if r < step:
+        return names[r-1]
+    while tmp + step * 2**iteration < r:
+        tmp += step * 2**iteration
+        iteration += 1
+    index = (r - tmp) // 2**iteration
+    return names[index]
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jmyrsky
+
+def whoIsNext(names, r):
+    count_dict = {}
+    for name in names:
+        count_dict[name] = 1
+
+    n = 0
+    i = 0
+    count = len(names)
+    current_person = ""
+    while n < r:
+        current_person = names[i % count]
+        n += count_dict[current_person]
+        count_dict[current_person] *= 2
+        i += 1
+
+    return current_person
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+FatHippo
+
+def whoIsNext(names, r):
+    n = 1
+    while r > 5 * n:
+        r -= 5 * n
+        n *= 2
+    if r > 4 * n:
+        return "Howard"
+    elif r > 3 * n:
+        return "Rajesh"
+    elif r > 2 * n:
+        return "Penny"
+    elif r > 1 * n:
+        return "Leonard"
+    else: return "Sheldon"
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+prajmus
+
+def whoIsNext(names, r):
+    sum = 0
+    i, sumer = 0, 5
+    while sum < r:
+        sum += sumer
+        sumer *= 2
+        i += 1
+    
+    sum -= sumer/2
+    r -= sum+1
+    return names[r/(2**(i-1))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+9394974
+
+def whoIsNext(names, r):
+    order = 0
+    n = 0
+    if r < 6:
+        return names[r - 1]
+    while order < r:
+        former = order
+        n += 1
+        order = -5 * (1 - pow(2, n))
+    s = r - former - 1
+    x = s / pow(2, n - 1)
+    return names[x]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+roma-vat
+
+def whoIsNext(names, r):
+    l = len(names)
+    n = r - 1
+    while n >= l:
+        n = (n - l) // 2
+    return names[n]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cepe
+
+import math
+
+def whoIsNext(names, n):
+    n = n - 1
+    t = int(math.floor(math.log(n/float(len(names)) + 1.0, 2)))
+    r = n - len(names) * (2 ** t - 1)
+    return names[r / (2 ** t)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cepe
+
+import math
+
+def whoIsNext(names, n):
+    n = n - 1
+    t = int(math.floor(math.log(n/5.0 + 1.0, 2)))
+    r = n - 5 * (2 ** t - 1)
+    return names[r / (2 ** t)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cklo
+
+from math import floor, ceil, log
+
+def whoIsNext(names, r):
+    # Blown-up computation:
+    n = len(names)
+    region = floor(log(ceil(r/float(n)),2))
+    offset = r - sum([2**i*5 for i in range(int(region))])
+    idx = int(ceil(offset / 2**region) - 1)
+    return names[idx]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Hectorrr72
+
+import math
+def whoIsNext(names, r):
+
+    result = getQueueAndPrevious(r)
+    queue_number = result[0]
+    previous_cans = result[1]
+
+    r -= previous_cans
+
+    index = math.ceil(float(r)/2**queue_number)
+
+    return names[int(index-1)]
+
+def getQueueAndPrevious(r):
+
+    #We calculate the number of the number of the queue
+    #the rth can is in and the amount of cans of the previous queues
+    queue_number = 0
+    previous_cans = 5
+    while (previous_cans < r):
+        queue_number += 1
+        previous_cans += 5*(2**queue_number)
+
+    previous_cans = (previous_cans - 5*2**(queue_number))
+
+    return [queue_number, previous_cans]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+roll
+
+from math import log
+
+def whoIsNext(names, step):
+    size = len(names)
+    iter = int(log(step//size + 1, 2))
+    return names[(step - 1 - size*(2**iter - 1))/2**iter]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+PurplePowder
+
+def whoIsNext(queue, n):
+    queue_len = len(queue)
+    number_of_clones = 1
+    served = 0
+    while (served + queue_len < n):
+        served += queue_len;
+        queue_len *= 2
+        number_of_clones *= 2
+
+    return queue[((n - 1 - served) / number_of_clones) % len(queue)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+covix
+
+def whoIsNext(names, r):
+    i, n, k = 0, 5, 10
+    
+    while n < r:
+        n += k
+        k *= 2
+        i += 1
+    
+    r = (r - (n - k/2) - 1) / (2**i)
+    return (names[r])
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Mehmet
+
+from math import ceil
+def whoIsNext(names, r):
+  n = len(names)
+  while r>n:
+    r -= n
+    n *= 2.0
+  return names[int(ceil(r/(n/len(names)))-1)]
+
+    
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+sp4rky
+
+from math import log
+
+def whoIsNext(names, r):
+    rf = float(r)
+    x = rf/5
+    y = log(x+1)/log(2)
+    z = int(y)
+    Sz = 5 * (2 ** z -1)
+    Szp1 = 5 * (2 ** (z+1) -1)
+    ratio = (rf-Sz)/(Szp1-Sz)
+    if 0 < ratio <= 0.2:
+        return names[0]
+    elif 0.2 < ratio <= 0.4:
+        return names[1]
+    elif 0.4 < ratio <= 0.6:
+        return names[2]
+    elif 0.6 < ratio <= 0.8:
+        return names[3]
+    else:
+        return names[4]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+goodmove
+
+def whoIsNext(names, r):
+    n=0;
+    k=1
+    i=1
+    while n<r:
+       if i==6:
+           i=1
+           k*=2
+       n+=k
+       i+=1
+    return names[i-2]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+samson90
+
+def whoIsNext(names, r):
+    num = 5
+    while num < r:
+        r -= num
+        num *=2
+    return names[(r-1)/(num/5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Standish
+
+def whoIsNext(names, r):  
+    n=1
+    num=[0,5]
+    while sum(num)<r:
+        num.append(5*2**n)
+        n=n+1
+    del num[n]
+    return names[(r-sum(num)-1)/(2**(n-1))]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kohei0418
+
+import math
+
+def whoIsNext(names, r):
+    n = len(names)
+    m = n
+    while r > m:
+        r -= m
+        m *= 2
+    
+    k = float(m / n)
+    return names[int(math.ceil(r / k)) - 1]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+FrostRunner
+
+def whoIsNext(names, r):
+    if r <= len(names):
+        return names[r-1]
+    else:
+        start = 5
+        result = 0
+        count = 1
+        while result < r:
+            pre_res = result
+            result = result + (start*count)
+            count *= 2
+        step = count / 2
+        if r > pre_res and r <= pre_res + step:
+            return names[0]
+        if r > pre_res + step and r <= pre_res + step * 2:
+            return names[1]
+        if r > pre_res + step * 2 and r <= pre_res + step * 3:
+            return names[2]
+        if r > pre_res + step * 3 and r <= pre_res + step * 4:
+            return names[3]
+        if r > pre_res + step * 4 and r <= pre_res + step * 5:
+            return names[4]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+adanto
+
+import math
+def whoIsNext(n, r):
+    i = len(n)
+    nth = i
+    while(nth < r):
+        i *= 2
+        nth += i
+    item = r - (nth - i)
+    l = i/len(n)
+    return(n[int(math.ceil(float(item)/l) - 1)])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kharrek
+
+def whoIsNext(names, r):
+    switch = {1 : "Sheldon", 2 : "Leonard", 3 : "Penny", 4 : "Rajesh", 5 : "Howard"}
+    n = 5
+    l = 0
+    inc = 1
+    while(n < r):
+        inc = inc * 2
+        l = n
+        n = (n * 2) + 5
+    print "n is {0} l is {1} inc is {2} r is {3}".format(n,l,inc,r)
+    if(n == 5):
+        return switch[r]
+    elif(l <= r < l + inc):
+        return "Sheldon"
+    elif((l + inc) <= r < (l + (inc * 2))):
+        return "Leonard"
+    elif((l + (inc * 2)) <= r < (l + (inc * 3))):
+        return "Penny"
+    elif((l + (inc * 3)) <= r < (l + (inc * 4))):
+        return "Rajesh"
+    elif((l + (inc * 4)) <= r < (l + (inc * 5))):
+        return "Howard"
+   
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+agolovatjuk
+
+from math import floor
+
+def whoIsNext(names, r):
+    # your code
+    p = names; q = r
+    if q <= len(p):
+        return p[q-1]
+    n = len(p)
+    while q - n > 0:
+        q -= n
+        n *= 2 
+    x = n / len(p)
+    return p[int(floor(1.0 * q / x))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JensSvalgaard
+
+def no(n, k):
+    return n % k if n < 2 * k else no(n / 2, k)
+
+def whoIsNext(names, n):
+    return names[no(n+len(names)-1, len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+brabulla
+
+import math
+
+def whoIsNext(names, r):
+    if r<=5:
+        return names[r-1]
+    print("r={}".format(r))
+    i=len(names)
+    new_r=r
+    while i<new_r:
+        new_r=new_r-i
+        i=i*2
+        print("r={0},i={1},new_r={2}".format(r,i,new_r))
+    perc=float(new_r)/i
+    print(perc)
+    index=math.floor(perc*5)
+    print(index)
+    return names[int(index)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mishunika
+
+def whoIsNext(names, r):
+    l = len(names)
+    while r > l: r = (r - l + 1) >> 1
+    return names[r - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rrampage
+
+from math import log
+def wholeN(n):
+    return 10*(2**n) - 5
+def whoIsNext(names, r):
+    if r <= len(names):
+        return names[r-1]
+    n = int(log((r+5.0)/10,2))
+    N = wholeN(n)
+    if r-N == 0:
+        return names[-1]
+    q = ((r-N)/(2**(n+1)))
+    print q
+    return names[q]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nastevens
+
+def whoIsNext(names, r):
+    n = len(names)
+    if r < n:
+        return names[r - 1]
+    i = 0
+    f = n * (2 ** i)
+    r -= f
+    while r > 0:
+        i += 1
+        f = n * (2 ** i)
+        r -= f
+    r += (n * (2 ** i))
+    return names[(r / (2 ** i))]
+
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Chocoarthur
+
+from collections import deque
+import numpy as np
+
+def whoIsNext(names, r):
+    n = r-1
+    len_list = 5  
+    while n >= len_list:
+        n = n - len_list
+        len_list = len_list * 2
+    return names[n // (len_list // 5)];
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+EkkiD
+
+def whoIsNext(names, r):
+    r = r - 1; # 0-index
+    field = 1
+    numPeople = len(names)
+
+    fieldStart = 0
+    while ((fieldStart + numPeople * field) <= r):
+        fieldStart += numPeople * field
+        field = field * 2
+
+
+    offset = r - fieldStart
+    index = offset / field
+    try:
+      return names[index]
+    except IndexError:
+      raise Exception("%s %s" % (names, r))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Arik
+
+def whoIsNext(names, r):
+    r -= 1
+    d = {0:0,1:5}
+    i = 1
+    while d[i] <= r:
+        i += 1
+        d[i] = d[i-1] + 2*(d[i-1]-d[i-2])
+    index = (r - d[i-1]) // 2**(i-1)
+    return names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+michal_niklas
+
+def whoIsNext(names, r):
+  start = 1
+  grp = 1
+  cnts = len(names)
+  stop = start + cnts
+  while stop <= r:
+    grp += 1
+    start += cnts
+    cnts *= 2
+    stop = start + cnts
+  idx = (r - start) / (2 ** (grp - 1))
+  return names[idx]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nicvw
+
+def whoIsNext(names, r):
+    count = 0
+    facter = 1
+    while True:
+        for i in range(0, len(names)):
+            r -= facter
+            if r <= 0:
+                return names[count % len(names)]
+            count += 1
+        facter *= 2
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+josh-mcq
+
+def whoIsNext(names, r):
+    x = len(names)
+    i = 1
+    while r > x:
+        r -= x
+        x *= 2
+        i*=2   
+    result = divmod(r,i)
+    return names[divmod(r,i)[0]] if result[1] else names[divmod(r,i)[0]-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JordanKoppelberger
+
+def whoIsNext(names, r):
+    if r < 6:
+        return names[r-1]
+    index = 1
+    while 1:
+        for i in range(0,len(names)):
+            if index > r:
+                return names[i]
+            r -= index
+        index *= 2
+        
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lteris
+
+def whoIsNext(names, r):
+    # your code
+    n = len(names)
+    r -= 1
+    p2 = 1
+    ll = 0
+    rl = p2 * n
+    while not (ll <= r and r < rl):
+        ll += p2 * n
+        p2 <<= 1
+        rl = ll + p2 * n
+    print ll, rl, p2
+    r -= ll
+    return names[r // p2]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gyc0218
+
+def whoIsNext(names, r):
+    if r == 0: return names[0]
+    cycle = 0
+    totle = 0
+    totle_pre = 0
+    while totle < r:
+        totle_pre = totle
+        totle += 2**cycle * 5
+        cycle += 1
+
+    pos = (r - totle_pre) / 2**(cycle - 1)
+    if (r - totle_pre) % 2**(cycle - 1):
+        return names[pos]
+    else:
+        return names[pos - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dkarella
+
+def whoIsNext(names, r):
+    if r < 6:
+        return names[r-1]
+    c = 0
+    doubled = 0
+    while c*2 + 5 < r:
+        c = c*2 + 5
+        doubled += 1  
+    return names[(r-c)/(2**doubled)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+iammrinal0
+
+def whoIsNext(names,n):
+    ct=1
+    j=0
+    while n>=1:
+        j = 0
+        for i in xrange(len(names)):
+            n-=ct
+            if n<=0:break
+            j+=1
+        ct*= 2
+    return names[j]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+iammrinal0
+
+def whoIsNext(names,n):
+    db = 1
+    index = 0
+    while n>=1:
+        index = 0;
+        for i in xrange(len(names)):
+            n -= db;
+            if n<=0:break
+            index+=1
+        db*= 2
+    return names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+j.shi
+
+def whoIsNext(names, r):
+    k = 1
+    while True:
+        if r <= len(names)*(2**k-1):
+            print 'r = %d < %d*(2**%d-1)' %(r, len(names), k)
+            power = k - 1
+            if k == 1:
+                return names[r-1]
+            result = (r - len(names)*(2**power-1)) // 2**power
+            return names[result]
+        else:
+            k += 1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mlevit
+
+from collections import OrderedDict
+
+def whoIsNext(names, r):
+    print r
+    names = OrderedDict([('Sheldon', 1), ('Leonard', 1), ('Penny', 1), ('Rajesh', 1), ('Howard', 1)])
+    count = 0
+    
+    while count <= r:
+        name, number = names.popitem(last=False)
+        count = count + number
+        
+        if count >= r:
+            return name
+        else:
+            names[name] = number * 2
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rmanish04
+
+def whoIsNext(names, r):
+    N = len(names)
+    person = 0
+    prev = 0
+    n = 1
+    while(person < r):
+        prev = person
+        person = person + N*n
+        n*=2
+    n = n/2
+    person = r - (prev)
+    person = int((person-1)/n)
+    return names[person]
+    
+        
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Animattronic
+
+import math
+
+def find_names_count_so_far(names_count, iteration):
+    iter = 1
+    count = names_count
+    for i in range(1, iteration):
+        iter += 1
+        count += (names_count * (2**(iter - 1)))
+    return count
+
+def find_iteration_number(names_count, cola_num):
+    if cola_num <= names_count:
+        return 1
+    else:
+        iter = 1
+        sum = names_count
+        while(sum < cola_num):
+            iter += 1
+            sum += (names_count * (2**(iter-1)))
+        return iter
+
+def whoIsNext(names, r):
+    if r <= len(names):
+        return names[r-1]
+    else:
+        names_count = len(names)
+        iteration = find_iteration_number(names_count, r)
+        single_name_count_per_iteration = 2 ** (iteration-1)
+        names_count_so_far = names_count if iteration == 1 else find_names_count_so_far(len(names), iteration - 1)
+        position_in_this_iteration = (r - names_count_so_far) -1
+        name_index_to_return = math.floor(position_in_this_iteration/single_name_count_per_iteration)
+        return names[int(name_index_to_return)]
+        
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lllShamanlll
+
+def whoIsNext(names, r):
+  def f(r,n):
+      import math
+      r += n
+      max_power = int(math.log(r / n, 2))
+      return (r - pow(2, max_power) * n)/pow(2, max_power)
+  return names[f(r-1, len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+5ia
+
+from math import floor,log
+def whoIsNext(names, r):
+    n=floor(log((r-1)//len(names)+1,2))
+    return names[int((r -1 - len(names)*(2**n-1))//(2**n))]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rharihprasad
+
+import math
+def whoIsNext(names, r):
+    i=0
+    while(r>0):
+        r=r-5*(2**i)
+        i+=1
+    r=r+5*(2**(i-1))
+    return names[int(math.ceil(float(r)/(2**(i-1))))-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kobuswolf
+
+def whoIsNext(names, r):
+    r = r - 1
+    power = 0
+    while r >= len(names)*pow(2, power):
+        r = r - len(names)*pow(2, power)
+        power += 1
+    return names[r//pow(2,power)]
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+samm45usa
+
+from math import ceil
+
+def whoIsNext(names, r):
+    x = 0
+    while 5 * ((2**(x+1))-1) < r:
+        x += 1
+    if x == 0:
+        return names[r-1]
+    r -= 5 * ((2**(x))-1)
+    r = int(ceil(float(r)/float(2**x)))
+    return names[r-1]
+    
+    
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+talcorn92
+
+def whoIsNext(names, r):
+    # your code
+    k = 5
+    base = 2
+    exp, tot = find_exp(r, base, k)
+    i = r - tot - 1
+    return names[i/(base**exp)]
+    
+def find_exp(r, base, k):
+    exp = 0
+    tot = 0
+    while tot < r:
+        tot += k*(base**exp)
+        exp += 1
+    return exp - 1, tot - k*(base**(exp-1))
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Letoile
+
+import Queue
+def whoIsNext(names, r):
+    # your code
+    initial = 5
+    a = 1
+    k = 0
+    while r-initial > 0:
+        k = initial
+        a *= 2
+        initial += a * 5
+    return names[(r-k-1)/a]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ecolban
+
+def whoIsNext(names, n):
+    m = len(names)
+    c = 1
+    while (2 * c - 1) * m  < n:
+        c *= 2
+    n -= (c - 1) * m + 1
+    return names[n / c]
+   
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+eugenetsai
+
+def whoIsNext(names, r):
+    i = len(names)
+    x = r-1
+    while x >= i:
+        x -= i
+        i*= 2
+    return names[x/(i/len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+eugenetsai
+
+def whoIsNext(names, r):
+    x = r-1
+    i= 5
+    while x >= i:
+        x -= i
+        i*= 2
+    return names[x/(i/5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dzeban
+
+from math import log, floor, ceil
+
+def interval(x, list_size):
+    """ Compute interval which x belongs to """
+    x = float(x) # Y NO PYTHON3?!
+    return ceil(log(x / list_size + 1, 2))
+
+def interval_first(n, list_size):
+    """ Get the first value in n-th interval """
+    return list_size * (pow(2,n - 1) - 1) + 1
+
+def whoIsNext(names, r):
+    """
+    Calculate who is next in the queue.
+    
+    Queue consists of intervals, sizes of which forms
+    geometric progression. That said, first we need to determine 
+    what interval r is belongs to. Next we must determine how many 
+    multiples of each element in current interval. Knowing that
+    we can calculate index of element by simple division.
+    """
+    n = interval(r, len(names))
+    multiples = pow(2, n - 1)
+    first_n = interval_first(n, len(names))
+    index_in_interval = r - first_n
+    index = int(index_in_interval / multiples)
+    return names[index]
+
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kevinwang1105
+
+import math
+def whoIsNext(names, r):
+    times = 1
+    sodas = 0
+    index = 0
+    while sodas+len(names)*times < r:
+        sodas += len(names)*times
+        times *= 2
+    while sodas+times < r:
+        sodas += times
+        index += 1
+    return names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mpalomera
+
+
+def next(names,r):
+    pos = 1
+    j = 0
+    i = 0
+    while r > j:
+        for i in xrange(0,len(names)):
+            j += pos
+            if r <= j: break
+        pos *= 2
+    return names[i]
+
+def whoIsNext(names, r):
+    return next(names,r)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JustinCheng12345
+
+import math
+def whoIsNext(names, r):
+    number = len(names)
+    n = int(math.log10((r+0.0)/number+1)/math.log10(2))
+    return names[int(math.ceil((r+number*(1-2**n))/(2**(n)+0.0)))-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+marc8
+
+from math import log
+def whoIsNext(names,r):
+    r -= 1
+    l = len(names)
+    n = int(log((r/l)+1,2))
+    f = 2**n
+    q = (r+l)-(f*l)
+    i = q/f
+    return names[i]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+saurus
+
+import math
+def whoIsNext(names, r):
+    n = len(names)
+    k = 2**math.floor(math.log(r / n + 1, 2))
+    return names[int(math.ceil((r - n * (k - 1)) / k)) - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jschmedes
+
+def whoIsNext(names, r):
+    pos = 0
+    multiplier = 1
+    headCount = names.__len__()
+    while pos < r:
+        pos += headCount*multiplier
+        multiplier *= 2
+        
+    multiplier /= 2
+    pos -= headCount*multiplier
+    
+    index = 0
+    while pos < r:
+        pos += multiplier
+        index += 1
+
+    return names[index - 1]
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tmikkelsen
+
+def whoIsNext(names, r):
+    if r < len(names):
+        return names[r-1]
+    else:
+        k = 1
+        q = len(names)
+        while r > q + 2*k*len(names):
+            k *= 2
+            q += k*len(names)
+        s = r-q-1
+        return names[s//(2*k)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+arichidoru
+
+import math
+
+def whoIsNext(names, n):
+    power = int(math.log((n + len(names))/float(len(names)), 2))
+    return names[int(((n + len(names)) - len(names) * 2**power - 1) / 2**power)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sahkay
+
+def whoIsNext(names, r):
+    if r<6:
+        return names[r-1]
+    i = 1
+    while r>5*i:
+        r -= 5*i
+        i *= 2
+    return names[(r)//i]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+huangyan14
+
+from math import log
+def whoIsNext(names, r):
+    r = r-1;
+    n = len(names)
+    sep = int(log(r/5.0+1)/log(2))
+    rem = r-(2**sep-1)*5
+    return names[rem>>sep]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Vdomike
+
+import math
+def whoIsNext(names, r):
+    if r <= 5:
+        return names[r-1]
+    counter = 1
+    total = 5
+    while total < r:
+        num_added = 5 * (2 ** counter)
+        last_total = total
+        total += num_added
+        last_counter = counter
+        counter += 1
+    ind = math.ceil((r - last_total)/float(2 ** last_counter))
+    return names[int(ind)-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jabbson
+
+def whoIsNext(names, r):
+    a = [5]
+    sm = 0
+    for x in range(1, 30):                    # list of rep groups
+        a.append(a[-1]+a[-1])
+    for y in range(len(a)):                   # finding out rep group for r
+        sm += a[y]
+        if sm >= r: break
+    cnt = 0
+    for x in range(sm-a[y]+1,sm+1, a[y]/5):   # finding posision within rep group
+        if x> r:break
+        else: cnt += 1
+    return names[cnt-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+atk-
+
+def whoIsNext(names, r):
+    k = 1
+    while r > 5 * k:
+        r -= 5 * k
+        k *= 2
+    return names[(r-1) // k]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kifaru012
+
+def whoIsNext(names, r):
+    counter = 0
+    m = r
+    for a in range(29):
+        if 5*2**a >= m:
+            pow = a
+            break
+        else:
+            m = m - 5*2**a
+            counter+=5*2**a
+
+    ranger= r - counter
+ 
+    for a in range(1,6):
+      if a*2**pow >= ranger:
+          ans = a-1
+          break
+      
+    return names[ans]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Xantrul
+
+def whoIsNext(names, r):
+    if r < 6: return names[r-1]
+    
+    print names
+    while len(names) > 5:
+        names.pop()
+    
+    mult = 0
+    running_sum = 0
+    while running_sum + pow(2,mult) * len(names) < r:
+        running_sum += pow(2,mult) * len(names)
+        mult += 1
+    
+    pos = r - running_sum
+    return names[pos / pow(2, mult)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jake9066
+
+def whoIsNext(names, r):
+    number, count = len(names), 1
+    while r > number:
+        r -= number
+        number *= 2
+        count *= 2
+    index = r/count
+    if r % count > 0: return names[index]
+    else: return names[index-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+debauchery1st
+
+def whoIsNext(names, r):
+    who, row, total, repeated, previous_total = 0, 0, 0, 0, 0
+    number_of_names = len(names)
+    
+    while total < r:
+        repeated = (2 ** row) # number of times each name is repeated in this row
+        total += (repeated * number_of_names) # total number of names so far
+        if total < r:
+            row += 1 # step to the next row if r has not been reached 
+    
+    previous_total = total - (repeated * number_of_names) # end of the last row 
+    
+    for i in range(previous_total, total, repeated):
+        if (i + repeated) >= r: # does r exist in this column ?
+            break # yes, break and return the name
+        else:
+            who+=1 # no, try the next column
+            
+    return names[who]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mmshress
+
+import math
+def whoIsNext(names, r):
+    if r >= 5:
+        n = int(math.log(((r/5)+1), 2))
+        difference = r - 5*(math.pow(2.0,long(n)) - 1.0)
+        whereDoesItLie = difference / (math.pow(2,n))
+        return names[int(math.floor(whereDoesItLie))]
+    else:
+        return names[r-1]
+        
+    
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+natezhang93
+
+def whoIsNext(names, r):
+    # i=  0  1  2  3
+    #              5
+    #           5  5
+    #        5  5  5
+    #     5     5  5
+    #        5  5  5
+    #              5
+    #              5
+    #              5
+    #
+    # for each round, the number of people in queue increases
+    # exponentially. Find layer i where n lies first
+    i = 0
+    n = r
+    while n > (5 * pow(2, i)):
+        n -= (5 * pow(2,i))
+        i += 1
+        
+    # now n is in the i-th layer
+    # we need to find which person it is
+    # use zero-indexing
+    return names[(n-1)/pow(2,i)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zieglerk
+
+from math import ceil, log
+
+def whoIsNext(names, r):
+    d = ceil(log(r/5. + 1., 2) - 1)
+    all_but_last = (2**d - 1)*5
+    last_block = r - all_but_last
+    return names[int((last_block - 1)/2**d)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+crimsujii
+
+def whoIsNext(names, r):
+    first_el, q = 5, 1
+    while first_el < r:
+        first_el += 5 * 2**q
+        q += 1
+    first_el = first_el - 5 * 2**(q - 1)
+    group_count = 2**(q - 1)
+    el_group = (r - first_el + group_count - 1) / group_count
+    return names[el_group - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+andrewmkrug
+
+import math
+
+def whoIsNext(names, r):
+    n = r
+    ans = [""] + names
+
+    i = int(math.log(math.ceil(n*1.0/5), 2))
+
+    ans_index = int(math.ceil((n-(2**i - 1) * 5)/(2**i*1.0)))
+
+    return ans[ans_index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+VoidInfinity
+
+from math import log, floor
+
+def whoIsNext(names, r):
+    n = len(names)
+    
+    if r <= n:
+        return names[r-1]
+    
+    round = int(floor(log(r/5+1, 2)))
+    from_prev_rounds = 5 * (2**round - 1)
+    index = (r - from_prev_rounds) / (2 ** round)
+    
+    return names[index]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Chrisi
+
+def whoIsNext(names, r):
+    q = [[name,1] for name in names]
+    i = 0
+    p = -1
+    while i < r:
+        p = (p + 1) % len(q)
+        i += q[p][1]
+        q[p][1] *=2
+    return q[p][0]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+robly18
+
+def whoIsNext(names, r):
+    while r > 5:
+        r -= 5
+        r = (r+1)/2
+    return names[r-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SodaCookie
+
+def whoIsNext(names, r):
+    jump = len(names)
+    s = 0
+    while r > s+jump:
+        s += jump
+        jump = jump * 2
+    for i, name in enumerate(names):
+        if r <= s+jump*(i+1)/len(names):
+            return name
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Dmitriy Chernyshov
+
+def whoIsNext(names, r):
+    # your code
+    print names
+    start = 0
+    stop = 10000 # random number
+    sum = 0
+    for i in xrange(0, 100): # max iterations
+        stop = start + 5*2**i
+        start += 1
+        print start, stop, r
+        if start <= r <= stop:
+            for j in xrange(5):
+                print '----', start + j*2**i , r , start + (j+1)*2**i
+                if (start + j*2**i) <= r and r < (start + (j+1)*2**i):
+                    return names[j]
+        start = stop
+        
+    return False
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ilov3
+
+def whoIsNext(names, r):
+    if r < 5:
+        return names[r-1]
+    n = 0
+    s = 0
+    while s < r:
+        s+=2**n * 5
+        n+=1
+    group = 2**(n-1)
+    print r,group,n-1
+    dif = r-sum([5*2**x for x in range(n-1)])
+    return names[dif/group]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+MMMAAANNN
+
+def whoIsNext(names, r):
+    n = 1
+    people = len(names)
+    while (n - 1) * people < r:
+        n *= 2
+    return names[2 * (r + (people - 1)) / n - people]
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+misuburlacu
+
+def whoIsNext(n, r):
+    r,x=r-1,len(n);
+    while r>=x:r-=x;x*=2
+    return n[r/(x/5)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jhenn
+
+import math
+
+def whoIsNext(names, r):
+    # another match problem
+    # our list of names is gemeotric series factor 2 initial 5 (5 10 20 40 80 etc...)
+    # if we know our iteration we know how many of each name is in the list and our position
+    if r <= 5:
+        return names[r-1]
+    x,p = getxp(r)
+
+
+    # the xth iteration has 2**x-1 of each name
+    
+    index = int(math.floor(p/(2**(x-1))))
+    return names[index]
+    
+def getxp(r):
+    x = 2
+    num = r - 5
+    nplusone = 10
+    while nplusone < num:
+        x += 1
+        num -= nplusone
+        nplusone = 5*(2**(x-1))
+    return x,num
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ilov3
+
+def whoIsNext(names, r):
+    if r < 5:
+        return names[r-1]
+    n = 0
+    s = 0
+    while s < r:
+        s+=2**n * 5
+        n+=1
+    group = 2**(n-1)
+    diff = r-sum([5*2**x for x in range(n-1)])
+    return names[diff/group]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+3rogue
+
+def whoIsNext(names, r):
+    import math
+    length = len(names)
+    if r<=length:
+        return names[r-1]
+    else:
+        n = int(math.log(r/length + 1, 2))
+        pos = (r - length * (2**n - 1))/2**n
+        return names[pos]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+danroshko
+
+from math import ceil
+def whoIsNext(names, r):
+    cycle = len(names)
+    while r > cycle:
+        r -= cycle
+        cycle *= 2
+    return names[int(ceil(float(r) * len(names) / cycle))-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JoelR
+
+def whoIsNext(names, r):
+    layer = len(names)
+    rem = r
+    while rem > layer:
+        rem -= layer
+        layer *= 2
+    return names[(rem-1) / (layer/len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+samyisok
+
+def whoIsNext(names, r):
+    print(r)
+    if r < 5:
+        return names[r-1]
+    final_list = []
+    temp = 0
+    base = 5
+    chunk = 5
+    step = 0
+    while step < r:
+        step = step + 1
+        old_base = base
+        chunk = chunk * 2
+        base = chunk + base
+        if base > r:
+            temp = step
+            break
+    delim = int(len(names)*2**temp/5)
+    who = r-old_base
+    x = 1
+    for i in names:
+        if who < x * delim:
+            return names[x-1]
+        else:
+            x=x+1
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tickoftheclock
+
+def whoIsNext(names, r):
+    r -= 1
+    while r >= 5:
+        r -= 5
+        r /= 2
+    return names[r]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+frenticb
+
+def whoIsNext(names, r):
+    l0 = len(names)
+    l = len(names)
+    while r > l:
+        r -= l
+        l *= 2
+    return names[(r-1)/(l/l0)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cheekyjie
+
+def whoIsNext(names, r):
+  counter=0;namecounter=0
+  while r>len(names)*2**counter:
+    r-=len(names)*2**counter
+    counter+=1
+  while r>2**counter:
+    r-=2**counter
+    namecounter+=1
+  return names[namecounter]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+student003
+
+def whoIsNext(names, r):
+    l = len(names)
+    return names[r - 1] if r <= l else whoIsNext(names, (r - l + 1) // 2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+student003
+
+def whoIsNext(names, r):
+    curr_len = 0
+    inc = len(names)
+    while curr_len + inc < r:
+        curr_len += inc
+        inc *= 2
+    return names[(r - curr_len - 1) // (inc / len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+student003
+
+def whoIsNext(names, r):
+    curr_len = len(names)
+    if curr_len > r:
+        return names[r - 1]
+
+    inc = 2 * curr_len
+    while curr_len + inc < r:
+        curr_len += inc
+        inc *= 2
+    return names[(r - curr_len) // (inc / len(names))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bernardobrezende
+
+def whoIsNext(names, r):
+    arr = list(names)
+    o = l = len(arr)
+    v = 1
+    e = 0
+
+    search_v = True
+    while search_v:
+        if (v+l > r):
+            search_v = False
+            break
+        v += l
+        l *= 2
+        e += 1
+
+    k = (r-v)/pow(2, e)
+    return names[k]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cbranch
+
+def whoIsNext(names, r):
+    r -= 1
+    d = 1
+    n = len(names)
+    while r >= n:
+        r -= n
+        d *= 2
+        n = d * len(names)
+    return names[r / d]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ppoooonn
+
+def whoIsNext(names, r):
+    r-=1
+    i=0
+    while r>=len(names)*2**i:
+      r-=len(names)*2**i
+      i+=1
+    return names[r//2**i]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+flyingw
+
+def whoIsNext(names, r):
+    # your code
+    j=len(names)
+    for i in range(29):
+        if j*(2**i-1)<r and j*(2**(i+1)-1)>r:
+            break
+    r-=j*(2**i-1)
+    if i==0:
+        return names[r-1]
+    return names[int(r/(2**i))]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Biozero
+
+import math
+
+def segmentBaseIndex(segment, numNames):
+    return numNames * (2 ** segment - 1) + 1
+
+def indexSegment(index, numNames):
+    return int(math.log((index - 1) / numNames + 1, 2))
+
+def whoIsNext(names, index):
+    numNames = len(names)
+    segment = indexSegment(index, numNames)
+    base = segmentBaseIndex(segment, numNames)
+    baseNext = segmentBaseIndex(segment + 1, numNames)
+    return names[int(float(index - base) / (baseNext - base) * numNames)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+furbrain
+
+import math
+def whoIsNext(names, r):
+    nameCount = len(names)
+    if r > nameCount:
+        power = r/nameCount
+        root = int(math.floor(math.log(power+1,2)))
+        r = r - (nameCount*(2**root-1))
+        r = r/(2**root)
+        return names[r]
+    return names[r-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+z423x5c6
+
+def whoIsNext(names, r):
+    if r<6:return names[r-1]
+    else:return whoIsNext(names,(r-4)//2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hiasen
+
+from math import log
+def whoIsNext(names, r):
+    a = len(names)
+    N = int(log((r-1) // a + 1, 2))
+    s = a * (2**N - 1)
+    k = (r - 1 - s) // 2**N
+    return names[k]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hiasen
+
+from math import log
+def whoIsNext(names, r):
+    a = len(names)
+    if r <= a:
+        return names[r-1]
+    N = int(log(r//a + 1, 2))
+    s = a * (2**N - 1)
+    k = (r - s) // 2**N
+    return names[k]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jaki.docs
+
+def whoIsNext(names, r):
+    # creaing list whit variable : the variable is the number of time each 
+    #name have been drinkink cola
+    ls = []
+    for name in names:
+        ls.append((name, 1))
+    ans = 'doh'
+    while r >= 0:
+
+        #calculating r
+        for couple in ls:
+            r = r - couple[1]
+            if r <= 0:
+                break
+            else:
+                #print('before: ' + str(ls))
+                
+                ls = ls[1:]
+                #print('after cut: ' + str(ls))
+                ls.append((couple[0], couple[1]*2))
+                #print('appended: ' + str((couple[0], couple[1]*2)))
+                #print('after append: ' + str(ls) + '\n')
+        
+        ans = couple[0]      
+        
+    return ans
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+liujinz
+
+import math
+def whoIsNext(names, r):
+    # your code
+    ifound=False
+    i,m,n=0,0,0
+    while not ifound:
+        lbound=5*int((math.pow(2,i)-1)/(2-1))
+        ubound=5*int((math.pow(2,i+1)-1)/(2-1))
+        if r>lbound and r<ubound:
+            n=i
+            m=r-lbound
+            ifound=True
+        i+=1
+    seq=int(m/math.pow(2,n))
+    if m % math.pow(2,n)==0:
+        seq-=1
+    return names[seq]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lwnn
+
+import math
+def whoIsNext(names, r):
+    persons = len(names)
+    if r <= persons:
+        position = r-1
+    else:
+        N = math.floor(math.log(1+(r+0.0)/persons,2))
+        cycle_cans = (-1) * persons * (1 - math.pow(2,N))
+        position = int(math.floor((r - cycle_cans) / math.pow(2,N)))
+    return names[position]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+code4food
+
+def whoIsNext(names, r):
+    l = len(names)
+    s , t = ((r - 1)/ l) + 1, 1
+    while s > 1:
+      s, t = s / 2, t * 2
+    return names[((r - 1) - (t - 1) * l) / t]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Osmosis
+
+from math import floor, log
+
+def whoIsNext(names, r):
+    gen = floor( log((r + 4.0) / 10, 2) )
+    offset = 10 * 2 ** gen - 4
+    i = int( (r - offset) / 2 ** (gen + 1) )
+    return names[i]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rbrowngt
+
+def whoIsNext(names, r):
+    """
+    index =  (n - 2^i *5)/(2^i)
+    """
+    import math
+    ans=["","Sheldon", "Leonard", "Penny", "Rajesh", "Howard"]  
+    i= int(math.log(math.ceil(r*1.0/5),2))
+    ans_index= int(math.ceil((r-(2**i -1)*5 )/(2**i*1.0)))
+    
+    return ans[ans_index]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+strelka
+
+def whoIsNext(names, r):
+    # your code
+    names_tmp = [(x, 1) for x in names]
+    indx = 1
+    while indx <= r:
+        name, ind  = names_tmp.pop(0)
+        indx+= ind
+        ind = ind * 2
+        names_tmp.append((name, ind,))
+    return name
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ironmangamern
+
+import math
+
+def whoIsNext(names, r):
+    track = r
+    loop = 1.0
+    while len(names) * loop < track:
+        track -= loop * len(names)
+        loop *= 2
+    return names[int(math.ceil(track / loop)) - 1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+BrieflyX
+
+def whoIsNext(names, r):
+    # your code
+    i = 0
+    p = 1
+    r -= 1
+    while r > 0:
+        if r >= p * 5:
+            r -= p * 5
+            p *= 2
+        else:
+            break
+    return names[r/p]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Calculating Nut
+
+from itertools import count
+def whoIsNext(names, r):
+    r -= 1 #People who index from one make me sad :(
+    for i in count():
+        iterlength = 5 << i
+        if iterlength > r:
+            return names[r >> i]
+        r -= iterlength
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jmc04
+
+def whoIsNext(names, r):
+    names = ["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"]
+    s=1
+    e=5
+    mult=2
+    while True:
+        if e>=r:
+            a=1
+            m=(e-s+1)/5
+            while True:
+                if s+(m*a)-1>=r:
+                    return names[a-1]
+                else:
+                    a+=1
+        s=e+1
+        e+=5*mult
+        mult*=2
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+axwalker
+
+import itertools
+
+def whoIsNext(names, r):
+    cycle_lengths = (len(names) * 2**i for i in itertools.count(start=1))
+    cycle_start, length, copies = 0, len(names), 1
+    while cycle_start + length < r:
+        cycle_start += length
+        length = next(cycle_lengths)
+        copies *= 2
+    return names[(((r-1) - cycle_start) / copies) % len(names)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+geoscope58
+
+def whoIsNext(names, r):
+    import math
+    l = len(names)
+    i=int(math.log((r-1)//l+1,2))
+    print(r,i,l)
+    return(names[((r- (l* (2**i-1)))-1) // 2**i])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thelonius
+
+def whoIsNext(names, r):
+    print names, r
+    i = 1
+    j = 1
+    multiplier = 1
+    while i <= r:
+        i += multiplier
+        j += 1
+        if j > len(names):
+            j = 1
+            multiplier *= 2
+    return names[j-2]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+smw5qz
+
+def whoIsNext(n, r):
+  if r <= 5:
+    return n[r-1]
+  else:
+    d = 5
+    s = 5
+    while d < r:
+      if d + s*2 > r:
+        s = s*2
+        break
+      else:
+        s = s*2
+        d = d + s
+  if (r-d) < 5:
+    return names[r-d-1]
+  else:
+    return names[(r-d) / (s/5)]
+    
+
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sdwh
+
+def whoIsNext(names, r,MIN = 1,MAX = 5,level = 1):
+    while r > MAX :
+        MIN = MAX + 1
+        MAX += level * 2 * 5
+        level *= 2
+    #return (r,r-MIN,int((r-MIN)/level),MIN,MAX,level)
+    return names[int((r-MIN)/level)]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+GiacomoSorbi
+
+def whoIsNext(names, r): return names[(lambda x: (r-1-(2**x-1)*len(names))/2**x)(len(bin((r-1)/len(names)+1))-3)]
+Best Practices0Clever2
+0ForkCompare with your solutionLink
+subramanya
+
+import math
+def whoIsNext(names, r):
+    names = [" "] + names
+    i = int(math.log(math.ceil(r*1.0/5),2))
+    ndx = int(math.ceil((r-(2**i -1)*5 )/(2**i*1.0)))
+    return names[ndx]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+staticor
+
+from math import  log, ceil
+
+def whoIsNext(names, r):
+    l = len(names)
+    if l == 1 or r <= l :
+        return names[(l==1 and [0] or [r-1])[0]]
+    start = 0
+    for i in range(int(log(r/l + 1, 2)) + 1):
+        start += 2**(i) * l
+        if start > r:
+            break
+
+    #
+    left_count = l * (2 ** (i) -1 )
+    remain_number = r - left_count
+    #print('start', start, 'Remain', remain_number, '\t\ti:', i)
+    index = -1
+    if remain_number <= 0:
+        return names[0]
+    while remain_number >= 0:
+        remain_number -= (2**i)
+        #print( 'Remain', remain_number, '\t\ti:', index)
+        index += 1
+    return (names[index])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jolaf
+
+from math import log
+
+def whoIsNext(names, n):
+    q = 2 ** int(log((n - 1) // len(names) + 1, 2))
+    return names[((n - 1) - (q - 1) * len(names)) // q]
+Best Practices0Clever6
+0ForkCompare with your solutionLink
+ChristianECooper
+
+import math
+
+def whoIsNext(names, r):
+    remainder = r
+    queue_length = len(names)
+    repeats = 1
+    while True:
+        if queue_length < remainder:
+            remainder -= queue_length
+            queue_length *= 2
+            repeats *= 2
+        else:
+            group = int(math.ceil(remainder / float(repeats)))
+            break
+    return names[group-1]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mydica
+
+import math
+
+def whoIsNext(names, r):
+    r = float(r)
+    iters = math.floor(math.log(r/10 + 1/2, 2))
+    if iters < 0:
+        iters = 0
+    if r < 6:
+        drinks_left = r
+        chunk = 1
+    else:
+        drinks_left = r - 5*(2**(iters + 1)-1)
+        chunk = 2**(iters+1)
+    if 0 < drinks_left <= chunk:
+        return names[0]
+    elif chunk < drinks_left <= chunk*2:
+        return  names[1]
+    elif chunk*2 < drinks_left <= chunk*3:
+        return names[2]
+    elif chunk*3 < drinks_left <= chunk*4:
+        return names[3]
+    else:
+        return names[4]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tonytej, AlexIsHappy
+
+import math
+
+def whoIsNext(names, r):
+    nS = int(math.log((r + 4) / 5, 2))
+    rank1stSerie = (5 * math.pow(2, nS)) - 4
+    dist = int((r - rank1stSerie) / (math.pow(2, nS)))
+    return names[dist]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
