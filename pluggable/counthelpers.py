@@ -4,7 +4,6 @@
 # Takes a filename string as an input and yield a tuple with "helper functions" and a value.
 
 import re, sys
-sys.path.insert(0, '/home/josh/code-eval')
 from parsetext import parse_text
 
 def counthelpers(solutionsfile):
@@ -19,8 +18,13 @@ def counthelpers(solutionsfile):
 
 
 # Example use
+# Must be called from code-eval/
 
 if __name__ == '__main__':
-	a = counthelpers("solutions.txt")
-	for line in a:
-		print line
+    a = counthelpers("solutions/" + sys.argv[1] + "/solutions.txt")
+    i=0
+    for line in a:
+        i+=1
+        print line
+    print str(i) + "records printed"
+

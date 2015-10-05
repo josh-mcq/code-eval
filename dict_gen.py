@@ -1,5 +1,6 @@
 import sys
 import pluggable
+from pluggable import *
 #from pluggable.countlines
 sys.path.insert(0, '/home/josh/code-eval/pluggable')
 #maybe python this out so that it is more portable.
@@ -27,16 +28,14 @@ def dict_creator(solutionstextfile):  #if this takes a single solutions file, ho
         
 
 
-
 #def pluggablefind():  #generator function that yields function names like countforloops.py and other user generated ones.
     
 # Example use
 
 if __name__ == '__main__':
-    import sys
-    from pluggable import *
-    sys.path.insert(0, '/home/josh/code-eval')
-    from parsetext import parse_text
-    a = dict_creator("solutions.txt")
+    a = dict_creator("solutions/" + sys.argv[1] + "/solutions.txt")
+    i = 0
     for line in a:
+        i+=1
         print line
+    print str(i) + "records printed"

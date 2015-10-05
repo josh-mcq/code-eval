@@ -6,3 +6,31 @@ nothing will appear in the file until you seek(0) or close the file.
 if you seek(0) and then write it will overwrite as in insert mode..
  
 r+ will open a file that you can then write to, whereas w+ will write over the top of it if it exists.
+
+Is it possible to write a function that will add test cases to a sol.py file?
+  first i have to
+
+  **I still haven't actually written a function that will retrieve the solution files from the proper solutions folder. when I call these functions, they have to be called from the code-eval folder.  but the solutions files are in a number of different folders..
+
+  in python, can i reach into a different directory?  by passing a different file path to countforloops(or whatever other function) it will pass that string to the open command and it will work.
+
+I need to be able to insert a path to import modules, but it might be different depending on who's computer is being used.
+
+
+
+
+  in python, how to run a file from within a python interpreter.(can import *, which will import variables and such as well as functions.)
+
+  
+counthelpers works in interactive and 
+
+in interactive:
+from pluggable import *
+
+when calling functions in BASH mode, must call them from pluggable, with a parameter!
+
+when calling interactively first import..  from pluggable.countlines import countlines
+or just import from pluggable import *,  then call countlines.countlines("solutions/whoIsNext/solutions.txt")   .. this works because we imported the countlines module.  Maybe
+
+
+I have a testcase file, and I have a solution file.  how can i create countseconds python file that will take solution directory and run the testcases in the accompanying directory and return back the number of seconds to run those tests?

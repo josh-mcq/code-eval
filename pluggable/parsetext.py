@@ -21,11 +21,9 @@ def parse_text(solutionsfile):
 			skip = 3
 			try:
 				#import pdb;pdb.set_trace()
-				#fi = open('sol.txt', 'r')
-				#yield fi
-				#fi.close()
-				with open('sol.txt', 'r') as fi:
-					yield fi
+				fi = open('sol.txt', 'r')
+				yield fi
+				fi.close()
 				os.remove('sol.txt')
 				fi = open('sol.txt','w')
 			except Exception:
@@ -107,8 +105,12 @@ if __name__ == '__main__':
 	#import pdb; pdb.set_trace()
 	from solutionsopen import solutions_open
 	from solutionsfind import solutions_find
-	solutionsfile = "solutions.txt"
-	for function in parse_text(solutionsfile):
+	solutions = solutions_find("*solutions.txt","solutions")
+	solutionfiles = solutions_open(solutions)
+	individuals = parse_text3(solutionfiles)
+	for function in individuals:
+		print '----------------------------'
+		print function
 		for line in function:
 			print line
 

@@ -4,7 +4,6 @@
 # Takes a filename string as an input and yield a tuple with "if statements" and a value.
 
 import re, sys
-sys.path.insert(0, '/home/josh/code-eval')
 from parsetext import parse_text
 
 def countifstatements(solutionsfile):
@@ -19,8 +18,12 @@ def countifstatements(solutionsfile):
 
 
 # Example use
+# Must be called from code-eval/
 
 if __name__ == '__main__':
-	a = countifstatements("solutions.txt")
-	for line in a:
-		print line
+    a = countifstatements("solutions/" + sys.argv[1] + "/solutions.txt")
+    i = 0
+    for line in a:
+        i+=1
+        print line
+    print str(i) + "records printed"
