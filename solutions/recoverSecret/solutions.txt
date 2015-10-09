@@ -1,5 +1,3 @@
-juliango202
-
 def recoverSecret(triplets):
     letters = list(set([l for t in triplets for l in t]))        
             

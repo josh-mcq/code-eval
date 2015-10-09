@@ -33,73 +33,7 @@ def parse_text(solutionsfile):
 		else:
 			fi.write(line)
 
-			
 
-def parse_text1(solutions):
-    
-    for line in solutions:
-		if 'same_structure_as' in line:
-			try:
-				yield file
-			except Exception:
-				pass
-			file = open('sol.txt', 'w+')
-			file.write(line)
-		elif line == '\n':
-			pass
-		else:
-			try:
-				file.write(line)
-			except Exception:
-				pass
-import re
-def parse_text2(file_gen):
-	#take a open file generator and yield open files
-	import pdb;pdb.set_trace()
-	for f in file_gen:
-		#do something with an open file
-		for line in f:
-			if "Best Practices" in line:
-				try:
-					yield file
-				except Exception:
-					pass
-				file = open('sol.txt','w+')
-			elif re.match('def.*\(.*\):$', line):
-				try:
-					file.write(line)
-				except Exception:
-					pass
-			else:
-				pass
-
-
-def parse_text3(file_gen):
-	#take a open file generator and yield open files
-	#import pdb;pdb.set_trace()
-	import os, re
-	for f in file_gen:
-		#do something with an open file
-		skip = 0
-		fi = open('sol.txt', 'w')
-		for line in f:
-			if skip:
-				skip -= 1
-				continue
-			elif "Best Practices" in line:
-				skip = 3
-				try:
-					#import pdb;pdb.set_trace()
-					fi = open('sol.txt', 'r')
-					yield fi
-					fi.close()
-					os.remove('sol.txt')
-					fi = open('sol.txt','w')
-				except Exception:
-				    continue
-			else:
-				fi.write(line)
-						
   
 # Example use
 

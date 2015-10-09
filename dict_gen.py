@@ -8,6 +8,7 @@ from pluggablefind import pluggable_find
 
 
 def dict_creator(solutionstextfile):  #if this takes a single solutions file, how will all the solution files get run?
+    #import pdb;pdb.set_trace()
     pat = '(count.*?.py)+?'
     #for pluggable in pluggable_find(pat,"pluggable"):  #countlines, etc
     genlist = []
@@ -15,6 +16,7 @@ def dict_creator(solutionstextfile):  #if this takes a single solutions file, ho
     genlist.append(pluggable.countforloops.countforloops(solutionstextfile))
     genlist.append(pluggable.counthelpers.counthelpers(solutionstextfile))
     genlist.append(pluggable.countifstatements.countifstatements(solutionstextfile))
+    #genlist.append(pluggable.countseconds.countseconds())
 
 
         

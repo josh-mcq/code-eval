@@ -1,7 +1,7 @@
 # countforloops.py
 # 
 # Count the number of for loops in the solution.
-# Takes a filename string as an input and yield a tuple with "linecount" and a value.
+# Takes a filepath string as an input and yield a tuple with "linecount" and a value.
 
 import re, sys
 from parsetext import parse_text

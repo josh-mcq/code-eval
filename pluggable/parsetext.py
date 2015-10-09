@@ -21,9 +21,11 @@ def parse_text(solutionsfile):
 			skip = 3
 			try:
 				#import pdb;pdb.set_trace()
-				fi = open('sol.txt', 'r')
-				yield fi
-				fi.close()
+				#fi = open('sol.txt', 'r')
+				#yield fi
+				#fi.close()
+				with open('sol.txt', 'r') as fi:
+					yield fi
 				os.remove('sol.txt')
 				fi = open('sol.txt','w')
 			except Exception:
@@ -98,7 +100,7 @@ def parse_text3(file_gen):
 			else:
 				fi.write(line)
 						
-  
+  #this doesn't work, it is trying to do ALL of them!!
 # Example use
 
 if __name__ == '__main__':
