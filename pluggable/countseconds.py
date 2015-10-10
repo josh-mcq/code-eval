@@ -8,7 +8,7 @@ import sys, random
 sys.path.insert(0, '/home/joshuamcquiston/Documents/code-eval')
 from parsepython import parse_python
 import os
-import datetime
+import datetime, time
 import unittest
 
 
@@ -19,12 +19,12 @@ def countseconds(solutionsfile):
     #testcase_path = "/solutions/recoverSecret/testcases.txt"
     for func in parse_python(solutionsfile):
 		#func is a python file with one solution
-		os.system("cat " + testcase_path + " >> solz.py")
+		os.system("cat " + testcase_path + " >> p_solution.py")
 		start = datetime.datetime.now()
-		tmp = unittest.main(module = "solz", exit = False)
+		tmp = unittest.main(module = "p_solution", exit = False)
 		end = datetime.datetime.now()
 		duration = end - start
-		yield ('tests runtime', duration)
+		yield ('tests-microseconds', duration.microseconds)
 
 
 
@@ -32,11 +32,13 @@ def countseconds(solutionsfile):
 
 if __name__ == '__main__':
 	rand_dir = random.choice(["recoverSecret","whoIsNext","same_structure_as"])
-	pathr = "solutions/" + rand_dir + "/solutions.txt"
-	result = countseconds(pathr)
+	path = "solutions/" + "recoverSecret" + "/solutions.txt"
+	result = countseconds(path)
 	i = 0
 	for line in result:
 		i+=1
 		print line
-	print pathr
+		time.sleep(.03)
+	print path
+	print "fyi: there are 1,000,000 microseconds in a second.."
 	print str(i) + "records printed"

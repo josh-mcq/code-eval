@@ -3,6 +3,7 @@
 # Takes a solutions_open generator as input,
 # yields a text file for each solution.
 
+import sys, time
 
 def parse_text(solutionsfile):
 	#take a solutions file and yield individual solution open files
@@ -12,7 +13,7 @@ def parse_text(solutionsfile):
 		#do something with an open file
 	solutionsfile = open(solutionsfile, "r")
 	skip = 0
-	fi = open('sol.txt', 'w')
+	fi = open('t_solution.txt', 'w')
 	for line in solutionsfile:
 		if skip:
 			skip -= 1
@@ -21,13 +22,13 @@ def parse_text(solutionsfile):
 			skip = 3
 			try:
 				#import pdb;pdb.set_trace()
-				#fi = open('sol.txt', 'r')
+				#fi = open('t_solution.txt', 'r')
 				#yield fi
 				#fi.close()
-				with open('sol.txt', 'r') as fi:
+				with open('t_solution.txt', 'r') as fi:
 					yield fi
-				os.remove('sol.txt')
-				fi = open('sol.txt','w')
+				os.remove('t_solution.txt')
+				fi = open('t_solution.txt','w')
 			except Exception:
 			    continue
 		else:
@@ -37,12 +38,13 @@ def parse_text(solutionsfile):
   
 # Example use
 
-if __name__ == '__main__':
-	#import pdb; pdb.set_trace()
-	from solutionsopen import solutions_open
-	from solutionsfind import solutions_find
-	solutionsfile = "solutions.txt"
-	for function in parse_text(solutionsfile):
-		for line in function:
-			print line
 
+
+if __name__ == '__main__':
+    result = parse_text(sys.argv[1])
+    i = 0
+    for line in result:
+        i+=1
+        print line
+        time.sleep(.03)
+    print str(i) + "records printed"
