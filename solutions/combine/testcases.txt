@@ -1,0 +1,18 @@
+from unittest import TestCase, main
+
+class Test(TestCase):
+
+    def test_file(self):
+        self.assertEquals(combine(['a', 'b', 'c'], [1, 2, 3]), ['a', 1, 'b', 2, 'c', 3])
+        self.assertEquals(combine(['a', 'b', 'c'], [1, 2, 3, 4, 5]), ['a', 1, 'b', 2, 'c', 3, 4, 5])
+        self.assertEquals(combine(['a', 'b', 'c'], [1, 2, 3, 4, 5], [6, 7], [8]),['a', 1, 6, 8, 'b', 2, 7, 'c', 3, 4, 5])
+        self.assertEquals(combine([{ 'a': 1 }, { 'b': 2 }], [1, 2]),[{"a":1},1,{"b":2},2])
+        self.assertEquals(combine([{ 'a': 2, 'b':1 }, { 'a': 1, 'b': 2 }], [1, 2, 3, 4],[5,6],[7]), [{"a":2,"b":1},1,5,7,{"a":1,"b":2},2,6,3,4])
+
+        from random import randint
+        base=[randint(0,9) for x in 'codewars']+[{x: randint(0,9)} for x in 'codewars']+[x for x in 'codewars']
+        combisol=lambda *args: [arg[j] for j in xrange(max([len(a) for a in args])) for arg in args if j<len(arg)]
+
+        for _ in xrange(40):
+            args=[[base[randint(0,len(base)-1)] for i in xrange(randint(3,8))] for j in xrange(randint(2,6))]
+            self.assertEquals(combine(*args[:]),combisol(*args),"It should work for random inputs too")

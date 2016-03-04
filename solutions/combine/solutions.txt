@@ -1,0 +1,875 @@
+def combine(*args):
+    max_length = 0
+    arguments = []
+    response = []
+    
+    for a in args:
+        arguments.append(a[:])
+        max_length = max(max_length, len(a))
+        
+    for a in range(max_length):
+        for b in range(len(arguments)):
+            if len(arguments[b]) > 0:
+                response.append(arguments[b].pop(0))
+    
+    return response
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+mgarde, ChingChangChong
+
+def combine(*args):
+    res = []
+    num_of_args = len(args)
+    len_of_longest_list = max([len(l) for l in args])
+
+    for i in range(len_of_longest_list):
+        for j in range(num_of_args):
+            if len(args[j]) > i:
+                res.append(args[j][i])
+    return res
+        
+    
+1 similar code variation is grouped with this oneShow Variations
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+p3rnaUL
+
+from itertools import chain, izip_longest
+def combine(*args):
+    return [v for v in chain.from_iterable(izip_longest(*args)) if v]
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+Azuaron
+
+def combine(*args):
+  out = list()
+  for i in range(len(max(args, key=len))): #Sometimes you just have to love python
+    for arr in args:
+      if i < len(arr): out.append(arr[i])
+  return out
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+william brewer
+
+def combine(*args):
+    #your code here
+    lst = []
+    y = 0
+    for arg in args:
+        if len(arg) > y: y = len(arg)
+    for i in range(y):
+        for j in range(len(args)):
+            try:
+                lst.append(args[j][i])
+            except IndexError:
+                continue
+    return lst
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+thuy616
+
+def combine(*args):
+    result = []
+    count = 0
+    maxlen = 0
+    
+    for a in args:
+        if maxlen<len(a):
+            maxlen = len(a)
+    print maxlen
+    
+    while count<maxlen:        
+        for a in args:
+            if count<len(a):
+                result.append(a[count])
+        count += 1
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TrumanZCM
+
+def combine(*args):
+    max_length, ans = max([len(array) for array in args]), []
+    for i in range(max_length):
+        for array in args:
+            try:
+                ans.append(array[i])
+            except IndexError:
+                pass
+
+    return ans
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+josm
+
+import collections
+
+def combine(*args):
+    args = map(collections.deque, args)
+    rs = []
+    while len(args):
+        for ls in args[:]:
+            if len(ls) == 0:
+                args.remove(ls)
+                continue
+            rs.append(ls.popleft())
+    return rs
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Phones
+
+def combine(*args):
+    result = []
+    iters = 0
+    for x in args:
+        if len(x) > iters:
+            iters = len(x)
+    for x in range(iters):
+        for y in args:
+            try:
+                result.append(y[x])
+            except IndexError:
+                pass        
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pivek303
+
+def combine(*args):
+  largs = list(args);
+
+  maxlen = 0;
+  for arg in largs:
+    if(len(arg) > maxlen):
+      maxlen = len(arg);
+
+  res = [];
+  for i in range(maxlen):
+    for arg in largs:
+      if i < len(arg):
+        res.append(arg[i]);
+        
+  return(res);
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gusi_gusi_gagaga
+
+def combine(*args):
+    res = []
+    maxlen = max([len(x) for x in args])
+    for i in xrange(maxlen):
+        for col in args:
+            if i >= len(col):
+                continue
+            res.append(col[i])
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+csc4pg
+
+def combine(*args):
+    n = len(args)
+    remaining =True
+    count = 0
+    a=[]
+    while remaining:
+        remaining = False
+        for c in args:
+            if len(c)> count:
+                remaining = True
+                a.append(c[count])
+        count +=1
+    return a
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+axololt
+
+def combine(*args):
+    maxlen = 0
+    ls = []
+    for arg in args:
+        if len(arg) > maxlen:
+            maxlen = len(arg)
+    for i in range(0, maxlen):
+        for arg in args:
+           try:
+               ls.append(arg[i])
+           except:
+               pass
+    return ls
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tobywhughes
+
+#One liner for fun. Well, one liner besides import and function definition.
+from itertools import chain, izip_longest
+def combine(*args):
+    return [element for element in list(chain.from_iterable(izip_longest(*args))) if element is not None]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tobywhughes
+
+from itertools import izip_longest
+
+def combine(*args):
+    return_list = []
+    for tuple in izip_longest(*args): 
+      return_list += [element for element in tuple if element is not None]
+    return return_list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+GiacomoSorbi
+
+combine=lambda *args: [arg[j] for j in xrange(max([len(a) for a in args])) for arg in args if j<len(arg)]
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+jpavlis
+
+from itertools import izip_longest
+
+def combine(*args):
+    return [v for v in sum(izip_longest(*args), ()) if v is not None]
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+transedward
+
+def combine(*args):
+    i = 0
+    arr = []
+    max_length = max([len(a) for a in args])
+    while(i < max_length):
+        for arg in args:
+            if i < len(arg):
+                arr.append(arg[i])
+            else: continue
+        i += 1
+    return arr
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Unnamed
+
+def combine(*args):
+    return [args[j][i]
+        for i in range(max(map(len, args)))
+        for j in range(len(args))
+        if i < len(args[j])]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+CarpeQueso
+
+def combine(*args):
+    list_of_lists = []
+    # Copy lists for good measure
+    for arg in args:
+        list_of_lists.append(list(arg))
+    combined_list = []
+    i = 0
+    while len(list_of_lists) > 0:
+        if len(list_of_lists[i]) == 0:
+            list_of_lists.pop(i)
+            # Messy edge case clean-up
+            if len(list_of_lists) == i:
+                i = 0
+        else:
+            combined_list.append(list_of_lists[i].pop(0))
+            i = (i + 1) % len(list_of_lists)
+    return combined_list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jupi2142
+
+def combine(*args):
+    from itertools import chain, izip_longest
+    return filter(lambda x: x!=None, chain(*izip_longest(*args)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jupi2142
+
+def combine(*args):
+    from itertools import chain
+    longest = len(max(args, key = len))
+    equal_length_args = map(lambda arg: arg+[int]*(longest-len(arg)), args)
+    noned = chain(*zip(*equal_length_args))
+    return filter(lambda x: x!=int, noned)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RandyWaterhouse
+
+def combine(*args):
+    result = []
+    length = max([len(x) for x in args])
+    for i in range(length):
+        for array in args:
+            if len(array) > i:
+                result.append(array[i])
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+myrc
+
+def combine(*args):
+    result = []
+    for x in xrange(max([len(x) for x in args])):
+        result.extend([a[x] for a in args if len(a) > x])
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jernmon
+
+def combine(*args):
+    import collections
+    from copy import deepcopy
+    from itertools import cycle
+    from operator import and_
+    
+    retArray = []
+    if not reduce(lambda x, y: and_(x, isinstance(y, collections.Iterable)), args, True):
+        return retArray
+        
+    args = deepcopy(args)
+    targetLen = reduce(lambda x, y: x + len(y), args, 0)
+    for i in cycle(xrange(len(args))):
+        if len(retArray) == targetLen:
+            return retArray
+        if len(args[i]) > 0:
+            retArray.append(args[i].pop(0))
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+eneb
+
+from itertools import chain
+
+combine = lambda *x: [i for i in chain.from_iterable(map(None, *x)) if i is not None]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+srlobo
+
+def combine(*args):
+    m = max(map(lambda x: len(x), args))
+    res = []
+    for i in range(m):
+        for lista in args:
+            if i < len(lista):
+                res.append(lista[i])
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+xitij2000
+
+def combine(*args):
+    resarr = []
+    iters = [iter(arr) for arr in args]
+    iteropen = True
+    while iteropen:
+        iteropen = False
+        for itr in iters:    
+            try:
+                resarr.append(itr.next())
+                iteropen = True
+            except StopIteration:
+                pass
+    return resarr
+            
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+denisbalyko
+
+def combine(*args):
+    result = []
+    for rs in map(None, *args):
+        for r in rs:
+            if r:
+                result.append(r)
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+EthanMacdonald
+
+def combine(*args):
+    max_length = 0
+    for arg in args:
+        length = len(arg)
+        if length > max_length:
+            max_length = length
+    final = []
+    for i in range(max_length):
+        for arg in args:
+            try:
+                final.append(arg[i])
+            except:
+                pass
+    return final
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+megapctr
+
+def combine(*args):
+    combined = []
+    
+    i = 0
+    while True:
+        prev_len = len(combined)
+        
+        for l in args:
+            if len(l) > i:
+                combined.append(l[i])
+        i += 1
+                
+        if len(combined) == prev_len:
+            break  # Length didnt change, so we're done
+        
+    return combined
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Soggychips
+
+def combine(*args):
+    from itertools import izip_longest
+    return filter(lambda thing: thing, [thing for tup in izip_longest(*args) for thing in tup])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sterhannzer
+
+def combine(*args):
+    l = []
+    a = True
+    iterator = [iter(x) for x in args]
+    while(a):
+        a = False
+        for it in iterator:
+            try:
+                l.append(it.next())
+                a = True
+            except StopIteration:
+                pass
+    return l            
+                
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yenarhee
+
+def combine(*args):
+    result = []
+    for i in range(max(map(len, args))):
+        for array in args:
+            if len(array) >= i+1:
+                result.append(array[i])
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Yoshitoki
+
+def combine(*args):
+  arguments = list(args)
+  arguments = list( map(lambda x: x[::-1], arguments) )
+  ret = []
+  maxI = max( map(lambda x: len(x), arguments) )
+  for i in range(  maxI ):
+    for i in range( len(arguments) ):
+      if( len(arguments[i]) != 0 ):
+        ret.append( arguments[i].pop() )
+  return ret
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+blackarctic
+
+def combine(*args):
+    result = []
+
+    numOfLists = len(args)
+    maxElements = max(map(len, args))
+    
+    for i in range(maxElements):
+        for j in range(numOfLists):
+            lis = args[j]
+            if i < len(lis):
+                elem = lis[i]
+                result.append(elem)
+                
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ChristianECooper
+
+def combine(*args):
+    result = []
+    while args:
+        result.extend([a[0] for a in args])
+        args = [a[1:] for a in args if a[1:]]
+    return result        
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+xeraptor
+
+def combine(*args):
+    out_list = []
+    new_args = []
+    i = 0
+    max_len = 0
+    for lst in args:
+        if max_len < len(lst):
+            max_len = len(lst)
+        new_args.append(list(lst))
+    while i < max_len:
+        for lst in new_args:
+            if lst != []:
+                out_list.append(lst[0])
+                lst.remove(lst[0])
+        i += 1
+    return out_list
+        
+            
+            
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+maccinza
+
+import itertools
+
+def combine(*args):
+    return [elem for elem in 
+        itertools.chain.from_iterable(itertools.izip_longest(*args)) if elem]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+johnwyss
+
+def combine(*args):
+    lists = args
+    max_len = 0
+    combined_list = []
+    
+    for i in lists:
+        if len(i) > max_len:
+            max_len = len(i)
+    for i in range(max_len):
+        for item in lists:
+            try:
+                combined_list.append(item[i])
+            except:
+                pass
+    return combined_list
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+LISTERINE
+
+def combine(*args):
+    return [l for t in __import__("itertools").izip_longest(*args) for l in t if l]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+LISTERINE
+
+def combine(*args):
+    return [l for t in __import__("itertools").izip_longest(*args) for l in t if all([l])]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yangyanzhan
+
+def combine(*args):
+    m = len(args)
+    max_idxes = map(len, args)
+    res, idxes, n = [], [0] * m, max(max_idxes)
+    for i in range(n):
+        for j in range(m):
+            if idxes[j] < max_idxes[j]:
+                res.append(args[j][idxes[j]])
+                idxes[j] += 1
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mwentosana
+
+def combine(*args):
+    result = []
+    for i in range (0, len(max(*args, key=len))):
+        for arg in args:
+            try: 
+                result.append(arg[i])
+            except IndexError:
+                pass
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+majlik
+
+def combine(*args):
+    number = 0
+    max = 0
+    ret = []
+    for a in args:
+        number += 1
+        if len(a) > max:
+            max = len(a)
+    for x in range(0,max):
+        for i in range(0,number):
+            if(len(args[i]) > x):                
+                ret.append(args[i][x])                
+    return ret
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+CMLL
+
+def combine(*args):
+    result = []
+    largest_arg = find_largest_list(*args)
+    for index in range(largest_arg):
+        for arg in args:
+            try:
+                result.append(arg[index])
+            except IndexError:
+                pass
+    return result
+
+
+def find_largest_list(*args):
+    return max(len(arg) for arg in args)
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+maqquettex
+
+def combine(*args):
+    result = []
+    ln = len(args[0])
+    for i in args: 
+        if ln<len(i): 
+            ln = len(i)
+    for i in xrange(ln):
+        for j in args:
+            if i<len(j): result.append(j[i])
+            
+    return result
+      
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Michal Au
+
+def combine(*args):
+    return [ a[i] for i in xrange(max(len(a) for a in args)) for a in args if i < len(a) ]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mmichal
+
+def combine(*args):
+    lista = []
+    maks = 0
+    for dl in args:
+        if len(dl)>maks:
+            maks=len(dl)
+    for j in range(0,maks):
+        for i in range(0, len(args)):
+            try:
+                lista.append(args[i][j])
+            except:
+                continue
+    return lista
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lxy0816
+
+def combine(*args):
+    #your code here
+    res = []
+    maxlen = max(len(args[i]) for i in range(len(args)))
+    for h in range(maxlen):
+        for j in range(len(args)):
+            if h < len(args[j]):
+                res.append(args[j][h])
+    return res
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zebulan
+
+from itertools import izip_longest
+
+
+def combine(*args):
+    return [b for a in izip_longest(*args) for b in a if b]
+Best Practices0Clever3
+2ForkCompare with your solutionLink
+tehphoenixz
+
+def combine(*args):
+    out = []
+    tlen = 0
+    el = 0
+    for i in range(len(args)):
+        for j in range(len(args[i])):
+            tlen += 1
+    while tlen > len(out):
+        for i in range(len(args)):
+            print(i)
+            if len(args[i]) > el:
+                out += [args[i][el]]
+        el += 1
+    return out
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+EmadMokhtar
+
+from itertools import izip_longest
+def combine(*args):
+    combined_list = []
+    for item_tuple in izip_longest(*args):
+        for item in item_tuple:
+            combined_list.append(item)
+    return [item for item in combined_list if item]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+siddhu208
+
+def combine(*args):
+    max_len = len( max(args, key=len) )
+    final = list()
+    for i in range(max_len):
+        for j in range(len(args)):
+            if i < len(args[j]):
+                final.append(args[j][i])
+    return final
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+datagram
+
+def combine(*args):
+    out = []
+    i = 0
+    while any(map(lambda x: len(x) > i, args)):
+        for arg in args:
+            if len(arg) > i:
+                out.append(arg[i])
+        i += 1
+    return out
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+vingiarrusso
+
+import copy
+def combine(*args):
+    res = []
+    def add_to_list(arg_list):
+        for sublst in arg_list:
+            res.append(sublst[0])
+            del sublst[0]
+            if not len(sublst):
+                arg_list = filter(lambda lst: len(lst) > 0, arg_list)
+
+        return arg_list
+              
+    clone = copy.deepcopy(args)
+    while clone:
+        clone = add_to_list(clone)
+    
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+vingiarrusso
+
+import copy
+def combine(*args):
+    res = []
+    def add_to_list(arg_list):
+        for i, sublst in enumerate(arg_list):
+            res.append(sublst[0])
+            del sublst[0]
+            if not len(sublst):
+                arg_list = filter(lambda lst: len(lst) > 0, arg_list)
+
+        return arg_list
+              
+    clone = copy.deepcopy(args)
+    while clone:
+        clone = add_to_list(clone)
+    
+    print res
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dcampbell22
+
+def combine(*args):
+    longest = len(args[0])
+    
+    for array in args:
+        if len(array) > longest:
+            longest = len(array)
+
+    result = []
+    
+    for i in range(0, longest):
+        print i
+        for array in args:
+            if i < len(array):            
+                result.append(array[i])
+
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+c-los
+
+def combine(*args):
+    index = 0
+    result = []
+    lst = [len(x) for x in args]
+    limit = max(lst)
+    while index < limit:
+        for item in args:
+            if index < len(item):
+                result.append(item[index])
+        index += 1
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+upkl
+
+def combine(*args):
+    rv = []
+    args = list(args)
+    while args:
+        rv.append(args[0][0])
+        args[0] = args[0][1:]
+        if args[0]:
+            args = args[1:] + [args[0]]
+        else:
+            args = args[1:]
+    return rv
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+morong
+
+def combine(*args):
+    resList = []
+    maxLen = max(len(element) for element in args)
+    for i in xrange(0, maxLen):
+        for elements in args:
+            if i < len(elements):
+                resList.append(elements[i])
+    return resList
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+josh-mcq
+
+def combine(*args):  
+  #import pdb; pdb.set_trace()
+  result = []
+  args = list(args)
+  print len(args)
+  if len(args) < 2:
+    return []
+  i = 0
+  lfunc = lambda x: len(x)
+  longest = sorted(args, key=lfunc, reverse=True)[0]
+  while i < len(longest):
+      for arg in args:
+        try:
+          result.append(arg[i])
+        except IndexError:
+             pass
+    
+      i+=1
+  return result

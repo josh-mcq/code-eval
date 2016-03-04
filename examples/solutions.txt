@@ -1,0 +1,6325 @@
+def rgb(r, g, b):
+    round = lambda x: min(255, max(x, 0))
+    return ("{:02X}" * 3).format(round(r), round(g), round(b))
+Best Practices28Clever24
+3ForkCompare with your solutionLink
+Lulu
+
+def limit(num):
+    if num < 0:
+        return 0
+    if num > 255:
+        return 255
+    return num
+
+
+def rgb(r, g, b):
+    return "{:02X}{:02X}{:02X}".format(limit(r), limit(g), limit(b))
+Best Practices3Clever0
+0ForkCompare with your solutionLink
+WOnder93
+
+def rgb(r, g, b):
+    def convert(x):
+        if x < 0:
+            x = 0
+        if x >= 256:
+            x = 255
+        return '{0:02X}'.format(x)
+    return ''.join(convert(x) for x in (r, g, b))
+Best Practices2Clever0
+0ForkCompare with your solutionLink
+AlejandorLazaro
+
+def rgb(r, g, b):
+    return '{0:02X}{1:02X}{2:02X}'.format(max(min(r, 255), 0), max(min(g, 255), 0), max(min(b, 255), 0))
+Best Practices2Clever2
+0ForkCompare with your solutionLink
+z3rocoo1
+
+def rgb(r, g, b):
+    def get_hex(s):
+        if s > 255: s = 255
+        if s < 0: s = 0
+        return hex(s)[2:].upper() if len(hex(s)[2:]) > 1 else "0" + hex(s)[2:]
+    return get_hex(r) + get_hex(g) + get_hex(b)
+        
+Best Practices2Clever0
+0ForkCompare with your solutionLink
+knight07
+
+def get_hex(color):
+  res = hex(color)[2:].upper()
+  if len(res) == 1:
+       return "0" + res
+    return res 
+    
+def rgb(r, g, b):
+    colors = [r, g, b]
+    for i in xrange(len(colors)):
+      if colors[i] < 0:
+          colors[i] = 0
+        elif colors[i] > 255:
+          colors[i] = 255
+    return "".join( [ get_hex(color) for color in colors ])
+Best Practices1Clever0
+0ForkCompare with your solutionLink
+smw5qz
+
+def rgb(r, g, b):
+    h = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
+    c = [r,g,b]
+    s = ''
+    for x in range(len(c)):
+      s1 = ''
+      if c[x]<0: c[x]=0
+      elif c[x]>255: c[x]=255
+      if c[x]>15:
+        s1+=str(h[c[x]%16])
+        c[x]=c[x]/16
+        s1=str(h[c[x]%16])+s1
+      else:
+        s1+=str(0)
+        s1+=str(h[c[x]%16])
+      s+=s1
+    return s
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tuomas56, sim0504, gottheguts
+
+def rgb(r, g, b):
+    return "%02X%02X%02X" % (max(0,min(r,255)),max(0,min(g,255)),max(0,min(b,255)))
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+christabella
+
+def rgb(r, g, b):
+    def hexify(num):
+        a = str(hex(num))[2:]
+        if num < 0:
+            return "00"
+        if len(a) > 2:
+            return "FF"
+        elif num < 16 and num >= 0:
+            return "0" + a 
+        else:
+            return a.upper()
+    return hexify(r) + hexify(g) + hexify(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+PossibilityZero
+
+def convert_to_hex(dec):
+    hex_dict = {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: 'A',
+                11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
+    if dec > 255:
+        return 'FF'
+    elif dec < 0:
+        return '00'
+    hex_1 = hex_dict[dec // 16]
+    hex_2 = hex_dict[dec % 16]
+    return hex_1 + hex_2
+
+def rgb(r, g, b):
+    return convert_to_hex(r) + convert_to_hex(g) + convert_to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+icegotcha
+
+def rgb(r, g, b):
+    r = "FF" if r >= 255 else "00" if r <= 0 else hex(r).replace("0x","").upper()
+    if(len(r) == 1): r = '0' + r
+    g = "FF" if g >= 255 else "00" if g <= 0 else hex(g).replace("0x","").upper()
+    if(len(g) == 1): g = '0' + g
+    b = "FF" if b  >= 255 else "00" if b <= 0 else hex(b).replace("0x","").upper()
+    if(len(b) == 1): b = '0' + b
+    return r + g + b 
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+KIRA_13
+
+def rgb(r, g, b):
+    d = {0:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"A",11:"B",12:"C",13:"D",14:"E",15:"F",}
+    l = [r,g,b]
+    l = [max([min([c,255]),0]) for c in l]
+    res = ""
+    for i in range(len(l)-1,-1,-1):
+        res = d[l[i]%16] + res
+        l[i] = l[i]/16
+        res = d[l[i]%16] + res
+        l[i] = l[i]/16
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+a_duhovnik
+
+def get(r):
+    a = [0,0]
+    if r <= 0:
+        r = 0
+    if r >= 255:
+        r = 255
+    i = 1
+    while(r != 0):
+        a[i] = r%16
+        r //= 16
+        i-=1
+    s = ""
+   # print(a)
+    for i in a:
+        if i >= 10:
+            s += chr(i - 10 + ord('A'))
+        else:
+            s += str(i)
+    return s
+
+def rgb(*args):
+    return ''.join(get(w) for w in args)
+
+print(rgb(255,255,255))
+
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Joy-El
+
+def rgb(r, g, b):
+    """Convert RGB color values to their hex string"""
+    color = []
+    for c in [r, g, b]:
+        if c < 0: c = 0
+        elif c > 255: c = 255
+        h = hex(c).split("x")[1]
+        if len(h) < 2: h = "0"+h
+        color.append(h.upper())
+    return "".join(color)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+radiochickenwax
+
+
+# format decimal as 2 digit hex string 
+def d2h(d):
+    if d == None:
+        d = 0
+    if d < 0:
+        d = 0
+    if d > 255:
+        d = 255
+    h = hex(d)
+    if d < 10:
+        hout = '0' + h[2:]
+    else:
+        hout = h[2:]
+    return hout.upper()
+
+def rgb(r,g,b):
+    rh = d2h(r)
+    gh = d2h(g)
+    bh = d2h(b)
+    hout = rh + gh + bh
+    return hout
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+AxisWhistle
+
+def fmt(x):
+    if x < 0:
+        x = 0
+    if x > 255:
+        x = 255
+    res = '%X'%(x)
+    return '0'+res if len(res)==1 else res
+    
+def rgb(r, g, b):
+    #your code here :)
+    return ''.join(map(fmt,(r,g,b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JaemsBrown
+
+def rgb(r, g, b):
+    r = min(255, r)
+    g = min(255, g)
+    b = min(255, b)
+    r = max(0, r)
+    b = max(0, b)
+    g = max(0, g)
+    s_r = (r < 10 and "0" or "") + ("%X" % r)
+    s_g = (g < 10 and "0" or "") + ("%X" % g)
+    s_b = (b < 10 and "0" or "") + ("%X" % b)
+    return s_r + s_g + s_b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cl0ne
+
+def rgb(r, g, b):
+    clamp = lambda x: min(255, max(0, x))
+    return '{r:02X}{g:02X}{b:02X}'.format(r = clamp(r),
+                                          g = clamp(g),
+                                          b = clamp(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Yevs
+
+def rgb(r, g, b):
+    return ''.join(map(lambda x: hex(x)[2:].upper().zfill(2) if x >= 0 and x < 256 else '00' if x < 0 else 'FF', [r,g,b]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dionysio
+
+def rgb(r, g, b):
+    def color_to_hex(x):
+        if x<0:
+            return '00'
+        elif x>255:
+            return 'FF'
+        return hex(x)[2:].zfill(2).upper()
+        
+    return color_to_hex(r)+color_to_hex(g)+color_to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ecolban
+
+def rgb(r, g, b):
+    return '%02X%02X%02X' % (min(max(0, r), 255), min(max(0, g), 255), min(max(0, b), 255))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ecolban
+
+def rgb(r, g, b):
+    r = min(max(0, r), 255)
+    g = min(max(0, g), 255)
+    b = min(max(0, b), 255)
+    c = (((r << 8) | g) << 8) | b
+    return str.upper('%06x' % c)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deekras
+
+def rgb(r, g, b):
+    letters = {10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F'}
+    code = (r,g,b)
+    hex=''
+    
+    for i in code:
+        if i < 0:
+            hex += "00"
+        elif i > 255:
+            hex += "FF"
+        else:
+            r1 = i/16
+            r2 = i%16
+
+            r = r1 if r1 <10 else letters[r1]
+            hex += str(r)
+            r = r2 if r2 <10 else letters[r2]
+            hex += str(r)
+    
+    return hex
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sfr
+
+def rgb(r, g, b):
+    return format(max(min(r,255), 0),'02x').upper() + format(max(min(g,255), 0),'02x').upper() + format(max(min(b,255), 0),'02x').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+drummerkidd
+
+def rgb(r, g, b):
+    #your code here :)
+    out = ''
+    converter = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+    for each in [r,g,b]:
+        if each < 16:
+            out += '0'
+            if each <= 0:
+                out += '0'
+            else:
+                out += converter[each]
+        else:
+            if each > 255:
+                each = 255
+            out += converter[each/16]
+            out += converter[each%16]
+    return out
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RandyWaterhouse
+
+def rgb(r, g, b):
+    return ''.join(hex(min(255, max(0, value)))[2:].upper().zfill(2) for value in [r, g, b])
+  
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mjsr
+
+import string
+def rgb(r, g, b):
+    response = []
+    for n in [r, g, b]:
+        if n < 0: repr = '00'
+        elif n > 255: repr = 'FF'
+        else: 
+            repr = string.split(hex(n), 'x')[1].upper()
+            if len(repr) == 1:
+                repr = "0%s" % (repr,)
+        response.append(repr)
+    return ''.join(response)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zhouquan
+
+def correct(n):
+    if n< 0: return 0
+    if n> 255: return 255
+    return n
+
+def rgb(r, g, b):
+    r = correct(r)
+    g = correct(g)
+    b = correct(b)
+    print r, b ,g
+    return '{:02X}{:02X}{:02X}'.format(r, g, b)
+
+
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lincheney
+
+def rgb(r, g, b):
+    vals = [max(min(v, 255), 0) for v in (r, g, b)]
+    i = (vals[0] << 16) + (vals[1] << 8) + vals[2]
+    return '%06X' % i
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dbenson24
+
+def rgb(r, g, b):
+    final = ""
+    for x in [r,g,b]:
+        if x < 0:
+            x = 0
+        if x > 255:
+            x = 255
+        x = hex(x)[2:5]
+        if len(x) == 1:
+            x = "0"+x
+        final += x
+    return final.upper()
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+O.Ma
+
+def rgb(r, g, b):
+    r = int(round(r))
+    g = int(round(g))
+    b = int(round(b))
+    if r < 0:
+        r = 0
+    if r > 255:
+        r = 255
+        
+    if g < 0:
+        g = 0
+    if g > 255:
+        g = 255
+        
+    if b < 0:
+        b = 0
+    if b > 255:
+        b = 255
+    
+    r_hex = hex(r)[2:]
+    if len(r_hex) == 1:
+        r_hex = "0" + r_hex
+    
+    g_hex = hex(g)[2:]
+    if len(g_hex) == 1:
+        g_hex = "0" + g_hex
+    
+    b_hex = hex(b)[2:]
+    if len(b_hex) == 1:
+        b_hex = "0" + b_hex
+        
+    result = r_hex + g_hex + b_hex
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deenamitay
+
+import binascii
+
+def rgb(r, g, b):
+    if r > 255:
+        r = 255
+    if g > 255:
+        g = 255
+    if b > 255:
+        b = 255
+    if r < 0:
+        r = 0
+    if g < 0:
+        g = 0
+    if b < 0:
+        b = 0
+    return binascii.hexlify(chr(r)).upper()+binascii.hexlify(chr(g)).upper()+binascii.hexlify(chr(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Berazold
+
+def rgb(r, g, b):
+    colors = map(lambda x: hex(max(0, min(x, 255))), [r, g, b])
+    return ''.join(str(x[2:]).zfill(2).upper() for x in colors)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+keeprocking
+
+def clamp(value):
+    return max(min(255, value), 0)
+    
+
+def format_hex(s):
+    return '0' + s if len(s) == 1 else s
+
+
+def rgb(r, g, b):
+    r = clamp(r)
+    g = clamp(g)
+    b = clamp(b)
+    return ''.join(format_hex(hex(x)[2:].upper()) for x in (r, g, b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Sergey Surazhskyi
+
+def correct(n):
+    if (n < 0):
+        return 0
+    if (n > 256):
+        return 255
+    return n
+
+def rgb(r, g, b):
+    return "%02X" %correct(r) + "%02X" %correct(g) + "%02X" %correct(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+fdm1
+
+def rgb(r, g, b):
+    res = []
+    for c in [r,g,b]:
+        if c > 255: c = 255
+        if c < 0: c = 0
+        col = hex(c)[2:]
+        if len(col) == 1: col = '0' + col
+        res.append(col)
+        
+    return ''.join(res).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Chrisi
+
+def rgb(r, g, b):
+    x = 0 if int(r) < 0 else 255 if int(r) > 255 else int(r)
+    y = 0 if int(g) < 0 else 255 if int(g) > 255 else int(g)
+    z = 0 if int(b) < 0 else 255 if int(b) > 255 else int(b)
+    return '{:02X}{:02X}{:02X}'.format(x,y,z)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Zamazu
+
+def rgb(r, g, b):
+    if r<0: r = 0
+    if r>255: r = 255
+    if g<0: g = 0
+    if g>255: g = 255
+    if b<0: b = 0
+    if b>255: b = 255
+    
+    return (hex(r)[2:].rjust(2,'0')+hex(g)[2:].rjust(2,'0')+hex(b)[2:].rjust(2,'0')).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hobbez1
+
+def rgb(r, g, b):
+    if r <0: r = 0
+    if r >255: r = 255
+    if g <0: g = 0
+    if g >255: g = 255
+    if b <0: b = 0
+    if b >255: b = 255
+    return hex(r).split('x')[1].upper().zfill(2)+hex(g).split('x')[1].upper().zfill(2)+hex(b).split('x')[1].upper().zfill(2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+den4ikks
+
+def rgb(r, g, b):
+    ar = [r, g, b]
+    res = ""
+    for e in ar:
+        if e < 0: res += "00"
+        elif e > 255: res += "FF"
+        else:
+            if e < 15:
+                res += "0" + str(hex(e))[2:].upper()
+            else:
+                res += str(hex(e))[2:].upper()
+    return res    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Lau-Rent
+
+def rgb(r, g, b):
+    return (hex(max([0,min([255,r])]))[2:].zfill(2) + hex(max([0,min([255,g])]))[2:].zfill(2) + hex(max([0,min([255,b])]))[2:].zfill(2)).upper()
+    
+    
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+banzayats
+
+def rgb(r, g, b):
+    result = ""
+    for val in (r, g ,b):
+        if val < 0: val = 0
+        if val > 255: val = 255
+        result += str(hex(val))[2:].zfill(2).upper()
+    return result
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Discombobulate
+
+def rgb(r, g, b):
+    s = ''
+    l = [r,g,b]
+    for x in l:
+        if x < 0:
+            s += '00'
+        elif x > 255:
+            s += 'FF'
+        elif len(str(hex(x))) < 4:
+            s += '0'+str(hex(x))[2:]
+        else:
+            s += str(hex(x))[2:]
+    return s.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+genderquery
+
+def rgb(r, g, b):
+    clamp = lambda x, min, max: min if x < min else max if x > max else x
+    r, g, b = clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)
+    return '{:02X}{:02X}{:02X}'.format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+scottaconnors
+
+def rgb(r, g, b):
+    res = ""
+    for c in [r, g, b]:
+        res += "{:0>2}".format(hex(c)[2:].upper()) if 0 <= c <= 255 else "00" if c < 0 else "FF"
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+shmouli
+
+def rgb(r, g, b):
+    retstr = ''
+    for color in (r, g, b):
+        if color > -1 and color < 256:
+            retstr += hex(color).replace('x', '').upper() if len(hex(color).replace('x', '')) is 2 else hex(color).replace('x', '')[1:].upper()
+        else:
+            retstr += '00' if color <= -1 else 'FF'
+    return retstr
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Lenin
+
+def rgb(r, g, b):
+    #your code here :)
+    r = 0 if r < 0 else (255 if r > 255 else r)
+    g = 0 if g < 0 else (255 if g > 255 else g)
+    b = 0 if b < 0 else (255 if b > 255 else b)
+    sR = "0"+hex(r)[2:] if len(hex(r)[2:]) == 1 else str(hex(r))[2:]
+    sG = "0"+hex(g)[2:] if len(hex(g)[2:]) == 1 else str(hex(g))[2:]
+    sB = "0"+hex(b)[2:] if len(hex(b)[2:]) == 1 else str(hex(b))[2:]
+    return (sR+sG+sB).upper()
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+margo
+
+def rgb_round(n):
+    if n<0:
+        return 0
+    elif n>255:
+        return 255
+    else:
+        return n
+
+def rgb_format(n):
+    if len(n) == 3:
+        return '0' + n[2:]
+    else:
+        return n[2:]
+
+def rgb(r, g, b):
+    r_hex = hex(rgb_round(r))
+    g_hex = hex(rgb_round(g))
+    b_hex = hex(rgb_round(b))
+    
+    hex_rgb = rgb_format(r_hex) + rgb_format(g_hex) + rgb_format(b_hex)
+    return hex_rgb.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yangyanzhan
+
+def rgb(r, g, b):
+    return "".join(hex(color)[2:].upper().rjust(2, "0") if 0 <= color <= 255 else ("00" if color < 0 else "FF") for color in [r, g, b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+A.Freeman
+
+def rgb(r, g, b):
+  return ''.join('%0.2X' % max(min(x, 255), 0) for x in [r, g, b])
+  
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nekoman
+
+def rgb(r, g, b):
+    tmp = "0123456789ABCDEF"
+    answ = ''
+    if r < 0: r = 0
+    if g < 0: g = 0
+    if b < 0: b = 0
+    if r > 255: r = 255
+    if g > 255: g = 255
+    if b > 255: b = 255
+    answ += tmp[r/16]
+    answ += tmp[r%16]
+    answ += tmp[g/16]
+    answ += tmp[g%16]
+    answ += tmp[b/16]
+    answ += tmp[b%16]
+    return answ
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+r24
+
+def rgb(r, g, b):
+    lst = []
+    for i in [r,g,b]:
+        if i < 0:
+            lst.append(0)
+        elif i > 255:
+            lst.append(255)
+        else: 
+            lst.append(i)
+    r,g,b = lst
+    return format(r, '02X') + format(g, '02X') + format(b, '02X')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+earlgrey
+
+def rgb(r, g, b):
+    res = []
+    for i in [r, g, b]:
+        if i <= 0:
+            res.append('00')
+        elif i > 255:
+            res.append('FF')
+        else:
+            if len(format(i, 'X')) == 1:
+                res.append('0' + format(i, 'X'))
+            else:
+                res.append(format(i, 'X'))
+    return ''.join(res)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Dront
+
+def rgb(r, g, b):
+    lim = lambda x, low, high: low if x < low else high if x > high else x
+    return '{:02X}{:02X}{:02X}'.format(lim(r, 0, 255), lim(g, 0, 255), lim(b, 0, 255))
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sashaaero
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if r > 255: r = 255
+    if g < 0: g = 0
+    if g > 255: g = 255
+    if b < 0: b = 0
+    if b > 255: b = 255
+    s_r = str(hex(r)[2:])
+    if len(s_r) == 1: s_r = "0" + s_r
+    s_g = str(hex(g)[2:])
+    if len(s_g) == 1: s_g = "0" + s_g
+    s_b = str(hex(b)[2:])
+    if len(s_b) == 1: s_b = "0" + s_b
+    return (s_r + s_g + s_b).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+timla
+
+def rgb(r, g, b):
+    return "".join([hex(max(min(c, 255),0))[2:].zfill(2).upper() for c in (r, g, b) ])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+panjesus
+
+def rgb(r, g, b):
+    def getHex(dec):
+        if dec <= 0:
+            return "00" 
+        elif dec > 255:
+            dec = 255
+            
+        decToHex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+        return decToHex[int(dec/16)]+decToHex[int(dec%16)]
+    #your code here :)
+    
+    return getHex(r)+getHex(g)+getHex(b)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jimbolatte
+
+def rgb(r, g, b):
+    rgb = map(lambda x: min(max(0,x),255), [r, g, b])
+    return "".join([hex(x)[2:].upper().rjust(2,'0') for x in rgb])    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TomWoo
+
+def b2h(val):
+    if val<0:
+        val = 0
+    elif val>255:
+        val = 255
+    nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    leftDigit = nums[int(val/16)]
+    rightDigit = nums[val%16]
+    return leftDigit+rightDigit
+
+def rgb(r, g, b):
+    return b2h(r)+b2h(g)+b2h(b)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+alexanderpas
+
+def rgb(r, g, b):
+    r,g,b = [max(0, min(item, 255)) for item in r,g,b]
+    return "{:02x}{:02x}{:02x}".format(r,g,b).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+subramanya
+
+def rgb(r, g, b):
+    res = ''
+    clrs = [r,g,b]
+    for clr in clrs:
+        if clr <=0:
+            res += '00'
+        elif clr >=255:
+            res += 'FF'
+        else:
+            s = hex(clr)[2:].upper()
+            if len(s) ==1:
+                s = '0'+ s
+            res += s
+    return res
+        
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bnsmith3
+
+def rgb(r, g, b):
+    final = ""
+    for entry in [r, g, b]:
+        if entry > 255: #round down
+            entry = 255
+        elif entry < 16: #add a leading zero
+            if entry < 0: #round up
+                entry = 0
+            final += '0'
+        final += hex(entry)[2:].upper()
+    return final
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+fdavis
+
+def rgb(r, g, b):
+    return hexify(r) + hexify(g) + hexify(b)
+    
+
+#0-15 int to 0-F hex
+hexs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" ]
+
+# 0-255 int to 0-FF hex
+def hexify(n):
+    if n <= 0:
+        return "00"
+    elif n >= 255:
+        return "FF"
+    return hexs[n/16] + hexs[n%16]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+CrazyMerlyn
+
+def rgb(r, g, b):
+    r, g, b = map(max, zip(map(min, zip([r, g, b], [255]*3)), [0]*3))
+    return hex((r << 16) + (g << 8) + b)[2:].zfill(6).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+HARSHITGARG
+
+def rgb(r, g, b):
+    #your code here :)
+    #print type(r)
+    ##print type(g)
+    #print type(b)
+    #print b
+    if r >= 255:
+      r1 = 'FF'
+    else:
+      r1 = '00' if r <= 0 else hex(r)[2:].upper()
+      if len(r1) == 1:
+        r1 = '0'+r1
+    if g >= 255:
+      g1 = 'FF'
+    else:
+      g1 = '00' if g <= 0 else hex(g)[2:].upper()
+      if len(g1) == 1:
+        g1 = '0'+g1        
+    if b >= 255:
+      b1 = 'FF'
+    else:
+      b1 = '00' if b <= 0 else hex(b)[2:].upper()
+      if len(b1) == 1:
+        b1 = '0'+b1     
+    return r1+g1+b1 
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+herczy
+
+def rgb(r, g, b):
+    clamp = lambda v: 0 if v < 0 else (255 if v > 255 else v)
+    return '{:02X}{:02X}{:02X}'.format(clamp(r), clamp(g), clamp(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hushpar
+
+def rgb(*v):
+    def hx(n):
+        if n > 255:
+            return 'FF'
+        elif n <= 0:
+            return '00'
+        elif n >= 10:
+            return hex(n)[2:]
+        elif len(hex(n)[2:]) == 1:
+            return '0' + hex(n)[2:]
+    return ''.join(map(hx, v)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+furbrain
+
+def convert_num(i):
+    if i<0: return 0
+    if i>255: return 255
+    return i
+
+def rgb(r, g, b):
+    (r,g,b) = [convert_num(x) for x in [r,g,b]]
+    return "%02X%02X%02X" % (r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rcatajar
+
+def rgb(r, g, b):
+    r = 255 if r > 255 else r
+    r = 0 if r < 0 else r
+    g = 255 if g > 255 else g
+    g = 0 if g < 0 else g
+    b = 255 if b > 255 else b
+    b = 0 if b < 0 else b 
+    return '{0:02x}{1:02x}{2:02x}'.format(r, g, b).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+GLUTEN_FREE_EBOLA
+
+def rgb(r, g, b):
+    #your code here :)
+    if r > 255:
+        r = 255
+    if r < 0:
+        r = 0
+    if g > 255:
+        g = 255
+    if g < 0:
+        g = 0
+    if b > 255:
+        b = 255
+    if b < 0:
+        b = 0
+        
+      
+    R = hex(r).upper()
+    G = hex(g).upper()
+    B = hex(b).upper()
+    final = str(R[2:]) + str(G[2:]) +str(B[2:])
+    
+    if len(str(r)) == 1:
+        final = '0' + final
+    if len(str(g)) == 1:
+        final = final[:2] + '0' + final[2:]
+    if len(str(b)) == 1:
+        final = final[:4] + '0' + final [4:]
+    
+
+    
+    print final
+    return final
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bajlekov
+
+v = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
+
+def tohex(n):
+    if n<=0:
+        return "00"
+    if n>=256:
+        return "FF"
+    return v[n//16] + v[n%16]
+
+def rgb(r, g, b):
+    return tohex(r) + tohex(g) + tohex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+xxaby
+
+def rgb(r, g, b):
+    def aa(n):
+        if n < 0:
+            return 0
+        elif n > 255:
+            return 255
+        return n
+    return ("%02x%02x%02x" % (aa(r), aa(g), aa(b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+antonkonovalov
+
+def _crop_to_byte(x):
+    if x < 0:
+        return 0
+    elif x > 255:
+        return 255
+    else:
+        return x
+
+def rgb(r, g, b):
+    result = "%02x%02x%02x" % (
+        _crop_to_byte(r),
+        _crop_to_byte(g),
+        _crop_to_byte(b),
+    )
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+shuvadip
+
+def rgb(r, g, b):
+    #your code here :)
+    flag=0
+    c=""
+    a=[r,g,b]
+    for i in a:
+        if i<0:
+            flag=1
+            c+="00"
+        elif i>255:
+            flag=1
+            c+="FF"
+        else:
+            c+=hex(i)[2:].zfill(2).upper()
+    if flag==1:
+        return c
+    return (hex(r)[2:].zfill(2)+hex(g)[2:].zfill(2)+hex(b)[2:].zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ausaqui
+
+def rgb(r, g, b):
+    string_ = '%02x%02x%02x' % (clamp(r), clamp(g), clamp(b))
+    return string_.upper()
+    
+def clamp(x):
+    return max(0, min(x, 255))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+piorad
+
+def rgb(r, g, b):
+    #your code here :)
+    colours = [r, g, b]
+    
+    # deal with invalid input
+    colours = [x if x >= 0 else 0 for x in colours]
+    colours = [x if x <= 255 else 255 for x in colours]
+    
+    print "{2:X}{2:X}{2:X}".format(colours[0], colours[1], colours[2])
+    return "{:02X}{:02X}{:02X}".format(colours[0], colours[1], colours[2])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+NaMe613
+
+def rgb(r, g, b):
+    ans = ""
+    for i in [r,g,b]:
+        if i > 255: i = 255
+        if i < 0: i = 0
+        h = hex(i)[2:].upper()
+        if len(h) == 1:h = '0' + h
+        ans += h
+    return ans
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Rockybilly
+
+def helper2(b):
+    if b==10:
+        letter="A"
+    elif b==11:
+        letter="B"
+    elif b==12:
+        letter="C"
+    elif b==13:
+        letter="D"
+    elif b==14:
+        letter="E"
+    elif b==15:
+        letter="F"
+    else:
+        return str(b)
+    return letter
+def rgb(r, g, b):
+    if r<0:
+        r=0
+    elif r>255:
+        r=255
+    if g<0:
+        g=0
+    elif g>255:
+        g=255
+    if b<0:
+        b=0
+    elif b>255:
+        b=255     
+    x=helper2(r/16)+helper2(r%16)
+    y=helper2(g/16)+helper2(g%16)
+    z=helper2(b/16)+helper2(b%16)
+    return x+y+z
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+johnnnyphillips
+
+from string import maketrans, hexdigits
+def rgb(r, g, b):
+    arg_list = [r, g, b]
+    hex_list = hexdigits
+    zero_fifteen = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    zip_dict = dict(zip(zero_fifteen, hex_list))
+    final_hex = ''
+    for i in arg_list:
+          if i > 255:
+              i = 255
+          elif i < 0:
+              i = 0
+          remainder1 = i % 16
+          quotient1 = int(i/16)
+          remainder2 = quotient1 % 16
+          remainder_converted1 = zip_dict[remainder1]
+          remainder_converted2 = zip_dict[remainder2]
+          final_hex += remainder_converted2 + remainder_converted1
+    return final_hex.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Xazax-hun
+
+def process_arg(x):
+    if x < 0: x = 0
+    if x > 255: x = 255
+    if x < 16: return "0"+hex(x)[2:]
+    return  hex(x)[2:]
+
+def rgb(*args):
+    return "".join(map(process_arg, args)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hwtdstrngls
+
+def rgb(r, g, b):
+    def truncate(n):
+        if n < 0: return 0
+        elif n > 255: return 255
+        else: return n
+    r, g, b = map(truncate, (r, g, b))
+    return '{:02x}{:02x}{:02x}'.format(r, g, b).upper()
+Best Practices0Clever0
+02ForkCompare with your solutionLink
+matthi
+
+def rgb(r, g, b):
+    res = ''
+    for n in r,g,b:
+        res += '%.2x' % min(max(0,n), 255)
+        
+    return res.upper()
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thepyr
+
+def rgb(r, g, b):
+    l = locals()
+    return "".join(['00' if l[c] < 0 else 'FF' if l[c] > 255 else hex(l[c])[2:].zfill(2).upper() for c in sorted(l)[::-1] ])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Jaface
+
+def rgb(r, g, b):
+    def bound(v): return max(0,min(255,v))
+    return "%02X%02X%02X" % (bound(r),bound(g),bound(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+timp
+
+def rgb(r,g,b):
+    r,g,b = min(max(r,0),255),min(max(g,0),255),min(max(b,0),255)
+    return str(bytearray([r,g,b])).encode('hex').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JacksonEhrenworth
+
+def min_max(int_):
+  return max(0, min(int_, 255))
+
+def rgb(r, g, b):
+  hexadecimal = "{0:02x}{1:02x}{2:02x}".format(min_max(r), min_max(g), min_max(b))
+
+  return hexadecimal.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Alsen
+
+def rgb(*args):
+    print args
+    args = list(args)
+    for i,v in enumerate(args):
+        v = v if 0 <= v <= 255 else 0 if v < 0 else 255
+        args[i] = str(hex(v))[2:].upper() if v > 9 else '0'+str(hex(v))[2:].upper()
+    
+    return ''.join(args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+brycetclark
+
+
+def rgb(r, g, b):
+    clamped = clamp([r, g, b])    
+    return ''.join([str(hex(int(round(i)))[2:]).upper().zfill(2) for i in clamped])
+    
+def clamp(vals):
+    clamped = list()
+    for val in vals:
+        if val > 255:
+            clamped.append(255)
+        elif val < 0:
+            clamped.append(0)
+        else:
+            clamped.append(val)            
+    return clamped
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gkusner
+
+def rgb(r, g, b):
+    def fix(n):
+        if n < 0: return 0
+        if n > 255: return 255
+        return n
+    return ''.join(('00'+hex(x)[2:]).upper()[-2:] for x in [fix(r),fix(g),fix(b)])    
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+KomeijiKoishi
+
+from functools import reduce
+def rgb(r, g, b):
+    (r,g,b)=map(lambda x:x if x>=0 and x<=255 else 255 if x>255 else 0,(r,g,b))
+    return reduce(lambda x,y: x+y ,map(lambda x: (str(hex(x)))[2:].upper() if x>15 else '0'+(str(hex(x)))[2:].upper() , [r,g,b]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ARR0
+
+def rgb(r, g, b):
+    r=(0 if r<0 else r)
+    r=(255 if r>255 else r)
+    g=(0 if g<0 else g)
+    g=(255 if g>255 else g)
+    b=(0 if b<0 else b)
+    b=(255 if b>255 else b)
+    return (hex(r)[2:].zfill(2)+hex(g)[2:].zfill(2)+hex(b)[2:].zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+k4mon
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    if r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    if g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    if b > 255:
+        b = 255
+    
+    return str(hex(r)[2:]).rjust(2,'0').upper() + str(hex(g)[2:]).rjust(2,'0').upper() + str(hex(b)[2:]).rjust(2,'0').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+coranc
+
+def rgb(r, g, b):
+    args = [r, g, b]
+    result = ""
+    for arg in args:
+        if arg == 0 or arg < 0:
+            result += "00"
+        elif arg > 255:
+            result += "FF"
+        else:
+            holder = str(hex(arg))[2:].upper()
+            if len(holder) == 1:
+                holder = "0" + holder
+            result += holder
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+n1x0n
+
+def rgb(r, g, b):
+    def check(x):
+      result = ""
+      if x >= 0 and x<= 255:
+        result += "%02x" % x
+      elif x < 0:
+        result += '00'
+      elif x > 255:
+        result += 'FF'
+      return result.upper()
+    return check(r) + check(g) + check(b)
+      
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bvs
+
+def rgb(r, g, b):
+    return ''.join('%02X' % max(0, min(n, 255)) for n in (r,g,b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bvs
+
+def rgb(r, g, b):
+    return ''.join('%02X' % max(0, min(n, 255)) for n in [r,g,b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tcheyne
+
+def rgb(r, g, b):
+  hex = '%02x%02x%02x' %(inRange(r), inRange(g), inRange(b))
+  return hex.upper()
+
+def inRange(val):
+  return min(max(val,0),255)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Paulchenkiller
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if r > 255: r = 255
+    if g < 0: g = 0
+    if g > 255: g = 255
+    if b < 0: b = 0
+    if b > 255: b = 255
+    return ('%02x%02x%02x' % (r, g, b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lesha.duduk
+
+def _hex(x):
+    if x < 0:
+        return '00'
+    if x >255:
+        return 'FF'
+    ans = hex(x)[2:].upper()
+    return '0' + ans if len(ans) == 1 else ans
+
+
+def rgb(r, g, b):
+    return "{}{}{}".format(_hex(r), _hex(g), _hex(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Splatt
+
+def rgb(r, g, b):
+    res = ""
+    for num in (r,g,b):
+        if num in range(10):
+            res += "0" + str(num)
+        elif num < 0:
+            res += "00"
+        elif num > 255:
+            res += "FF"
+        else:
+            res += str(hex(num)).replace("0x","").upper()
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+igormunkin
+
+def rgb(*rgb):
+    return ''.join([hex(i)[2:].upper().zfill(2) for i in [0 if i < 0 else i for i in [255 if i > 255 else i for i in rgb]]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Anarki
+
+def rgb(r, g, b):
+    func = lambda c: "00" if c <= 0 else ("FF" if c > 255 else (("0" if c <= 15 else "") + str(hex(c)).split('x')[1]))
+    return (func(r)+func(g)+func(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Qria
+
+def rgb(r, g, b):
+    r, g, b = [x if x>0 else 0 for x in (r, g, b)]
+    r, g, b = [x if x<255 else 255 for x in (r, g, b)]
+    return ''.join('{:02X}'.format(x) for x in (r, g, b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+soko
+
+def rgb(r, g, b):
+    resstr = ""
+    varl = [r, g, b]
+    for varlele in varl:
+        if not 0 <= varlele <= 255:
+            if varlele < 0:
+                varlele = 0
+            else:
+                varlele = 255
+
+        varlele = str(hex(varlele)[2:])
+
+        if len(varlele) == 1:
+            varlele = "0" + varlele
+
+        resstr += varlele.upper()
+    return resstr
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Standish
+
+def rgb(r, g, b):
+    HEX="0123456789ABCDEF"
+    a=''
+    for i in (r,g,b):
+        if i>=0 and i<=255:
+            b=HEX[i/16]+HEX[i%16]
+        elif i<0:
+            b='00'
+        else: 
+            b='FF'
+        a+=b
+    return a
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+andrewmkrug
+
+def rgb(r, g, b):
+    str = ""
+    str += "%0.2X" % min(max(r, 0), 255)
+    str += "%0.2X" % min(max(g, 0), 255)
+    str += "%0.2X" % min(max(b, 0), 255)
+    return str
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jrgsub0513
+
+def rgb(r,g,b):
+  colors=[r,g,b]
+  colors=[255 if colors[i]>255 else 0 if colors[i]<0 else colors[i] for i in range(len(colors))]
+  return "".join([str(hex(number))[2:] if len(str(hex(number)))>3 \
+  else str(hex(number)).replace("x","") for number in colors]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jrgsub0513
+
+def rgb(r,g,b):
+  colors=[r,g,b]
+  colors=[255 if colors[i]>255 else 0 if colors[i]<0 else colors[i] for i in range(len(colors))]
+  color="".join([str(hex(number))[2:] if len(str(hex(number)))>3 \
+  else str(hex(number)).replace("x","") for number in colors]).upper()
+  return color
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+inzune
+
+def rgb(r, g, b):
+  return "".join(map(lambda x: str(hex(min(max(x, 0),255)))[2:] if x > 0xF else '0'+str(hex(min(max(x, 0),255)))[2:], (r,g,b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cafe
+
+rgb=lambda r,g,b:'%02X'*3%(c(r),c(g),c(b))
+c=lambda x:max(0,min(x,0xff))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+DDGH
+
+def rgb(r, g, b):
+    if r <= 0:
+        r = "00";
+    elif r <= 16:
+        r = '0'+str(hex(r)[2:]).upper();
+    elif r > 255:
+        r = "FF";
+    else:
+        r = str(hex(r)[2:]).upper();
+        
+    if g <= 0:
+        g = "00";
+    elif g <= 16:
+        g = '0'+str(hex(g)[2:]).upper();
+    elif g > 255:
+        g = "FF";
+    else:
+        g = str(hex(g)[2:]).upper();
+        
+    if b <= 0:
+        b = "00";
+    elif b <= 16:
+        b = '0'+str(hex(b)[2:]).upper();
+    elif b > 255:
+        b = "FF";
+    else:
+        b = str(hex(b)[2:]).upper();
+        
+        
+    return r+g+b;
+        
+        
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sp0rk
+
+def rgb(r, g, b):
+    a = ''
+    
+    r = max(0,min(255,r))
+    g = max(0,min(255,g))
+    b = max(0,min(255,b))
+    
+    a += hex(r)[2:] if len(hex(r)) == 4 else '0'+hex(r)[2:]
+    a += hex(g)[2:] if len(hex(g)) == 4 else '0'+hex(g)[2:]
+    a += hex(b)[2:] if len(hex(b)) == 4 else '0'+hex(b)[2:]
+    
+    a = a.upper()
+    return a
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+razasyedh
+
+def rgb(r, g, b):
+    def box(num):
+        if num < 0:
+            return 0
+        elif num > 255:
+            return 255
+        else:
+            return num
+    
+    args = map(box, [r, g, b])
+    return "{0:02X}{1:02X}{2:02X}".format(*args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tutleman
+
+def rgb(r, g, b):
+    return ''.join(hex(min(255, max(color, 0)))[2:].rjust(2, '0') for color in (r, g, b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jonnybcz
+
+def to_159(number, chars):
+    modulo = number % 16
+    
+    # 00 01 02 03 04 05 ... 9
+    if modulo <= 9:
+        return str(number / 16) + str(modulo)
+
+    # 1A 1B 1C 1D 1E 1F
+    if modulo - 10 <= 5:
+        return str(number / 16) + chars[modulo - 10]   
+
+    
+def to_255(number, chars):
+    modulo = number % 16
+    
+    # A1 A2 A3 A4 A5 A6 .. A9
+    if modulo <= 9:
+        return chars[number / 16 - 10] + str(modulo)
+
+    # AA AB AC AD AE AF
+    if modulo - 10 <= 5:
+        return chars[number / 16 - 10] + chars[modulo - 10] 
+        
+        
+def number_to_hex(number):
+    chars = ['A', 'B', 'C', 'D', 'E', 'F']   
+    
+    if number < 0:
+        number = 0
+    
+    if number > 255:
+        number = 255
+    
+    if number < 159:
+        return to_159(number, chars)
+    else:
+        return to_255(number, chars)
+    
+    
+def rgb(*args):
+    hex = ''
+    
+    for item in args:
+        hex += number_to_hex(item)
+
+    return hex
+
+
+rgb(255, 255, 255)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hamc17
+
+def rgb(r, g, b):
+    """
+    Convert RGB values to a hex string.
+    """
+    #Correct the range of potential outlying values
+    r = fix_range(r)
+    g = fix_range(g)
+    b = fix_range(b)
+    #Get total number of times 16 goes into each
+    div_rhs_r = r/16
+    div_rhs_g = g/16
+    div_rhs_b = b/16    
+    #Set rgbs to their mod 16 value
+    r = r%16
+    g = g%16
+    b = b%16
+    #If rgb are bigger than 9, convert to correct letter else stringify
+    final = ""
+    b = conv_to_letter(b)
+    g = conv_to_letter(g)
+    r = conv_to_letter(r)
+    #If value == 0 (times 16 goes in = 0)
+    #Add a 0 then the converted/stringified value
+    if div_rhs_b == 0:
+        final = final + "0" + b
+    else:
+        div_rhs_b = conv_to_letter(div_rhs_b)
+        final = final + div_rhs_b + b
+    ######    
+    if div_rhs_g == 0:
+        final = "0" + g + final 
+    else:
+        div_rhs_g = conv_to_letter(div_rhs_g)
+        final = div_rhs_g + g + final
+    ######    
+    if div_rhs_r == 0:
+        final = "0" + r + final 
+    else:
+        div_rhs_r = conv_to_letter(div_rhs_r)
+        final = div_rhs_r + r +  final
+    return final
+
+def conv_to_letter(value):
+    """
+    Return the correspinding letter for any number
+    greater than 9
+    """
+    #Create letter array for num over 9
+    a_f = ["A", "B", "C", "D", "E", "F"]
+    if value > 9:
+        value = value - 9
+        value = a_f[value-1]
+    else:
+        value = str(value)
+    return value
+
+def fix_range(n):
+    """
+    Set the range to be within the bounds allowed
+    for hexidecimal numbers.
+    """
+    if n < 0:
+        n = 0
+    if n > 255:
+        n = 255
+    return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Murlocks
+
+def rgb(r, g, b):
+    limit = lambda v: max(min(v, 255), 0)
+    return ('{:02X}' * 3).format(limit(r), limit(g), limit(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Murlocks
+
+def rgb(r, g, b):
+    r, g, b = map(lambda v: 0 if v < 0 else 255 if v > 255 else v, [r, g, b])
+    return ''.join(map(lambda v: '0' + hex(v)[2:].upper() if v <= 16 else hex(v)[2:].upper(), [r, g, b]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+eliezerk
+
+def rgb(r, g, b):
+    palette = map(lambda x: 0 if x < 0 else (255 if x > 255 else x), (r, g, b))
+    return ''.join(map(lambda x: hex(x)[2:].zfill(2).upper(), palette))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rmanish04
+
+def adjust(hexa):
+    if len(hexa) == 1:
+        return '0'+hexa
+    return hexa
+def toHex(dec):
+    digits = "0123456789ABCDEF"
+    x = dec % 16
+    rest = dec / 16
+    if rest == 0:
+        return digits[x]
+    return toHex(rest)+digits[x]
+def validate(x):
+    if x > 255:
+        return 255
+    if x < 0:
+        return 0
+    return x
+def rgb(r, g, b):
+    #your code here :)
+    r,g,b = validate(r), validate(g), validate(b)
+    h_r, h_g, h_b = adjust(toHex(r)), adjust(toHex(g)), adjust(toHex(b))
+    return h_r + h_g + h_b
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jmdana
+
+
+def fmt(x):
+    x = min(255, max(0, x))
+        
+    tmp = hex(x)[2:].upper()
+    
+    return tmp if len(tmp) == 2 else "0" + tmp
+
+def rgb(r, g, b):
+    return fmt(r) + fmt(g) + fmt(b)
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sgervais21
+
+def to2dighex(num):
+    if num < 0:
+        return '00'
+    elif num < 16:
+        return '0' + hex(num)[2].upper()
+    elif num > 255:
+        return 'FF'
+    else:
+        return hex(num)[2:].upper()
+
+def rgb(r, g, b):
+    return to2dighex(r) + to2dighex(g) + to2dighex(b)
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+usernameisnull
+
+def rgb(r, g, b):
+    r = _convert(r)
+    g = _convert(g)
+    b = _convert(b)
+    return r+g+b
+    
+    
+    
+def _convert(r):
+    if 0<=r<=255:
+        r = r
+    elif r<0:
+        r = 0
+    else:
+        r = 255
+    r_16 = hex(r)[2:]
+    r = r_16 if len(r_16)==2 else '0'+r_16 
+    return r.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ramhiser
+
+def rgb(*args):
+    args = (0 if x < 0 else x for x in args)
+    args = (255 if x > 255 else x for x in args)
+    return ''.join('{:02X}'.format(d) for d in args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rmathure
+
+def rgb(r, g, b):
+    r,g,b=max(r,0),max(g,0),max(b,0)
+    r,g,b=min(r,255),min(g,255),min(b,255)
+    return (str(hex(r))[2:].zfill(2)+str(hex(g))[2:].zfill(2)+str(hex(b))[2:].zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+javamonk
+
+def rgb(*args):
+  def round(v):
+    if v < 0:
+      return 0
+    if v > 255:
+      return 255
+    return v
+
+  def get_hex(v):
+    v = round(v)
+    return hex(v)[2:].upper().rjust(2,'0')
+
+  return ''.join([get_hex(v) for v in args])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jiher
+
+def rgb(r, g, b):
+    #your code here :)
+    res=''
+    for v in (r,g,b):
+        if v<0:v=0
+        if v>255:v=255
+        res +=  "{:02X}".format(v)
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+radixzz
+
+def rgb(r, g, b):
+    r = max(0, min(255, r));
+    g = max(0, min(255, g));
+    b = max(0, min(255, b));
+    return "{0:0=2X}{1:0=2X}{2:0=2X}".format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mr skeltal cant code
+
+def rgb(r, g, b):
+    hexCol=""
+    for i in [r,g,b]:
+        i=max(0,i)
+        i=min(i,255)
+        h=hex(i)
+        h=h.replace("0x","") if len(h) > 3 else h.replace("0x","0")
+        hexCol+=h.upper()
+    return hexCol
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Mrfryingpan
+
+def rgb(r, g, b):
+    r = min(max(r, 0), 255)
+    g = min(max(g, 0), 255)
+    b = min(max(b, 0), 255)
+    return '{0}{1}{2}'.format(format(r, '02x'), format(g, '02x'), format(b, '02x')).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+matosha
+
+def rgb(r, g, b):
+    return "{0:02x}{1:02x}{2:02x}".format(max(0, min(r, 255)), max(0, min(g, 255)), max(0, min(b, 255))).upper()
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+svieira
+
+def rgb(r, g, b):
+    r, g, b = pin(r), pin(g), pin(b)
+    return "{:02x}{:02x}{:02x}".format(r, g, b).upper()
+
+def pin(i):
+    if -1 < i < 256:
+        return i
+    elif 0 > i:
+        return 0
+    else:
+        return 255
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kesyog
+
+limit = lambda x: min(max(0,x),255)
+def rgb(r, g, b):
+    return '{:02X}{:02X}{:02X}'.format(limit(r),limit(g),limit(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+crazystephen1987
+
+def rgb(r, g, b):
+    #your code here :)
+    return convertHex(r)+convertHex(g)+convertHex(b)
+
+def convertHex(tmp):
+    
+    if tmp>=256:
+        tmp1=255
+    elif tmp<0:
+        tmp1=0
+    else:
+        tmp1=tmp
+        
+    d={10:"A",11:"B",12:"C",13:"D",14:"E",15:"F"}
+    for i in range(10):
+        d[i]=str(i)
+        
+    q=tmp1/16
+    u=tmp1-q*16
+    return d[q]+d[u]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rikobik
+
+def rgb(r, g, b):
+    valid = lambda x: min(max(x, 0), 255)
+    return "%02X%02X%02X" % (valid(r), valid(g), valid(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+marekbrtkwcz
+
+def rgb(r, g, b):
+    #your code here :)
+
+    lst = [ 0 if item < 0 else item if item  <=255 else 255  for item in [r,g,b] ]
+    lst = [ '00' if item == 0 else hex(item).upper().split('X')[1]  for item in lst ]
+    lst = [ item.zfill(2) for item in lst ]
+    from functools import reduce
+    
+    
+    return reduce( lambda x,y : x + y, lst,'')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+XcrossD
+
+def rgb(r, g, b):
+    if r < 0:    r = 0
+    if r > 255:    r = 255
+    if g < 0:    g = 0
+    if g > 255:    g = 255
+    if b < 0:    b = 0
+    if b > 255:    b = 255
+    return "{:02X}{:02X}{:02X}".format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bali182
+
+def rgb(r, g, b):
+    toHex = lambda partial: hex(min(max(partial, 0), 255)).replace('0x', '').zfill(2).upper()
+    return toHex(r) + toHex(g) + toHex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bhagberg
+
+def rgb(r, g, b):
+    HEXCODE = []
+    for color in [r, g, b]:
+        hexes = ''
+        if (color >= 0) & (color <= 255):
+            hex1 = color / 16
+            hex2 = color % 16
+            for H in [hex1, hex2]:
+                if H > 9: 
+                    hexes += chr(H + 55)  
+                else:
+                    hexes += str(H)
+        elif color < 0:
+            hexes = '00'
+        elif color > 255:
+            hexes = 'FF'
+        HEXCODE.append(hexes)
+    return "".join(HEXCODE)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SquishyStrawberry
+
+def rgb(r, g, b):
+    hex_ = ""
+    for i in (r, g, b):
+        if i > 255:
+            i = 255
+        elif i < 0:
+            i = 0
+        if i < 10:
+            hex_ += "0"
+        hex_ += hex(i)[2:]
+    return hex_.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Jakob37
+
+def getLet(rgb_val):
+    
+    if rgb_val < 0:
+        rgb_val = 0
+    elif rgb_val > 255:
+        rgb_val = 255
+    
+    hex_letters = hex(rgb_val)[2:].upper()
+    if len(hex_letters) == 1:
+        hex_letters = '0' + hex_letters
+    return hex_letters
+
+def rgb(r, g, b):
+    return getLet(r) + getLet(g) + getLet(b)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Kiirum
+
+def round(a):
+    return min(max(a, 0),255)
+
+def toHex(a):
+    return hex(round(a))[2:].zfill(2).upper()
+
+def rgb(r, g, b):
+    return toHex(r) + toHex(g) + toHex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nicholas-gingerella
+
+def rgb(r, g, b):
+  if r < 0:
+      r = 0
+  elif r > 255:
+      r = 255
+
+  if g < 0:
+      g = 0
+  elif g > 255:
+      g = 255
+
+  if b < 0:
+      b = 0
+  elif b > 255:
+      b = 255
+
+  return (hex(r)[2:].zfill(2) + hex(g)[2:].zfill(2) + hex(b)[2:].zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gkdlepdj
+
+def rgb(r, g, b):
+    if r > 255 : r = 255 
+    if g > 255 : g = 255 
+    if b > 255 : b = 255
+    if r < 0 : r = 0 
+    if g < 0 : g = 0 
+    if b < 0 : b = 0    
+    return "{:02X}{:02X}{:02X}".format(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cgoks
+
+def rgb(r, g, b):
+    c = lambda rr: '{0:0{width}X}'.format(min(rr,255),width=2) if rr>0 else "00"
+
+    return c(r)+c(g)+c(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+normanman
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    if r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    if g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    if b > 255:
+        b = 255
+    r = hex(r).upper()[2:].zfill(2)
+    g = hex(g).upper()[2:].zfill(2)
+    b = hex(b).upper()[2:].zfill(2)
+    return r+g+b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cepe
+
+def rgb(r, g, b):
+    def aux(n):
+        if n < 16:
+            return "0" + hex(max(0,n))[2:]
+        else:
+            return hex(min(n,255))[2:]
+           
+    return (aux(r) + aux(g) + aux(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Hectorrr72
+
+def rgb(r, g, b):
+    
+    result = ""
+    
+    for x in [r,g,b]:
+        if(x < 0):
+            result += "00"
+        elif (x > 255):
+            result += "FF"
+        else:
+            add = hex(x)[2:]
+            if (len(add) < 2):
+                add = "0" + add
+            
+            result += add
+    
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+roll
+
+rgb = lambda r, g, b: ''.join('%02X' % min(max(x, 0), 255) for x in [r, g, b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+roll
+
+def rgb(r, g, b):
+    return ''.join(hex(min(max(x, 0), 255))[2:].zfill(2).upper() for x in [r, g, b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tfeldmann
+
+def rgb(r, g, b):
+    return ('{:02X}' * 3).format(*[min(255, max(0, v)) for v in r, g, b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+marowid
+
+def rgb(r, g, b):
+    code = (max(0,min(255,int(r))), max(0,min(255,int(g))), max(0,min(255,int(b))))
+    return ''.join(map(chr, code)).encode('hex').upper()
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+osoba
+
+def rgb(r, g, b):
+    (r, g, b) = ( max(0, min(x, 255)) for x in [r, g, b] )
+    return '%02X%02X%02X'%(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+neodeng
+
+def rgb(r, g, b):
+    #your code here :)
+    r=map(lambda x: 255 if x>255 else x,map(lambda x:0 if x<0 else x,(r,g,b)))
+    h=''
+    for ele in r:
+        if ele<16:
+            h+='0'+hex(ele)[2:].upper()
+        else:
+            h+=hex(ele)[2:].upper()
+    return h
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+albarralnunez
+
+def rgb(r, g, b):
+
+    def cot(n):
+        if n > 255: return 255
+        elif n < 0: return 0
+        return n
+
+    return '{0:02X}{1:02X}{2:02X}'.format(cot(r),cot(g),cot(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JokerQyou
+
+def rgb(r, g, b):
+    r, g, b = [i if i > 0 else 0 for i in (r, g, b, )]
+    r, g, b = [i if i < 255 else 255 for i in (r, g, b, )]
+    return ''.join([i.upper() if (len(i) == 2) else '0'+i.upper() for i in [hex(i)[2:] for i in (r, g, b, )]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hattewah
+
+def round(x):
+    if x < 0:
+        return 0
+    if x > 255:
+        return 255
+    return x
+
+def rgb(r, g, b):
+    return "%02X%02X%02X" % (round(r), round(g), round(b))    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+noodle
+
+def rgb(r, g, b):
+    r = 0 if r < 0 else 255 if r > 255 else r
+    g = 0 if g < 0 else 255 if g > 255 else g
+    b = 0 if b < 0 else 255 if b > 255 else b
+
+    r = hex(r)[2:].upper().zfill(2)
+    g = hex(g)[2:].upper().zfill(2)
+    b = hex(b)[2:].upper().zfill(2)
+    
+    return r + g + b
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jereynaud, PurplePowder
+
+def rgb(r, g, b):
+    r = max(0, min(255, r))
+    g = max(0, min(255, g))
+    b = max(0, min(255, b))
+    return '%02X%02X%02X' % (r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+daejiny
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    if g < 0:
+        g = 0
+    if b < 0:
+        b = 0
+    if r > 255:
+        r = 255
+    if g > 255:
+        g = 255
+    if b > 255:
+        b = 255
+    print '{0:02X}{0:02X}{0:02X}'.format(r, g, b)
+    return '{0:02X}{1:02X}{2:02X}'.format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Merlyin
+
+def rgb(r, g, b):
+    #your code here :)
+    res = ""
+    rgb = [r, g, b]
+    for i in rgb:
+        i = 0 if i < 0 else 255 if i > 255 else i
+        res += "0" + hex(i)[2:] if i < 16 else hex(i)[2:]
+    return res.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pmduaree
+
+def v(v):
+    return 0 if v < 0 else 255 if v > 255 else v
+
+def rgb(r, g, b):
+    return ('%02X%02X%02X' % (v(r),v(g),v(b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+saurus
+
+from string import digits, uppercase
+
+ab = digits + uppercase[:6]
+
+def rgb(*args):
+  res = ''
+  for x in args:
+    if x <= 0: res += '00'
+    elif x >= 255: res += 'FF'
+    else: res += ab[x / 16] + ab[x % 16]
+  return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+uber
+
+def rgb(r, g, b):
+  return reduce(lambda x, y: x + "%02x" % max(0, min(255, y)), [r, g, b], '').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dr1ad
+
+def rgb(r, g, b):
+    rgb = map(lambda x: max(0, min(x, 255)), [r,g,b])
+    return ''.join(('0'+(hex(c)[2:]).upper())[-2:] for c in rgb)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mhinojosa51
+
+def rgb(*args):
+    return ''.join([hex(num) if num > 10 and num < 255 else hex(0) + '0' if num <= 0 else '0' + hex(num) if num < 10 and num > 0 else hex(255) for num in args]).replace('0x','').upper()
+   
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+crimsujii
+
+def rgb(*args):
+    return ''.join(('00' if arg < 0 else 'FF' if arg > 255 else '0' + hex(arg)[2:].upper())[-2:] for arg in args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kohei0418
+
+def rgb(r, g, b):
+    r, g, b = map(lambda x: max(0, min(255, x)), [r, g, b])
+    return '{:02X}{:02X}{:02X}'.format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dexterMaltese
+
+def rgb(*args):
+    res = ""
+    for k in args:
+        k = 0 if k < 0 else 255 if k > 255 else k
+        h = str(hex(k).replace('0x','')).upper()
+        res += '0'+h if len(h) < 2 else h
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mdczaplicki
+
+def rgb(r, g, b):
+    r = '00' if r < 0 else 'FF' if r > 255 else str(hex(r))[2:].zfill(2)
+    g = '00' if g < 0 else 'FF' if g > 255 else str(hex(g))[2:].zfill(2)
+    b = '00' if b < 0 else 'FF' if b > 255 else str(hex(b))[2:].zfill(2)
+    return (r + g + b).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+douglasvaghetti
+
+def f(c):
+    c = min(255,max(0,c))
+    return "0"*(4-len(hex(c)))+(hex(c)[2:].upper())
+
+def rgb(r, g, b):
+    return "".join([f(i) for i in [r,g,b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tusizi
+
+def rgb(r, g, b):
+    f = lambda x: min(max(0, x), 255)
+    return '{:02X}{:02X}{:02X}'.format(f(r), f(g), f(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+topzhangye
+
+def rgb(r, g, b):
+    def c(n):
+        if n <= 0:n = 0
+        if n >255:n = 255
+        return '{:02X}'.format(n)
+    return c(r) + c(g) + c(b)
+      
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ulamspiral
+
+def rgb(r, g, b):
+    return ''.join(['{:0>2}'.format(hex(min(max(a,0),255))[2::]).upper() for a in [r,g,b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+superhard
+
+def rgb(r, g, b):
+    def check(c):
+        if c < 0:
+            return 0
+        if c > 255:
+            return 255
+        return c
+    return (hex(check(r))[2:].zfill(2) + hex(check(g))[2:].zfill(2) + hex(check(b))[2:].zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+D7689
+
+def rgb(r, g, b):
+  temp = [r,g,b]
+  for i in range(0,3):
+    if (temp[i] >255):
+      temp[i]=255
+    if (temp[i] <0):
+      temp[i]=0
+    temp[i] = (hex(temp[i]).split('x')[1]).upper().zfill(2)
+  return ''.join(temp)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tanderus
+
+def rgb(r, g, b):
+    return ''.join('%02X' % min(255, max(a, 0)) for a in [r,g,b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tanderus
+
+def rgb(r, g, b):
+    args = [r, g, b]
+    res = ''
+    for a in args:
+        a = 0 if a < 0 else 255 if 255 < a else a
+        res = res + '%02X' % a
+    
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bradleygolden
+
+def rgb(r, g, b):
+
+  #check lower bounds
+  if r < 0: r = 0
+  if g < 0: g = 0
+  if b < 0: b = 0
+   
+     #check upper bounds
+  if r > 255: r = 255
+  if g > 255: g = 255
+  if b > 255: b = 255
+    
+  R = hex(r)[2:].upper() #convert to hex format 255 => FF
+  if len(R) == 1: R = "0" + R #if one hex value, concat with 0 1 => 01
+  G = hex(g)[2:].upper()
+  if len(G) == 1: G = "0" + G
+  B = hex(b)[2:].upper()
+  if len(B) == 1: B = "0" + B
+    
+  return R+G+B
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rharihprasad
+
+def rgb(r, g, b):
+    r = hex(r).split('x')[1].upper() if 16 <= r <= 255 else ('0'+hex(r).split('x')[1].upper() if 0 < r <=15 else ('00' if r <= 0 else 'FF'))
+    g = hex(g).split('x')[1].upper() if 16 <= g <= 255 else ('0'+hex(g).split('x')[1].upper() if 0 < g <=15 else ('00' if g <= 0 else 'FF'))
+    b = hex(b).split('x')[1].upper() if 16 <= b <= 255 else ('0'+hex(b).split('x')[1].upper() if 0 < b <=15 else ('00' if b <= 0 else 'FF'))
+    return r+g+b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+iammrinal0
+
+def rgb(r, g, b):
+    r=check(r)
+    g=check(g)
+    b=check(b)
+    return ("0"*(len(hex(r)[2:])==1)+hex(r)[2:]+"0"*(len(hex(g)[2:])==1)+hex(g)[2:]+"0"*(len(hex(b)[2:])==1)+hex(b)[2:]).upper()
+
+def check(n):
+    if n<0:return 0
+    elif n>255:return 255
+    else:return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tingtingths
+
+def rgb(r, g, b):
+    r = r if (0 <= r <= 255) else 255 if (r > 255) else 0
+    g = g if (0 <= g <= 255) else 255 if (g > 255) else 0
+    b = b if (0 <= b <= 255) else 255 if (b > 255) else 0
+    return format(r, '02x').upper() + format(g, '02x').upper() + format(b, '02x').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tzaman
+
+f = lambda x: '{:02X}'.format(max(0, min(255, x)))
+rgb = lambda *args: ''.join(map(f, args))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+agata_nyc
+
+def rgb(r, g, b):
+    s = ""
+    for x in (r, g, b):
+        if x < 0:
+            s += '00'
+        elif x > 255:
+            s += 'FF'
+        else:
+            s += '{:02X}'.format(x)
+    return s
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+j.shi
+
+def rgb(r, g, b):
+    the_list = [r, g, b]
+    the_string = ''
+    for i in the_list:
+        i = max(0, i)
+        i = min(i, 255)
+        the_string += format(i, '02X')
+    return the_string
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TetraPak
+
+def round(a):
+    if a < 0:
+        a = 0
+    elif a > 255:
+        a = 255
+    return a
+
+def rgb(r, g, b):
+    r = round(r)
+    g = round(g)
+    b = round(b)
+    return '{:02X}'.format(r) + '{:02X}'.format(g) + '{:02X}'.format(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+GabMax
+
+def hexa(n):
+    n = min(max(0, n), 255)
+    return ('0' if n < 17 else '') + str(hex(n))[2:].upper()
+
+def rgb(r, g, b):
+    return hexa(r) + hexa(g) + hexa(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+GodMode-On
+
+def rgb(r, g, b):
+    num = [max(min(r, 255), 0), max(min(g, 255), 0), max(min(b, 255), 0)]
+    return "".join([str(hex(color)[2:].zfill(2).upper()) for color in num])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+karthic_s, nkaufman
+
+def rgb(r, g, b):
+    if r < 0: 
+        r = 0 
+    elif r > 255:
+        r = 255
+    if g < 0:
+        g = 0 
+    elif g > 255: 
+        g = 255
+    if b < 0: 
+        b = 0 
+    elif b > 255: 
+        b = 255
+    return "%02X%02X%02X" % (r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+eugenetsai
+
+def rgb(r, g, b):
+    result = ""
+    if r > 0 and r < 16:
+        result += "0" + hex(r)[2:]
+    elif r <= 255 and r > 15:
+        result += hex(r)[2:]
+    elif r == 0 or r < 0:
+        result += "00"
+    else:
+        result += "FF"
+    if g > 0 and g < 16:
+        result += "0" + hex(g)[2:]
+    elif g <= 255 and g >0:
+        result += hex(g)[2:]
+    elif g < 0 or g == 0:
+        result += "00"
+    else:
+        result += "FF"
+    if b > 0 and b < 16:
+        result += "0" + hex(b)[2:]    
+    elif b <= 255 and b >0:
+        result += hex(b)[2:]
+    elif b < 0 or b == 0:
+        result += "00"
+    else:
+        result += "FF"
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mbramson
+
+def Hex(n):
+    if n<0: return "00"
+    if n>255: return "FF"
+    return format(n,'02X')
+
+def rgb(r, g, b):
+    return Hex(r) + Hex(g) + Hex(b)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mjanvier
+
+def rgb(r, g, b):
+    hexxa = lambda x: format(((x if x>0 else 0) if x<255 else 255), '02x').upper()
+    return ''.join(map(hexxa,[r,g,b]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+5ia
+
+def rgb(r, g, b):
+    def f(x): 
+        if x>255: return 255 
+        elif x<0: return 0
+        else: return x
+    
+    return ''.join(map(lambda y: str(hex(y)).replace('x','0').upper()[-2:],map(f,[r,g,b])))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+foobar64
+
+def rgb(r, g, b):
+    result = ''
+    for color in (r, g, b):
+        if color < 0:
+            color = 0
+        elif color > 255:
+            color = 255
+        hexed = hex(color)[2:]
+        if len(hexed) < 2:
+            hexed = '0' + hexed
+        result += hexed.upper()
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lpd2
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if g < 0: g = 0
+    if b < 0: b = 0
+    if r > 255: r = 255
+    if g > 255: g = 255
+    if b > 255: b = 255
+    hr, hg, hb = hex(r), hex(g), hex(b)
+    stre, stg, stb = str(hr), str(hg), str(hb)
+    if len(stre) == 3: red = "0" + stre[2]
+    else: red = stre[2:]
+    if len(stg) == 3: green = "0" + stg[2]
+    else: green = stg[2:]
+    if len(stb) == 3: blue = "0" + stb[2]
+    else: blue = stb[2:]
+    return (red + green + blue).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+vnjogani
+
+def rgb(r, g, b): return ''.join(['0'* (2-len(hex(x)[2:])) + hex(x)[2:] if x>=0 and x<256 else 'FF' if x>255 else '00' for x in [r,g,b]]).upper()    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+csfoo
+
+def rgb(r, g, b):
+    r, g, b = (min(max(0, x), 255) for x in [r, g, b])
+    return '%02X%02X%02X' % (r, g, b)
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lunardragon
+
+def rgb(r, g, b):
+    def bclamp(x):
+        return max(0, min(x, 255))
+    return "{:06X}".format(abs(bclamp(r) << 16 | bclamp(g) << 8 | bclamp(b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JLF8086
+
+def rgb(r, g, b):
+    r, g, b = round(r), round(g), round(b)
+    return tohex(r) +  tohex(g) + tohex(b)
+    #your code here :)
+    
+def round(n):
+    if n < 0: n = 0
+    elif n > 255: n = 255
+    return n
+    
+def tohex(n):
+    val = hex(n).split('x')[1]
+    if len(val) == 1:
+        val = '0' + val
+    return val.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rogerkwoodley
+
+def rgb(r, g, b):
+    return ''.join(map(lambda x: "{0:02x}".format(x).upper(), map(lambda x: min(255, max(0, x)), (r,g,b))))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sdwh
+
+def rgb(r, g, b):
+    r,g,b = [element if element <= 255 else 255 for element in (r,g,b)]
+    r,g,b = [element if element >= 0 else 0 for element in (r,g,b)]
+    return ''.join([hex(element)[2:].upper().zfill(2) for element in (r,g,b)])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+phrz
+
+def rgb(*c):
+    return ''.join([hex(min(max(x,0),255))[2:].zfill(2).upper() for x in c])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+1slawus1
+
+m = lambda x: max(0, min(x, 255))
+def rgb(r, g, b):
+    return ("%02x%02x%02x" % (m(r), m(g), m(b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+soitgoes
+
+def roundit(x):
+    if x > 255:
+       x = 255
+    if x < 0:
+        x = 0
+    return '{:02X}'.format(x)
+
+def rgb(r, g, b):
+    return ''.join([roundit(x) for x in [r, g, b]])
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+josh-mcq
+
+def rgb(r, g, b):
+    hex = [str(x) for x in range(10)] + ['A','B','C','D','E','F']
+    conv_dict = {x:hex[x] for x in range(16)}
+    result = []
+    for x in [r, g, b]:
+        if x >= 255: result.append('FF')
+        elif x <= 0: result.append('00')
+        else:
+            result.append(conv_dict[divmod(x,16)[0]])
+            result.append(conv_dict[divmod(x,16)[1]])
+    return ''.join(result)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cba123999
+
+def rgb(r, g, b):
+    #your code here :)
+    argument = [r, g, b]
+    argument = [0 if a < 0 else a for a in argument]
+    argument = [255 if a > 255 else a for a in argument]
+    argument = [list(hex(a))[2:] for a in argument]
+    argument = [[a.upper() if a.isalpha() == True else a for a in b] for b in argument]
+    argument = [reduce(lambda x,y: x+y, a) for a in argument]
+    argument = ['0' + a if len(a) < 2 else a for a in argument]
+    result = reduce(lambda x,y: x+y, argument)
+    return(result)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+joyeusenoelle
+
+def mhex(n):
+    if n < 0: n = 0;
+    if n > 255: n = 255;
+    d1 = n/16
+    d2 = n%16
+    return "".join([hex(d1)[2:].upper(),hex(d2)[2:].upper()])
+    
+def rgb(r, g, b):
+    return "".join([mhex(r),mhex(g),mhex(b)])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Elvisboy
+
+def rgb(*dec):
+    dec = list(dec)
+    for i in range(len(dec)):
+        if dec[i] < 0:
+            dec[i] = 0
+        elif dec[i] > 255:
+            dec[i] = 255
+    hexArr = ['0'+tall[1] for tall in ([hex(num).split('x') for num in dec])]
+    return ''.join([num[-2:] for num in hexArr]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+87szdj4
+
+def rgb(r, g, b):
+    tel = {10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F'}
+    for i in range(10):
+        tel[i] = str(i)
+    s = ''
+    for x in [r, g, b]:
+        if x < 0:
+            x = 0
+        if x > 255:
+            x = 255
+        a = x / 16
+        b = x - 16*a
+        s += tel[a] + tel[b]
+    return s
+        
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+StarOceanReimi
+
+def rgb(r, g, b):
+    #your code here :)
+    r,g,b = map(lambda x: 0 if x < 0 else 255 if x > 255 else x, (r,g,b))
+    return ("%02x%02x%02x" % (r,g,b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rthiggins
+
+def toHexString(n):
+    if (n <= 0):
+        return '00'
+    elif (n >= 255):
+        return 'FF'
+    else:
+        val = hex(n)[2:].upper()
+        if len(val) == 1:
+            val = '0' + val
+        return val
+
+def rgb(r, g, b):
+    ret_val = ''
+    ret_val += toHexString(r)
+    ret_val += toHexString(g)
+    ret_val += toHexString(b)
+    return ret_val
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Tgc
+
+def rgb(r, g, b):
+    return to_hex(r) + to_hex(g) + to_hex(b)
+
+def to_hex(i):
+    if i < 0 : return "00";
+    if i > 255: return "FF";
+    return '{:02x}'.format(i).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wenright
+
+def rgb(*rgb):
+  return ''.join(('0' if c < 17 else '') + hex(max(min(c, 255), 0))[2:] for c in rgb).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+adam-tokarski
+
+def rgb(r, g, b):
+    return decode(r) + decode(g) + decode(b)
+    
+def decode(v):
+    v = v if v > 0 else 0;
+    v = v if v < 255 else 255;
+    s = hex(v)[2:].upper()
+    if len(s) == 1: s = '0' + s;
+    return s;
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ripzorn
+
+def rgb(r, g, b):
+  return "".join("%02X" % max(0,min(b,255)) for b in [r,g,b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gshrikant
+
+def rgb(*args):
+    # Sanitize input values
+    colors = map(lambda x: max(min(x, 255), 0), args)
+    hexer = lambda c: hex(c)[2:].upper()
+    return ''.join([hexer(c).zfill(2) for c in colors])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Dehnert
+
+import re
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    if r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    if g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    if b > 255:
+        b = 255
+    return "%02X%02X%02X"%(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bluetiger77
+
+def rgb(r, g, b):
+    myList = [r, g, b]
+    holder = []
+    myDict = {
+10: "A",
+11: "B",
+12: "C",
+13: "D",
+14: "E",
+15: "F"
+}
+    for i in myList:
+        if i > 255:
+            holder.append("FF")
+        elif i < 0:
+            holder.append("00")
+        else:
+            if i // 16 in myDict.keys():
+                holder.append(str(myDict[i // 16]))
+            else:
+                holder.append(str(i // 16))
+            if i % 16 != 0 and i % 16 in myDict.keys():
+                holder.append(str(myDict[i % 16]))
+            else:
+                holder.append(str(i % 16))
+    return "".join(holder)
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+MegaAbsol
+
+def hex2(x):
+    if x>=0 and x <= 255:
+        return hex(x)
+    elif x<0:
+        return '00'
+    return 'FF'
+def rgb(r, g, b):
+
+    return (hex2(r).lstrip('0x').zfill(2)+hex2(g).lstrip('0x').zfill(2)+hex2(b).lstrip('0x').zfill(2)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+robly18
+
+def rgb(*col): return reduce(lambda p, v: p + ("0" if v < 16 else "") + hex(v if 0 <= v <= 255 else 0 if v < 0 else 255)[2:].upper(), col, '')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+davibu
+
+def rgb(r, g, b):
+    return (a(r)+a(g)+a(b)).upper()
+    
+def a(r):
+    if r<0:
+        return "00"
+    elif r>255:
+        return "FF"
+    return hex(r)[2:].zfill(2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wywong
+
+def rgb(r, g, b):
+  return (hexify(r) + hexify(g) + hexify(b)).upper()
+def hexify(i):
+  if i > 255:
+    i = 255
+  if i < 0:
+    i = 0
+  return hex(i)[2:].rjust(2, '0')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+killer_mike
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if r > 255: r = 255
+    if g < 0: g = 0
+    if g > 255: g = 255
+    if b < 0: b = 0
+    if b > 255: b = 255
+    return format(r, '02X') + format(g, '02X') + format(b, '02X')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+popfido
+
+def rgb(r, g, b):
+    larger = lambda x: 255 if x > 255 else x
+    smaller = lambda x: 0 if x < 0 else x
+    para = map(lambda x: larger(x) if x > 255 else smaller(x), [r,g,b])
+    res = map(lambda x: hex(x)[2:] if x > 16 else '0' + hex(x)[2:], para)
+    return ''.join(res).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lamdtc
+
+rgb = lambda r, g, b:''.join('{:0>2}'.format(hex(x)[2:]) for x in (num if 0<num < 255 else 255 if num > 0 else 0 for num in (r,g,b))).upper()
+   
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+darkrob
+
+def clamp(c):
+    if c < 0:
+        return 0
+    elif c > 255:
+        return 255
+    return c
+
+def rgb(r, g, b):
+    r = clamp(r)
+    g = clamp(g)
+    b = clamp(b)
+    return "{:02X}{:02X}{:02X}".format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Osmosis
+
+def rgb(r, g, b):
+    return ''.join(["{:02x}".format(min(max(x,0),255)).upper() for x in [r,g,b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tuxanek
+
+def rgb(r, g, b):
+    #your code here :)
+    
+    return "%02X%02X%02X" % (limit(r), limit(g), limit(b))
+    
+    
+def limit(int):
+    if int < 0:
+        return 0
+    if int > 255:
+        return 255
+    return int
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+syeeric
+
+def rgb(*args):
+    return  "".join([hex(i)[2:].upper() if i <= 255 and i > 15 else "0"+hex(i)[2:].upper() if i > 0 and i <16 else "FF" if i > 255 else "00" for i in args ])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+peverett
+
+def rgb(r, g, b):
+    parameters = { k: v if v > 0 else 0 for k, v in locals().items() }
+    parameters = { k: v if v < 255 else 255 for k,v in parameters.items() }
+    return "{r:02X}{g:02X}{b:02X}".format(**parameters)
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jpellman
+
+def rgb(r, g, b):
+    colors = [r,g,b]
+    hexRep=''
+    for color in colors:
+        if color > 255:
+            color = 255
+        elif color < 0:
+            color = 0
+        if color < 16:
+            hexRep+='0'
+        hexRep+=hex(color).split('x')[1].upper() 
+    return hexRep
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jh222xk
+
+def rgb(r, g, b):
+    r = 'FF' if r > 255 else '00' if r < 0 else '{:02x}'.format(r).upper()
+    g = 'FF' if g > 255 else '00' if g < 0 else '{:02x}'.format(g).upper()
+    b = 'FF' if b > 255 else '00' if b < 0 else '{:02x}'.format(b).upper()
+    
+    return "%s%s%s" % (r, g, b)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Sarkanyolo
+
+def c(x):
+    if x < 0: return 0
+    return 255 if x > 255 else x
+
+def rgb(r,g,b):
+    return '%02X'%c(r) + '%02X'%c(g) + '%02X'%c(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+MMMAAANNN
+
+HEX = "0123456789ABCDEF"
+def rgb(*args):
+    result = ""
+    for arg in args:
+        if arg < 0:
+            result += "00"
+        elif arg > 255:
+            result += "FF"
+        else:
+            result += HEX[arg / 16] + HEX[arg % 16]
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hiasen
+
+def hex2(num):
+    num = max(0, min(255, num))
+    s = hex(num)[2:]
+    s = "0"*(2 - len(s)) + s
+    return s.upper()
+
+def rgb(*args):
+    return "".join(map(hex2, args[:3]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gavanderlinden
+
+def validate(value):
+    if value < 0:
+        return 0
+    elif value > 255:
+        return 255
+    else:
+        return value
+
+def rgb(r, g, b):
+    r, g, b = [validate(v) for v in (r, g, b)]
+    return "".join([hex(v)[2:].zfill(2) for v in (r,g,b)]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dhensche
+
+def rgb(r, g, b):
+    def limit(v):
+        return int(min([255, max([0, v])]))
+    return ''.join([hex(limit(v))[2:].upper().rjust(2, '0') for v in [r, g, b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+JoelR
+
+def rgb(r, g, b):
+    return "".join(["{:02X}".format(max(min(x,255),0)) for x in [r,g,b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+asduj
+
+def rgb(r, g, b):
+    r = max(min(r,255),0)
+    g = max(min(g,255),0)
+    b = max(min(b,255),0)
+    return "{0:02X}{1:02X}{2:02X}".format(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+asduj
+
+def rgb(r, g, b):
+    r = 0 if r < 0 else 255 if r > 255 else r
+    b = 0 if b < 0 else 255 if b > 255 else b
+    g = 0 if g < 0 else 255 if g > 255 else g
+    return '{0:02X}{1:02X}{2:02X}'.format(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wx7063
+
+def rgb(r, g, b):
+   rt = ''
+   r,g,b = map(lambda x: x if x>0 else 0, (r,g,b))
+   r,g,b = map(lambda x: 255 if x>255 else x, (r,g,b))
+   for val in (r,g,b):
+      if val < 16:
+         rt+= '0'+hex(val)
+      else:
+         rt += hex(val)
+   return rt.replace('0x', '').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rolandshoemaker
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if r > 256: r = 255
+    if g < 0: g = 0
+    if g > 256: g = 255
+    if b < 0: b = 0
+    if b > 256: b = 255
+    return str(bytearray([r,g,b])).encode('hex').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rkiller123
+
+import re
+
+def rgb(r,g,b):
+
+    hex_rgb = []
+    for c in [r,g,b]:
+        if c > 255:
+            hex_rgb.append(hex(255))
+        elif c < 0:
+            hex_rgb.append(hex(0))
+        else:
+            hex_rgb.append(hex(c))
+    #hex_rgb = [hex(255 if c > 255 else c) for c in [r,g,b]]
+    hex_color =  [re.sub('0x','', c) for c in hex_rgb]
+    hex_color = ''.join(['0' + x if len(x)<2 else x for x in hex_color])
+    return hex_color.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+uFFFD
+
+def rgb(r, g, b):
+    round = lambda x: x if 0 <= x <= 255 else 0 if x < 0 else 255
+    return '%06X' % ((round(r) << 16) + (round(g) << 8) + round(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dimitrisarchimandritis
+
+def rgb(r, g, b):
+    if r > 255:
+        r = 255
+    if r < 0:
+        r = 0
+    if g > 255:
+        g = 255
+    if g < 0:
+        g = 0
+    if b > 255:
+        b = 255
+    if b < 0:
+        b = 0
+    return hex(r)[2:].upper().zfill(2) + hex(g)[2:].upper().zfill(2) + hex(b)[2:].upper().zfill(2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kanslulz
+
+def rgb(*l):
+    return ''.join([(hex((i/16)%16)[-1] + hex(i%16)[-1]).upper() if 0 < i <= 255 else ["00","FF"][i>255] for i in l])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+36rahu
+
+def a(x): 
+    return max(0, min(x, 255))
+
+
+def rgb(r, g, b):
+    return ('%02x%02x%02x' % (a(r),a(g), a(b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+code4food
+
+def rgb(r, g, b):
+    def clamp(x):
+        if x < 0:
+            return 0
+        elif x > 255:
+            return 255
+        else:
+            return x
+    return '%02X%02X%02X' % (clamp(r), clamp(g), clamp(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kfang87
+
+def rgb(r, g, b):
+    limit = lambda x: min(max(x,0),255)
+    return "{:02X}{:02X}{:02X}".format(limit(r),limit(g),limit(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kfang87
+
+def rgb(r, g, b):
+    #get_hex = lambda x: min(max(x,0),255).__hex__()[2:]
+    x = get_hex(r)
+    y = get_hex(g)
+    z = get_hex(b)
+    return x + y +z
+
+def get_hex(x):
+    x = min(max(x,0),255)
+    x = x.__hex__()
+    x = x[2:]
+    if len(x) == 1:
+        x = '0' + x
+    return x.upper()
+print rgb(0,0,0)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cuiwei0322
+
+def tohex(n):
+  if n < 0:
+    n = 0
+  if n > 255:
+    n = 255
+  if n < 16:
+    return '0' + hex(n)[2:].upper()
+  else:
+    return hex(n)[2:].upper()
+
+def rgb(r, g, b):
+  return tohex(r) + tohex(g) + tohex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+PokeGuy
+
+def rgb(r, g, b):
+    return hexs(r) + hexs(g) + hexs(b)
+
+def hexs(x):
+    if x > 255: x = 255
+    elif x < 0: x = 0
+    return hex(x).replace('0x', '').upper() if len(hex(x)) == 4 else '0' + hex(x).replace('0x', '').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kapaulm
+
+def rgb(r, g, b):
+    #your code here :)
+    return ''.join(hex(max(min(x, 255), 0))[2:].rjust(2, '0').upper() for x in [r, g, b])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jingzhi22
+
+def rgb(r, g, b):
+    if r>255:
+        r=255
+    if r<0:
+        r=0
+    if g>255:
+        g=255
+    if g<0:
+        g=0
+    if b>255:
+        b=255
+    if b<0:
+        b=0
+    hexa = list('0123456789ABCDEF')
+    return hexa[r/16]+hexa[r%16]+hexa[g/16]+hexa[g%16]+hexa[b/16]+hexa[b%16]
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jupi2142
+
+def rgb(r, g, b):
+    args = [r, g, b]
+    args = [0 if arg < 0 else arg for arg in args]
+    args = [255 if arg > 255 else arg for arg in args]
+    hex_list = [hex(arg)[2:] for arg in args]
+    hex_list = [hi if len(hi) > 1 else '0'+hi for hi in hex_list]
+    return ''.join(hex_list).upper()
+    
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Calculating Nut
+
+rgb = lambda *colors: ''.join(["FF" if i > 255 else "00" if i < 0 else "0123456789ABCDEF"[i >> 4] + "0123456789ABCDEF"[i & 15] for i in colors]) 
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+or4n
+
+def rgb(r, g, b):
+    return ''.join([hex(max(0, min(255, c)))[2:].rjust(2, '0') for c in [r, g, b]]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+strelka
+
+def rgb(r, g, b):
+    res = ''
+    for x in (r,g,b):
+        if x < 0:
+            res += '00'
+        elif x > 255:
+            res += 'FF'
+        else:
+            res += format(x, 'X').rjust(2,'0')
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jake9066
+
+def rgb(r, g, b):
+    colors = [r, g, b]
+    final = ''
+    for color in colors:
+        if color < 0:
+            color = 0
+        if color > 255:
+            color = 255
+        color = hex(color)[2:]
+        if len(color) == 1:
+            final = final + '0' + color
+        else:
+            final += color
+    return final.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jhenn
+
+def rgb(r, g, b):
+    if r < 0:
+      r = 0
+    elif r > 255:
+      r = 255
+    if g < 0:
+      g = 0
+    elif g > 255:
+      g = 255
+    if b < 0:
+      b = 0
+    elif b > 255:
+      b = 255
+    return ''.join([hex(r)[2:].upper().zfill(2),hex(g)[2:].upper().zfill(2),hex(b)[2:].upper().zfill(2)])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+EricWSmith
+
+def rgb(r, g, b):
+    def dec_to_hex(n):
+      res = ''
+      if n > 255:
+        n = 255
+      if n < 0:
+        n = 0
+      if len(hex(n)) < 4:
+        res = '0'
+      for char in hex(n)[2:]:
+        if char not in 'abcdef':
+          res = res + char
+        if char in 'abcdef':
+          res = res + char.upper()
+      return res
+    value = ''
+    return value + dec_to_hex(r) + dec_to_hex(g) + dec_to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nykzero
+
+def rgb(r, g, b):
+    return format(min(max(r,0),255), '02X')+format(min(max(g,0),255), '02X')+format(min(max(b,0),255), '02X')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+akshaychhajed
+
+def rgb(r, g, b):
+    return toHex(r)+toHex(g)+toHex(b)
+
+def toHex(value):
+    if value<0:
+        return '00'
+    elif value>255:
+        return 'FF'
+    elif value <16:
+        return '0'+hex(value)[2:].upper()
+    else:
+        return hex(value)[2:].upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Letoile
+
+def check_int(num):
+    if num > 255:
+        return 255
+    elif num < 0:
+        return 0
+    return num
+    
+def _to_str(num):
+    return '0'+ str(num) if len(str(num)) == 1 else str(num)
+
+def rgb(r, g, b):
+    r = check_int(r)
+    g = check_int(g)
+    b = check_int(b)
+    r = '{0:x}'.format(int(r))
+    g = '{0:x}'.format(int(g))
+    b = '{0:x}'.format(int(b))
+    
+    new_r = _to_str(r).upper()
+    new_g = _to_str(g).upper()
+    new_b = _to_str(b).upper()
+    return str(new_r) + str(new_g) + str(new_b)
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pizzamon
+
+def rgb(r, g, b):
+    def h(n):
+        return '%02x' % min(max(n, 0), 255)
+    return (h(r) + h(g) + h(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+moisizz
+
+def rgb(*args):
+    rounded_args = ( 0 if arg < 0 else (255 if arg > 255 else arg) for arg in args )
+    return '{:0>2X}{:0>2X}{:0>2X}'.format(*rounded_args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+syedsuhail
+
+def rgb(r, g, b):
+    c  = [r,g,b]
+    res = ""
+    for i in c:
+        if 0<= i <= 15:
+            res += "0"+ hex(i)[2:].upper()
+        elif 15< i <= 255:
+            res += hex(i)[2:].upper()
+        elif i > 255:
+            res+= "FF"
+        else:
+            res+= "00"
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dinkumsoftware
+
+def to_hex(c) :
+  # Clip to legal values
+  if c < 0 : c = 0
+  if c > 255 : c = 255
+
+  ans = "%02x" % c  # 2 hex digits
+  return ans.upper()
+
+def rgb(r, g, b):
+    return to_hex(r) + to_hex(g) + to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jhb188
+
+def rgb(r, g, b):
+    rgb_values = []
+    for value in [r,g,b]:
+        if 0<=value<10:
+            rgb_values.append('0'+str(value))
+        elif value < 0:
+            rgb_values.append('00')
+        elif value > 255:
+            rgb_values.append(255)
+        else:
+            rgb_values.append(value)
+    return (''.join([hex(value).lstrip('0x') if type(value) == int else value for value in rgb_values])).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+shikasta-net
+
+def rgb(r, g, b):
+    #your code here :)
+    #base 16 representation
+    based = {     
+         10:"A",
+         11:"B",
+         12:"C",
+         13:"D",
+         14:"E",
+         15:"F",    
+    }
+    factor = lambda x: [x//16, x%16]
+    result = ""
+    for c in [r,g,b] :
+        if 0 <= c <= 255 :      
+            for a in factor(c) :
+                if a > 9 :
+                    a = based[a]
+                result += str(a)
+        elif c < 0 :
+            result += "00"
+        elif c > 255 :
+            result += "FF"
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cpascoe95
+
+def rgb(r, g, b):
+    chars = '0123456789ABCDEF'
+    out = ''
+    for channel in [r, g, b]:
+        if channel < 0: channel = 0
+        if channel > 255: channel = 255
+        out += chars[channel >> 4] + chars[channel & 15]
+    return out
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+BrookShuihuaLee
+
+def rgb(r, g, b):
+    def f(i):
+        if i < 0:
+            i = 0
+        elif i > 255:
+            i = 255
+        r = hex(i)[2:].upper()
+        if len(r) == 1:
+            r = '0' + r
+        return r
+    return f(r) + f(g) + f(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+zach.gates
+
+rgb = lambda r, g, b: ('%02x%02x%02x' % tuple(map(lambda n: 255 if n > 255 else 0 if n < 0 else n, [r, g, b]))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yammesicka
+
+def rgb(r, g, b):
+    return ''.join(map(lambda n: hex(min(255, max(0, n))).replace('0x','').zfill(2).upper(), (r,g,b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thelonius
+
+def rgb(r, g, b):
+    t = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+    output = ''
+    for color in [r,g,b]:
+        if color < 0:
+            color = 0
+        if color > 255:
+            color = 255
+        output += t[color/16]
+        output += t[color%16]
+    return output
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+yowmamasita
+
+def rgb(*args):
+    return ''.join([hex(max(min(255, d), 0)).split('x')[1].zfill(2) for d in args]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jolaf
+
+def rgb(r, g, b):
+    return ''.join('%02X' % max(0, min(255, x)) for x in (r, g, b))
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+jonathanlee1
+
+def rgb(*args):
+    return ''.join(hex(min(max(val, 0), 255))[2:].rjust(2, '0').upper() for val in args)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+papercat
+
+def rgb(r, g, b):
+    return ''.join(hex(col)[2:].rjust(2, '0').upper() if col >= 0 and col <= 255 else 'FF' if col > 255 else '00' for col in (r, g, b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ssword
+
+def rgb(r, g, b):
+    #your code here :)
+  return toHex(r)+toHex(g)+toHex(b)
+
+def toHex(rgb):
+  if rgb < 0:
+    return "00"
+  elif rgb > 255:
+    return "FF"
+  else:
+    first = rgb / 16
+    second = rgb % 16
+    return hexade(first) + hexade(second)
+
+def hexade(result):
+  hexalpha = ["A", "B", "C", "D", "E", "F"]
+  if result / 10 == 0:
+    return str(result)
+  else:
+    return hexalpha[result%10]
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+alagner
+
+def rgb(r, g, b):
+    cl = [r, g, b]
+    el_hex = []
+    for el in cl:
+        if el < 0:
+            el = 0
+        if el > 255:
+            el = 255
+        el_hex.append(hex(el)[2:].zfill(2))   
+    return ''.join(el_hex).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+walshd15
+
+def rgb(r, g, b):
+    #Lambda to bind numbers to required range
+    round = lambda x: max(0, min(x, 255))
+    
+    #Combine and return
+    return  ("{:02X}" * 3).format(round(r), round(g), round(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+walshd15
+
+def rgb(r, g, b):
+    #Bind numbers to required range
+    red     = max(0, min(r, 255))
+    green   = max(0, min(g, 255))
+    blue    = max(0, min(b, 255))
+    
+    #Convert to two hex characters
+    red     = "%0.2X" % red
+    green   = "%0.2X" % green
+    blue    = "%0.2X" % blue
+    
+    #Combine and return
+    return "{0}{1}{2}".format(red, green, blue)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+EastAustinian
+
+def rgb(r, g, b):
+    def hex_int(value):
+        if -1 < value < 256: return value
+        return 0 if value < 0 else 255
+
+    return '{:02X}{:02X}{:02X}'.format(hex_int(r), hex_int(g), hex_int(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+up.sachi
+
+def rgb(r, g, b):
+  res = ""
+  if 0 <= r <= 255:
+    firs = bin(r)
+  
+    firs_hex = hex(int(firs, 2))
+    firs_hex = firs_hex[2:]
+    if len(str(firs_hex)) < 2:
+      res += "0" + str(firs_hex)
+    else:
+      res += firs_hex
+  elif r > 255:
+    res += "FF"
+  else:
+    res += "00"
+    
+  if 0 <= g <= 255:  
+    sec = bin(g)
+
+    sec_hex = hex(int(sec, 2))
+    sec_hex = sec_hex[2:]
+    if len(str(sec_hex)) < 2:
+      res += "0" + str(sec_hex)
+    else:
+      res += str(sec_hex)
+  elif g > 255:
+    res += "FF"
+  else:
+    res += "00"
+  
+  if 0 <= b <= 255:
+    thir = bin(b)
+  
+    thir_hex = hex(int(thir, 2))
+    thir_hex = thir_hex[2:]
+    if len(str(thir_hex)) < 2:
+      res += "0" + str(thir_hex)
+    else:
+      res += str(thir_hex)
+  elif b > 255:
+    res += "FF"
+  else:
+    res += "00"
+    
+  return res.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jrussia
+
+def rgb(r, g, b):
+    return convert_hex(r) + convert_hex(g) + convert_hex(b)
+
+def convert_hex(i):
+    if i < 0:
+        return '00'
+    if i > 255:
+        return 'FF'
+    s = hex(i)[-2:]
+    if s[-2] == 'x':
+        s = '0' + s[-1]
+    return s.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+gnomicperfect
+
+def rgb(r, g, b):
+  if r<0: 
+      r=0
+  elif r>255:
+      r=255
+  else:
+      pass
+  
+  if g<0:
+      g=0
+  elif g>255:
+      g=255
+  else:
+      pass
+  
+  if b<0:
+      b=0
+  elif b>255:
+       b=255
+  else:
+      pass
+  
+  if r<10:
+      r=str(0)+str(r)
+  else:
+      r=hex(r)
+  if g<10:
+      g=str(0)+str(g)
+  else:
+      g=hex(g)
+  if b<10:
+      b=str(0)+str(b)
+  else:
+      b=hex(b)
+  
+  
+  j=str(r)+str(g)+str(b)
+  j=j.replace("0x","")
+  j=j.replace("a","A")
+  j=j.replace("b","B")
+  j=j.replace("c","C")
+  j=j.replace("d","D")
+  j=j.replace("e","E")
+  return j.replace("f","F")
+
+  
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+BigMacHomeSlice
+
+table = {
+    10: 'A', 
+    11: 'B', 
+    12: 'C', 
+    13: 'D', 
+    14: 'E',
+    15: 'F'
+}
+def translate(i):
+    if i < 0:
+        return '0', '0'
+    if i > 255:
+        return 'F', 'F'
+        
+    x = i / 16.0
+    x1 = int(x)
+    diff = x - x1
+    x2 = int(diff * 16.0)
+    return str(x1) if x1 not in table else table[x1], str(x2) if x2 not in table else table[x2]
+
+def rgb(r, g, b):
+    tokens = []
+    for c in [r, g, b]:
+        i, j = translate(c)
+        tokens.append(i)
+        tokens.append(j)
+    return "".join(tokens)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ianjfrosst
+
+def rgb(r, g, b):
+    #your code here :)
+    z = [r,g,b]
+    for i in range(len(z)):
+        if z[i] < 0: z[i] = 0
+        if z[i] > 255: z[i] = 255
+    return ''.join("{0:02x}".format(i).upper() for i in z)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RVdeKoning
+
+from numpy import clip
+def rgb(r, g, b):
+    rgb = clip([r,g,b],0,255)
+    return "{0:02X}{1:02X}{2:02X}".format(rgb[0],rgb[1],rgb[2])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RVdeKoning
+
+from numpy import clip
+def rgb(r, g, b):
+    rgb = clip([r,g,b],0,255)
+    str1 = "{0:2x}{1:2x}{2:2x}".format(rgb[0],rgb[1],rgb[2])
+    return str1.upper().replace(' ','0')
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+avgotts
+
+def rgb(r, g, b):
+    #your code here :)
+    return "%02X%02X%02X" % (min(255, max(0,r)),min(255, max(0,g)),min(255, max(0,b))) 
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+romanlevin
+
+def get_hex(n):
+    n = min(n, 255)
+    n = max(n, 0)
+    return hex(n)[2:].upper().zfill(2)
+
+def rgb(r, g, b):
+    return ''.join(get_hex(c) for c in (r, g, b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+frostmark
+
+def rgb(r, g, b):
+
+    rgbList = [r, g, b]
+    responseHex = ''
+    for i in rgbList:
+        if i < 0 : i = 0
+        if i > 255 : i = 255
+        responseHex += hex(i).split('x')[1] if len(str(i)) >= 2 else hex(i).replace('x','')
+
+    return responseHex.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ratulrafsan
+
+def rgb(r, g, b):
+    ret = []
+    a = [r,g,b]
+    for i,e in enumerate(a):
+        if e < 0 :
+            a[i] = 0
+        elif e > 255:
+            a[i] = 255
+    for i in a:
+        z = '%x'%i
+        if len(z) == 1:
+            ret.append('0'+z)
+        else:
+            ret.append(z)
+    return ''.join(ret).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bmkessler
+
+def rgb(r, g, b):
+    vals = map(lambda x: x if x>0 else 0,map(lambda x: x if x<255 else 255,[r,g,b]))
+    return '{:02X}{:02X}{:02X}'.format(*vals)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dcsmith
+
+def rgb(r, g, b):
+    out = ''
+    for col in [r, g, b]:
+        if col < 0:
+            out += '00'
+        elif col > 255:
+            out += 'FF'
+        else:
+            toHex = hex(col)[2:]
+            if len(toHex) < 2:
+                toHex = '0' + toHex
+            out += toHex
+    return out.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ColtenDuccini
+
+def rgb(r, g, b):
+    r_h = "FF" if r > 255 else ("00" if r < 0 else ((format(abs(r), '02x')) if r < 16 else (format(abs(r), '2x'))))
+    g_h = "FF" if g > 255 else ("00" if g < 0 else ((format(abs(g), '02x')) if g < 16 else (format(abs(g), '2x'))))
+    b_h = "FF" if b > 255 else ("00" if b < 0 else ((format(abs(b), '02x')) if b < 16 else (format(abs(b), '2x'))))
+    return (r_h + g_h + b_h).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+s7even
+
+def hextoint(n):
+    if n<0:
+        return '00'
+    if n>255:
+        return 'FF'
+    n = hex(n)[2:]
+    if len(n)==1:
+        return '0'+n
+    return n.upper()
+    
+def rgb(r, g, b):
+    return hextoint(r)+hextoint(g)+hextoint(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+spiderlouis1
+
+def rgb(r, g, b):
+    h = ''
+    for x in [r,g,b]:
+        if x < 0:
+            x = 0
+        if x > 255:
+            x = 255
+        h += '{:0>2}'.format(hex(x)[2:])
+    return h.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+stranac
+
+def normalize(n):
+    return min(max(0, n), 255)
+
+
+def rgb(r, g, b):
+    return '{:02X}{:02X}{:02X}'.format(normalize(r), normalize(g), normalize(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mandeepbhutani
+
+def rgb(r, g, b):
+    bounds = lambda x: max(0, min(x, 255))
+    return "{0:02x}{1:02x}{2:02x}".upper() .format(bounds(r), bounds(g), bounds(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mandeepbhutani, antouan
+
+def bounds(x):
+    return max(0, min(x, 255))
+
+def rgb(r, g, b):
+    return "{0:02x}{1:02x}{2:02x}".upper() .format(bounds(r), bounds(g), bounds(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+beeyee2010
+
+def rgb(r, g, b):
+    r = check_range(r)
+    g = check_range(g)
+    b = check_range(b)
+    rgb = (r, g, b)
+    return ('%02x%02x%02x' % rgb).upper()
+    
+def check_range(n):
+    if n < 0:
+        return 0
+    if n > 255:
+        return 255
+    return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+schelotto
+
+def rgb(r, g, b):
+    list_rgb = [sorted([0, x, 255])[1] for x in [r, g, b]]  
+    hex_rgb = [0]*3
+    for x in range(3):
+        if len(hex(list_rgb[x])[2:]) == 1:
+            hex_rgb[x]  = '0' + hex(list_rgb[x])[2:].upper()
+        else:
+            hex_rgb[x] = hex(list_rgb[x])[2:].upper()
+    return ''.join(hex_rgb)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+schelotto
+
+def rgb(r, g, b):
+    list_rgb = [(r>0)*0+(r>255)*255+(0<=r<=255)*r, (g>0)*0+(g>255)*255+(0<=g<=255)*g, (b>0)*0+(b>255)*255+(0<=b<=255)*b]   
+    hex_rgb = [0]*3
+    for x in range(3):
+        if len(hex(list_rgb[x])[2:]) == 1:
+            hex_rgb[x]  = '0' + hex(list_rgb[x])[2:].upper()
+        else:
+            hex_rgb[x] = hex(list_rgb[x])[2:].upper()
+    return ''.join(hex_rgb)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+chenrenyi
+
+def rgb(r, g, b):
+    #your code here :)
+    result = ''
+    for i in (r, g, b):
+        if i < 0: i=0
+        elif i > 255: i=255
+        result += str(hex(i))[2:] if i >= 16 else '0'+str(hex(i))[2:]
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tim_betty
+
+def rgb(*argv):
+    # handle out of range with rounding
+    colors = []
+    for val in argv:
+        if val<0:
+            colors.append(0)
+        elif val>255:
+            colors.append(255)
+        else:
+            colors.append(val)
+    return "{:02X}{:02X}{:02X}".format(*colors)
+            
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Unnamed
+
+rgb = lambda *args: (3 * '{:02X}').format(*(sorted((0, x, 255))[1] for x in args))
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+godicked
+
+def rgb(r,g,b):
+        if r < 0: r=0
+        if r > 255: r = 255
+        if g < 0: g=0
+        if g > 255: g = 255
+        if b < 0: b=0
+        if b > 255: b = 255
+        r=("%X" % r)
+        g=("%X" % g)
+        b=("%X" % b)
+        if(len(r) == 1): r = "0"+r
+        if(len(g) == 1): g = "0"+g
+        if(len(b) == 1): b = "0"+b
+        return r+g+b
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ollkl
+
+def rgb(r, g, b):
+    clean_vals = ''         
+    
+    for num in [r, g, b]:
+        if num < 0:
+            num = 0
+        else:
+            if num > 255:
+                num = 255
+                
+        conv_num = hex(num)[2:]
+        
+        if len(conv_num) == 1:
+            conv_num = '0' + conv_num 
+    
+        clean_vals = clean_vals + conv_num.upper()
+
+    return clean_vals
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+afharms
+
+def rgb(r, g, b):
+
+    floor = lambda x: 0 if x < 0 else x
+    ceiling = lambda x: 255 if x > 255 else x
+    
+    result = [hex(x)[2:].zfill(2).upper() for x in [floor(ceiling(r)), floor(ceiling(g)), floor(ceiling(b))]]
+    return ''.join(result)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+llpoqpeccop
+
+def rgb(r, g, b):
+    #your code here :)
+  if r <0:r =0
+  if g <0:g =0
+  if b <0:b =0
+  r = str(hex(r))[2:]
+  g = str(hex(g))[2:]
+  b = str(hex(b))[2:]
+
+  result = [r.upper(),g.upper(),b.upper()]
+  print result
+  for i in range(len(result)):
+    if len(result[i])<2:
+      result[i] = '0' + result[i]
+    if len(result[i])>2:
+      result[i] = "FF"
+          
+
+  return ''.join(result)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+comatose_11
+
+def rgb(r, g, b):
+    result = ''
+    for v in ([r,g,b]):
+        v_hex = str(hex(getInRange(v)))[2:]
+        if (len(v_hex) == 1):
+            v_hex = "0"+v_hex
+        result += v_hex
+    return result.upper()
+
+def getInRange(n):
+    if (n < 0):
+        return 0
+    elif (n > 255):
+        return 255
+    else:
+        return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+kura
+
+def rgb(r, g, b):
+    def lol(x):
+        if x<0:
+            return '00'
+        if x<10 and x>=0:
+            return '0'+str(x)
+        if x>9 and x<256:
+            return hex(x)[2:].upper()
+        else:
+            return 'FF'
+    return lol(r) + lol(g) + lol(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+laerianna
+
+def rgb(r, g, b):
+    if r > 255: r = 255
+    elif r < 0: r = 0
+    r = hex(r)[2:].upper()
+    if len(r) == 1: r = '0'+r
+    if g > 255: g = 255
+    elif g < 0: g = 0
+    g = hex(g)[2:].upper()
+    if len(g) == 1: g = '0'+g
+    if b > 255: b = 255
+    elif b < 0: b = 0
+    b = hex(b)[2:].upper()
+    if len(b) == 1: b = '0'+b
+    return r+g+b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+aggronacho
+
+def rgb(a, b, c):
+        def toHex(n):
+                d = "0123456789ABCDEF"
+                out = ""
+
+                if n > 255:
+                        n = 255
+                while n > 0:
+                        out = d[n%16] + out
+                        n /= 16
+                return out.zfill(2)
+        return toHex(a)+toHex(b)+toHex(c)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+goodmove
+
+def rgb(r, g, b):
+    r=correctVal(r)
+    g=correctVal(g)
+    b=correctVal(b)
+    return toHex(toBin(r))+toHex(toBin(g))+toHex(toBin(b))
+    
+def toBin(number):
+  binary=""
+  while number > 1:
+    binary+=str(number%2)
+    number//=2
+  binary= binary+("1" if number > 0 else "0")
+  binary= binary[::-1]
+  while len(binary)!=8:
+    binary="0"+binary
+  return binary
+    
+def toHex(binary):
+    keys={"0000":"0","0001":"1","0010":"2","0011":"3","0100":"4","0101":"5",
+    "0110":"6","0111":"7","1000":"8","1001":"9","1010":"A","1011":"B","1100":"C",
+    "1101":"D","1110":"E","1111":"F"}
+    return keys[binary[0:4]]+keys[binary[4:]]
+
+def correctVal(n):
+    if n<0:
+        return 0
+    elif n>255:
+        return 255
+    else: 
+        return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mwiton
+
+def rgb(r, g, b):
+    hexvalue=''
+    for x in [r,g,b]:
+        if x<0:
+            x=0
+        elif x>255:
+            x=255
+        hexvalue+='{:02X}'.format(x)
+    return hexvalue
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tiago4680
+
+hexalpha='0123456789ABCDEF'
+def from_Dec(input, target=hexalpha):
+    if input > 255:
+        input = 255
+    elif input < 0:
+        input = 0
+    x = (input % len(target))    
+    rest = input / len(target)
+    if (rest == 0):
+        return target[x]
+    return str(from_Dec(rest, target) + target[x])   
+
+def two_digits(string):
+    if len(string) < 2:
+        string = '0' + string
+    return string
+    
+def rgb(r, g, b):    
+    rHex = two_digits(from_Dec(r))   
+    gHex = two_digits(from_Dec(g))
+    bHex = two_digits(from_Dec(b))
+    return rHex+gHex+bHex   
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+davidaparicio
+
+def rgb(r, g, b):
+    result = ""
+    for color in [r,g,b]:
+        if color > 255:
+            result += "FF"
+        elif color < 0:
+            result += "00"
+        else: #between 0 and 255
+            result += str(hex(color))[2::].zfill(2).upper()
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+idjaw
+
+def rgb(r, g, b):
+    num_bound = lambda x: 0 if x < 0 else 255 if x > 254 else x
+    return ('%02x%02x%02x' % (num_bound(r), num_bound(g), num_bound(b))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+idjaw
+
+   
+def rgb(r, g, b):
+    r = 0 if r < 0 else 255 if r > 254 else r
+    g = 0 if g < 0 else 255 if g > 254 else g
+    b = 0 if b < 0 else 255 if b > 254 else b
+    return ('%02x%02x%02x' % (r, g, b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+idjaw
+
+def hex_conv(n):
+    if n < 0:
+        return '00'
+    if n < 10:
+        return '0{}'.format(hex(n).replace('0x', '').upper())
+    if n > 255:
+        return 'FF'
+    else:
+        return hex(n).replace('0x', '').upper()
+        
+
+def rgb(r, g, b):
+    return '{}{}{}'.format(hex_conv(r), hex_conv(g), hex_conv(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+asc139, Kuraisu
+
+def rgb(r, g, b):
+    return "{:02X}{:02X}{:02X}".format(max(0,min(r,255)),max(0,min(g,255)),max(0,min(b,255)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dkobozev
+
+def rgb(r, g, b):
+    r, g, b = [max(0, min(x, 255)) for x in (r, g, b)]
+    return "%06X" % (b | g << 8 | r << 16)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thepolm3
+
+hexi = "0123456789ABCDEF"
+
+def rgb(r, g, b):
+    return reduce(lambda x,y: x+hexi[y//16]+hexi[y%16],[max(0,min(r,255)),max(0,min(g,255)),max(0,min(b,255))],"")
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Sokas
+
+def rgb(r, g, b):
+    return c(r) + c(g) + c(b)
+    
+def c(x):
+    if x > 255:
+        x = 255
+    elif x < 0:
+        x = 0
+    return hex(x)[2:].upper().zfill(2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dpetek
+
+def rgb(r, g, b):
+    return "%0.2X%0.2X%0.2X" % (min(max(r, 0), 255), min(max(g, 0), 255), min(max(b, 0), 255))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nerdgf
+
+def rgb(*rgbvalues):
+    returnvalue = ''
+    hexlist = [str(hex(x)) for x in rgbvalues]
+    for string in hexlist:
+      if int(string, 16) < 0:
+        returnvalue += '00'
+        continue
+      elif int(string, 16) > 255:
+        returnvalue += 'FF'
+        continue
+      string = string[string.index('x')+1:]
+      if len(string) == 1:
+        string = '0' + string
+      returnvalue += string
+    return returnvalue.upper()
+      
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+chanshik
+
+def rgb(r, g, b):
+    r, g, b = map(lambda x: 0 if x < 0 else 255 if x > 255 else x, [r, g, b])
+
+    return "%s%s%s" % (format(r, "02X"), format(g, "02X"), format(b, "02X"))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tdlimbo
+
+def clip(v):
+    return max(0,min(255,v))
+    
+def rgb(r, g, b):
+    return "%02X%02X%02X" % (clip(r), clip(g), clip(b))
+
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+barajasr
+
+def rgb(r, g, b):
+  r = front_padding(to_hex(r))
+  g = front_padding(to_hex(g))
+  b = front_padding(to_hex(b))
+  return ''.join([r, g, b])
+
+def front_padding(n, length=2):
+  if len(n) == length: return n
+  return '0'*(length-len(n)) + n
+
+def to_hex(decimal):
+  if decimal < 0: return '00'
+  elif decimal > 255: return 'FF'
+
+  hex_keys = {0:'0', 1:'1', 2:'2', 3:'3', 4:'4', 5:'5', 6:'6', 7:'7',8:'8',
+              9:'9', 10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F'}
+  quotient = decimal
+  remainder = []
+  while quotient > 0:
+    quotient, r = divmod(quotient, 16)
+    remainder.append(hex_keys[r])
+
+  return ''.join(remainder[::-1])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Kartboy
+
+def rgb(r, g, b):
+  r = validate(r)
+  g = validate(g)
+  b = validate(b)
+
+  return "%.2X%.2X%.2X" % (r, g, b)
+  
+def validate(n):
+  if n < 0:
+    return 0
+  elif n > 255:
+    return 255
+  else:
+    return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+smonf
+
+def rgb(r, g, b):
+    rgb = [r, g, b]
+    output = []
+    for i in rgb:
+        if i > 255:
+            output.append(255)
+        elif i < 0:
+            output.append(0)
+        else:
+            output.append(i)
+    return '{:02X}{:02X}{:02X}'.format(*output)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+smonf
+
+def rgb(r, g, b):
+    print r + g + b
+    index_to_hex = { 10 : 'A', 11 : 'B', 12 : 'C', 13 : 'D', 14 : 'E', 15 : 'F'}
+    colors = [r, g, b]
+    output = []
+    for i in colors:
+        if i > 255:
+            output.append(15)
+            output.append(15)
+        elif i < 0:
+            output.append(0)
+            output.append(0)
+        else:
+            output.append(i / 16)
+            output.append(i % 16)
+    for j in output:
+        if j >= 10:
+            output[output.index(j)] = index_to_hex[j]
+        else :
+            output[output.index(j)] = str(j)
+    output = ''.join(output)
+    return output
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wgollino
+
+def rgb(r, g, b):
+    return '{:06X}'.format((min(255, max(0, r))<<16) + (min(255, max(0, g))<<8) + min(255, max(0, b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+HEXecutive
+
+def rgb(r, g, b):
+    return (h(r) + h(g) + h(b)).upper()
+
+def h(v):
+    return hex(min(max(0,v),255))[2:].zfill(2)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Matt182
+
+import string
+def rgb(r, g, b):
+    #your code here :)
+    res = check(r)+check(g)+check(b)
+    return res
+    
+def check(x):
+    if x <= 0:
+        return '00'
+    elif (x > 9 and x <= 255):
+        res = hex(x)
+        print res
+        res = res.split('x')
+        res = ''.join(res)
+        res = res.split('0')
+        res = ''.join(res)
+        res = string.upper(res)
+        return res
+    elif x > 0 and x <= 9:
+        res = hex(x)
+        res = res.split('x')
+        res = ''.join(res)
+        res = string.upper(res)
+        return res
+    else:
+        return 'FF'
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+qy_code
+
+HEX_MAP = {10 : 'A', 11 : 'B', 12 : 'C', 13 : 'D', 14 : 'E', 15 : 'F'}
+
+def hex_map(x):
+  if x > 9:
+    x = HEX_MAP[x]
+  else:
+    x = str(x)
+  return x
+
+def convert_to_hex(x):
+  d1 = x/16
+  d2 = x%16
+  return hex_map(d1)+hex_map(d2)
+
+
+def rgb(r, g, b):
+  r = min(255, max(r,0))
+  g = min(255, max(g,0))
+  b = min(255, max(b,0))
+  return convert_to_hex(r)+convert_to_hex(g)+convert_to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jaehlee
+
+def rgb(r, g, b):
+    #your code here :)
+    def decTohex(n):
+        n=int(n)
+        if n<0: n=0
+        if n>255: n=255
+
+        hexDict={10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F'}
+        for i in range(10):
+            hexDict[i]=str(i)
+        return hexDict[n/16]+hexDict[n%16]
+
+    return decTohex(r)+decTohex(g)+decTohex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+simongibbons
+
+def to_hex(n):
+    if n > 255: n = 255
+    if n < 0: n = 0
+
+    h = hex(n)[2:]
+    return "0"*(2-len(h)) + h.upper()
+
+def rgb(r, g, b):
+    return to_hex(r) + to_hex(g) + to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+IVBakker
+
+def rgb(r, g, b):
+    r = min(255,max(0,r))
+    g = min(255,max(0,g))
+    b = min(255,max(0,b))
+    return "%02X%02X%02X" %(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+whereismypaul
+
+def rgb(r, g, b):
+    return ("".join([hex(max(0, min (x, 255)))[-2:] for x in (r, g, b)])).replace("x","0").upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Becojo
+
+def rgb(r, g, b):
+    f = '{0:x}'
+    vals = [r, g, b]
+    
+    for i in range(len(vals)):
+        x = max(0, min(255, vals[i]))        
+        vals[i] = f.format(x).zfill(2).upper()
+
+    return ''.join(vals)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+TempleClause
+
+def rgb(r, g, b):
+    solution = ""
+    for val in [r,g,b]:
+        if val < 0:
+            hexVal = "00"
+        elif val > 255:
+            hexVal = "FF"
+        else:
+            hexVal = hex(val)[2:]
+        
+        if len(hexVal)<2:
+            hexVal = "0" + hexVal
+        solution += hexVal.upper()
+    return solution
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+grit96
+
+def rgb(r, g, b):
+    return ''.join(map(lambda a:hex(min(max(0,a),255))[2:].zfill(2).upper(),(r,g,b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+davidnorm
+
+def rgb(r, g, b):
+    if r in range(0,10):
+        r = str(0)+str(r)
+    elif r < 0:
+        r = '00'
+    elif r > 255:
+        r = 'FF'
+    else:
+        r = hex(r)
+    if g in range(0,10):
+        g = str(0)+str(g)
+    elif g < 0:
+        g = '00'
+    elif g >255:
+        g = 'FF'
+    else:
+        g = hex(g)
+    
+    if b in range(0,10):
+        b = str(0)+str(b)
+    elif b < 0:
+        b = '00'
+    elif b > 255:
+        b = 'FF'
+    else:
+        b = hex(b)
+
+    e = str(r+g+b).replace('0x','').upper()
+    return e
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ChristianECooper
+
+def rgb(r, g, b):
+    def to_hex(n):
+        if n > 255:
+            n = 255
+        elif n < 0:
+            n = 0
+        result = str(hex(n))[2:].upper()
+        return result if len(result) == 2 else "0" + result
+        
+    return to_hex(r) + to_hex(g) + to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dezgo
+
+def pad(s):
+    return s if len(s) == 2 else "0" + s
+
+def padhex(n):
+    if n < 0:
+        return "00"
+    elif n > 255:
+        return "FF"
+    else:
+        return pad(hex(n)[2:]).upper()
+
+def rgb(r, g, b):
+    return padhex(r) + padhex(g) + padhex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bdk
+
+def rgb(r, g, b):
+    return ("%02x%02x%02x" % (clip(r, 0, 255), clip(g, 0, 255), clip(b, 0, 255))).upper()
+
+def clip(x, l, h):
+    return min(max(x, l), h)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Orion314
+
+def rgb(r, g, b):
+    if r>255:
+        r=255
+    elif r<0:
+        r=0
+    if g>255:
+        g=255
+    elif g<0:
+        g=0
+    if b>255:
+        b=255
+    elif b<0:
+        b=0
+    return '{:02X}{:02X}{:02X}'.format(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ngunia
+
+def rgb(r, g, b):
+    rH = str(hex(r)[2:]).zfill(2) if r > 0 and r < 255 else '00' if r<= 0 else 'FF'
+    gH = str(hex(g)[2:]).zfill(2) if g > 0 and g < 255 else '00' if g<= 0 else 'FF'
+    bH = str(hex(b)[2:]).zfill(2) if b > 0 and b < 255 else '00' if b<= 0 else 'FF'
+    return (rH+gH+bH).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+daddepledge
+
+HEX = "0123456789ABCDEF"
+
+def rgb(r, g, b):
+    return ffhex(r) + ffhex(g) + ffhex(b)
+    
+
+def ffhex(num):
+    """produces a two digit hex code for base 10 num up to 255"""
+    strhex = ""
+    num = min(max (0, num), 255)
+    
+    while len(strhex) < 2:
+        strhex = HEX[num % 16] + strhex
+        num = num // 16
+
+    return strhex
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dreadknight2008
+
+def rgb(r, g, b):
+   checks = lambda a: min(255, (abs(a)+a)/2) 
+   
+   result ='%02x%02x%02x' % (checks(r), checks(g), checks(b))
+   return result.upper()
+
+print rgb (20,45,49)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ethanal
+
+def rgb(r, g, b):
+    bounded = map(lambda x: min(255, max(0, int(x))), [r, g, b])
+    return ("{:02X}"*3).format(*bounded)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ethanal
+
+def rgb(r, g, b):
+    bounded = map(lambda x: 0 if x < 0 else 255 if x > 255 else x, [r, g, b])
+    return ("{:02X}"*3).format(*bounded)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+juliango202
+
+def rgb(r, g, b):
+    def chn(dec):
+        if dec < 0: dec = 0
+        if dec > 255: dec = 255
+        return "{0:x}".format(dec).zfill(2).upper()
+    return chn(r) + chn(g) + chn(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tblyler
+
+def rgb(r, g, b):
+    if r >= 255:
+        result = 'FF'
+    elif r <= 0:
+        result = '00'
+    else:
+        result = hex(r)[2:].upper()
+        while len(result) < 2:
+            result = '0' + result
+        
+    if g >= 255:
+        result += 'FF'
+    elif g <= 0:
+        result += '00'
+    else:
+        temp = hex(g)[2:].upper()
+        while len(temp) < 2:
+            temp = '0' + temp
+        result += temp
+        
+    if b >= 255:
+        result += 'FF'
+    elif b <= 0:
+        result += '00'
+    else:
+        temp = hex(b)[2:].upper()
+        while len(temp) < 2:
+            temp = '0' + temp
+        result += temp
+    
+    return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ironlung
+
+def rgb(r, g, b):
+    #your code here :)
+    hexvals = map(hex, map(valid_val, [r, g, b]))
+    rgb = ''
+    for val in hexvals:
+        rgb += val[2:].zfill(2)
+    return rgb.upper()
+    
+def valid_val(n):
+    if n < 0:
+        return 0
+    if n>255:
+        return 255
+    else:
+        return n
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+persnickety199
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    elif r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    elif g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    elif b > 255:
+        b = 255
+    hexa = [hex(i)[2:].upper() for i in [r,g,b]]
+    return ''.join([('0' if len(str(i)) == 1 else '') + i for i in hexa])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+philipseidel
+
+h = '0123456789ABCDEF'
+
+def rgb(*args):
+  return "".join([h[y >> 4 % 16] + h[y % 16] for y in [min(max(x, 0), 255) for x in args]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+hegwest, mikescodewarsaccount
+
+def rgb(r, g, b):
+    r=fixit(r)
+    g=fixit(g)
+    b=fixit(b)
+
+    rhex=hex(r).strip('0x').upper().zfill(2)
+    ghex=hex(g).strip('0x').upper().zfill(2)
+    bhex=hex(b).strip('0x').upper().zfill(2)
+    return rhex+ghex+bhex
+
+def fixit(colorval):
+    if colorval>255:
+        return 255
+    elif colorval<0:
+        return 0
+    else: return colorval
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+weirdlos
+
+def rgb(r, g, b):
+    r=int(round(r))
+    g=int(round(g))
+    b=int(round(b))
+    r=0 if r<0 else 255 if r>255 else r
+    g=0 if g<0 else 255 if g>255 else g
+    b=0 if b<0 else 255 if b>255 else b
+    return '{:02X}{:02X}{:02X}'.format(r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Strandtasche
+
+def rgb(r, g, b):
+    s1 = hex(r)
+    s2 = hex(g)
+    s3 = hex(b)
+    if r < 0:
+        s1 = "0x00"
+    elif r > 255:
+        s1 = "0xFF"
+    if g < 0:
+        s2 = "00"
+    elif g > 255:
+        s2 = "0xFF"
+    if b < 0:
+        s3 = "00"
+    elif b > 255:
+        s3 = "0xFF"
+    s1a = s1[2:].upper().zfill(2)
+    s2a = s2[2:].upper().zfill(2)
+    s3a = s3[2:].upper().zfill(2)
+    return s1a + s2a + s3a
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mistr4l
+
+def rgb(r, g, b):    
+    return ''.join(['00' if c <=0 else 'FF' if c >= 255 else ('0' + hex(c)[2:])[-2:].upper() for c in  [r,g,b]])
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+blacklight2000
+
+import re
+
+def rgb(r, g, b):
+    colors_rgb = [r,g,b]
+    for i in range(len(colors_rgb)):
+        if colors_rgb[i] < 0: colors_rgb[i] = 0
+        if colors_rgb[i] > 255: colors_rgb[i] = 255
+        colors_rgb[i] = hex(colors_rgb[i]).replace('0x','').upper()
+        if len(colors_rgb[i]) == 1: colors_rgb[i] = '0' + colors_rgb[i]
+    return ''.join(colors_rgb)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dentafrice
+
+def val(v):        
+    v = max(v, 0)
+    v = min(v, 255)
+    v = hex(v).replace('0x', '').upper()
+    
+    return ((2 - len(v)) * '0') + v
+
+def rgb(r, g, b):
+    return val(r) + val(g) + val(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+codingisfun
+
+def rgb(r, g, b):
+     
+  hexR = hexify(sanitize(r)).upper()
+  hexG = hexify(sanitize(g)).upper()
+  hexB = hexify(sanitize(b)).upper()
+
+  return hexR+hexG+hexB
+  
+def hexify(n):
+  hexed = hex(n)[2:]
+  return hexed.rjust(2,'0') 
+
+def sanitize(n):
+  if n > 255:
+    return 255
+  if n < 0:
+     return 0
+  return n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dieguzorro
+
+def rgb(r, g, b):
+  norm_r = normalize(r)
+  norm_g = normalize(g)
+  norm_b = normalize(b)
+  hexr=hex(norm_r).replace("0x","").upper()
+  hexg=hex(norm_g).replace("0x","").upper()
+  hexb=hex(norm_b).replace("0x","").upper()
+  if len(hexr)<2:
+    hexr = "0" + hexr
+  if len(hexg)<2:
+    hexg = "0" + hexg
+  if len(hexb)<2:
+    hexb = "0" + hexb
+  return hexr + hexg + hexb
+
+def normalize(n):
+  normalized = n
+  if normalized<0:
+    normalized = 0
+  if normalized > 255:
+    normalized = 255
+  return normalized
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+VoidInfinity
+
+def rgb(r, g, b):
+    return "".join([hex(max(min(x, 255), 0))[2:].rjust(2, "0") for x in [r, g, b]]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pja
+
+def rgb(*args):
+    return ''.join(map(lambda i: '%02X'%i if i<=255 else 'FF', map(lambda j: j if j>0 else 0, args)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bmarchon
+
+def rgb(r, g, b):
+    args = [max(0,min(255,x)) for x in [r,g,b]]
+    return "".join(convert(x) for x in args)
+def convert(x):
+    return str(hex(x)[-2:]).upper() if x>16 else '0'+str(hex(x)[-1:]).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Den4yk
+
+def char(x):
+    if x < 10:
+        return str(x)
+    return chr(x + 55)
+
+def tenToSixt(x):
+    if x > 254:
+        return 'FF'
+    if x < 1:
+        return '00'
+    return char(x // 16) + char(x % 16)
+
+def rgb(r, g, b):
+    return tenToSixt(r) + tenToSixt(g) + tenToSixt(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+dvc
+
+def rgb(r, g, b):
+    
+    to_hex = lambda x: '00' if x < 0 else 'FF' if x > 255 else '0' + hex(x)[2:] if x < 10 else hex(x)[2:]
+    return "".join(map(to_hex, [r, g, b])).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+wjuk, yk92
+
+def clamp(x): 
+  return max(0, min(x, 255))
+  
+def rgb(r, g, b):
+    return "{0:02x}{1:02x}{2:02x}".format(clamp(r), clamp(g), clamp(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nmukh
+
+def rgb(r, g, b):
+    #your code here :)
+    colors = []
+    for color in (r,g,b):
+      if color < 0:
+        color = 0
+      if color > 255:
+        color = 255
+      colors.append(color)
+    print colors
+    colors = map(lambda x: format(x,'02X'), colors)
+    colors = ''.join(colors)
+    return colors
+    
+    
+    
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+fission6
+
+def h(color):
+    if not 0 <= color <= 255:
+        color = min([0, 255], key=lambda x:abs(x-color))
+    return hex(color)[2:].zfill(2).upper()
+        
+def rgb(r, g, b):
+    #your code here :)
+    return h(r) + h(g) + h(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+elgertam
+
+def int_to_hex(val):
+    return hex(max(0, min(val, 255))).split('x')[1].upper().rjust(2, '0')
+
+
+def rgb(r, g, b):
+    return int_to_hex(r) + int_to_hex(g) + int_to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+malperk
+
+def clamp(x): 
+  return max(0, min(x, 255))
+  
+def rgb(r, g, b):
+    return '%02X%02X%02X' % (clamp(r), clamp(g), clamp(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SandyJoe
+
+def rgb(r, g, b):
+    
+    def round_to_valid(x):
+        if x < 0:
+            return 0
+        if x > 255:
+            return 255
+        return x
+        
+    r = round_to_valid(r)
+    g = round_to_valid(g)
+    b = round_to_valid(b)
+    
+    return "{:02X}{:02X}{:02X}".format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+woodfishman
+
+def rgb(r, g, b):
+    def toHex(c):
+        if c > 255:
+            c = 255
+        elif c < 0:
+            c = 0
+        s = str(hex(c))[2:]
+        if len(s) == 1:
+            s = "0" + s
+        return s.upper()
+    return reduce(lambda x,y: x + y, map(toHex, (r, g, b)))
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+liujinz
+
+def rgb(r, g, b):
+    #your code here :)
+    r=round(r)
+    g=round(g)
+    b=round(b)
+    return hex(r)[2:].upper().zfill(2)+hex(g)[2:].upper().zfill(2)+hex(b)[2:].upper().zfill(2)
+def round(number):
+    if number<0:number=0
+    elif number>255:number=255
+    return number
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mys149
+
+def rgb(r, g, b):
+  l = [r,g,b]
+  for i in range(len(l)):
+    if l[i] > 255:
+      l[i] = 255
+    if l[i] < 0:
+      l[i] = 0
+    l[i] = str(hex(l[i])[2:])
+    if len(l[i]) == 1:
+      l[i] = '0'+l[i]
+  return ''.join(l).upper()
+  
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+DarthLuigi
+
+def rgb(r, g, b):
+    v = [r, g, b]
+    for x in v:
+        if x<=0:
+            v[v.index(x)]="00"
+        elif x>=255:
+            v[v.index(x)]="FF"
+        elif (0<x<16):
+            v[v.index(x)]=("0"+(str(hex(x))[2:].upper()))[:2]
+        else:
+            v[v.index(x)]=(str(hex(x))[2:].upper())
+    return ''.join(v)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+embe
+
+def rgb(r, g, b):
+    fix = lambda n: max(min(n, 255), 0)
+    return '{:02X}{:02X}{:02X}'.format(fix(r), fix(g), fix(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+althusky
+
+def rgb(r, g, b):
+    a = map(lambda x: 0 if x<0 else 255 if x>255 else x,  [r,g,b]) 
+    return ''.join(map(lambda x: ('0' if x<16 else '')+hex(x)[2:], a)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+riskerfalor
+
+def rgb(r, g, b):
+    color = ''
+    colornums = [r,g,b]
+    i = 0
+    while i < len(colornums):
+        if colornums[i] < 0:
+            colornums[i] = 0
+        elif colornums[i] > 255:
+            colornums[i] = 255
+        i+=1
+    hexbase = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+    i = 0
+    while i < len(colornums):
+        color += hexbase[colornums[i]/16]+hexbase[colornums[i]%16]
+        i+=1
+    return color
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+david_a_g
+
+def rgb(r, g, b):
+    if (r < 0):
+        r = 0
+    elif (r > 255):
+        r = 255
+    r_hex = hex(r)[2:].zfill(2).upper()
+    if (g < 0):
+        g = 0
+    elif (g > 255):
+        g = 255
+    g_hex = hex(g)[2:].zfill(2).upper()
+    if (b < 0):
+        b = 0
+    elif (b > 255):
+        b = 255
+    b_hex = hex(b)[2:].zfill(2).upper()
+    res_hex=r_hex+g_hex+b_hex
+    return res_hex
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bionikspoon
+
+def rgb(r, g, b):
+    def rgb_print(i):
+        i = min(255, max(0, i))
+        return hex(i)[2:].zfill(2).upper()
+
+    return "%s%s%s" % (rgb_print(r), rgb_print(g), rgb_print(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+antox
+
+def rgb(r, g, b):
+    values = [r,g,b]
+    for i in range(len(values)):
+        if values[i] < 0:
+            values[i] = 0
+        elif values[i] > 255:
+            values[i] = 255
+            
+    r = hex(values[0]).strip('0x').zfill(2).upper()
+    g = hex(values[1]).strip('0x').zfill(2).upper()
+    b = hex(values[2]).strip('0x').zfill(2).upper()
+    return r + g + b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+AWice
+
+def rgb(r, g, b):
+    def pad2(x):
+        if len(x) == 1: return '0'+x
+        return x
+    def pad(x):
+        for i,j in [['a','A'],['b','B'],['c','C'],['d','D'],['e','E'],['f','F']]:
+            x = x.replace(i,j)
+        return pad2(x)
+    if r<0: r=0
+    if b<0: b=0
+    if g<0: g=0
+    if r>255: r=255
+    if g>255: g=255
+    if b>255: b=255
+    return pad(hex(r)[2:])+pad(hex(g)[2:])+pad(hex(b)[2:])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lishuode
+
+def rgb(r, g, b):
+    r,g,b=max(min(r,255),0),max(min(g,255),0),max(min(b,255),0)
+    return hex((r<<16)+(g<<8)+b)[2:].rjust(6,'0').upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+payoung
+
+def rgb(r, g, b):
+    return ''.join(["%0.2X" % max(min(y, 255), 0) for y in [r, g, b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+axwalker
+
+def rgb(r, g, b):
+    return ''.join("%0.2X" % min(max(c, 0), 255) for c in (r, g, b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+RM84
+
+def rgb(r, g, b):
+    return ''.join([hex([0,i,255][(i>0)+(i>255)])[2:].upper().zfill(2) for i in [r,g,b]])
+Best Practices0Clever1
+0ForkCompare with your solutionLink
+RoundPiano
+
+def rgb(r, g, b):
+    def round_to_range(color):
+        if color > 255: return 255
+        elif color < 0: return 0
+        else: return color
+        
+    def to_hex(number):
+        number = hex(number)[2:].upper()
+        if len(number) < 2: return '0' + number
+        else: return number
+        
+    r, g, b = round_to_range(r), round_to_range(g), round_to_range(b)
+    
+    return to_hex(r) + to_hex(g) + to_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rpfernando
+
+def rgb(r, g, b):
+    final_str = ""
+    for val in [r, g, b]:
+        aux_str = "00"
+        if val > 255:
+            aux_str = "FF"
+        elif val >= 0:
+            aux_str = hex(val)[2:]
+            if len(aux_str) < 2:
+                aux_str = '0' + aux_str
+        final_str += aux_str
+    return final_str.upper()
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+alexraz
+
+def rgb(r, g, b):
+    norm = [0 if x < 0 else 255 if x > 255 else x for x in [r, g, b]]
+    return ''.join(['{0:02d}'.format(int(hex(x)[2:])) if x < 10 else '{}'.format(str(hex(x)[2:]).upper()) for x in norm])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Marlen00i
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+
+    if g < 0:
+        g = 0
+
+    if b < 0:
+        b = 0
+    
+    if r > 255:
+        r = 255
+    
+    if g > 255:
+        g = 255
+        
+    if b > 255:
+        b = 255        
+    
+    r_hex = hex(r)[2:].upper()
+    g_hex = hex(g)[2:].upper()
+    b_hex = hex(b)[2:].upper()
+    
+    r_hex = '0' * (2 - len(r_hex)) + r_hex
+    g_hex = '0' * (2 - len(g_hex)) + g_hex
+    b_hex = '0' * (2 - len(b_hex)) + b_hex
+    
+    return r_hex + g_hex + b_hex
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ovalex89
+
+def rgb_cut(a):
+    return 0 if a<0 else 255 if a>255 else a
+
+def rgb_tl(rgb_colour):
+    rgb_colour=rgb_cut(rgb_colour)
+    hd1=divmod(rgb_colour,16)[0]
+    hd2=rgb_colour-hd1*16
+    tr_tab={10:'A',11:'B',12:'C',13:'D',14:'E',15:'F'}
+    return (str(hd1) if hd1<10 else tr_tab[hd1])+(str(hd2) if hd2<10 else tr_tab[hd2])
+
+def rgb(r, g, b):
+    return rgb_tl(r)+rgb_tl(g)+rgb_tl(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cristaloleg
+
+def rgb(r, g, b):
+    def clamp(x): 
+        return max(0, min(x, 255))
+    r = clamp(r)
+    g = clamp(g)
+    b = clamp(b)
+    return ('%02x%02x%02x' % (r, g, b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+d1skort
+
+def dec_to_hex(dec):
+    d = {
+        0: '0', 
+        1: '1', 
+        2: '2', 
+        3: '3', 
+        4: '4', 
+        5: '5', 
+        6: '6', 
+        7: '7', 
+        8: '8', 
+        9: '9', 
+        10: 'A',
+        11: 'B',
+        12: 'C',
+        13: 'D',
+        14: 'E',
+        15: 'F'
+    }
+
+    if dec <= 0:
+        return '00'
+    if dec >= 255:
+        return 'FF'
+    ans = ''
+    help = dec
+    while dec != 0:
+        x = dec % 16
+        dec /= 16
+        ans += d[x]
+    if help < 10:
+        ans = '0' + ans
+        return ans
+    else:
+        return ans[::-1]
+    
+def rgb(r, g, b):
+    hex_r = dec_to_hex(r)
+    hex_g = dec_to_hex(g)
+    hex_b = dec_to_hex(b)
+    return hex_r + hex_g + hex_b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Vangelis
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    elif r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    elif g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    elif b > 255:
+        b = 255
+    return '%02x%02x%02x'.upper() % (r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+patrickmcpython
+
+def rgb(r, g, b):
+    def convert(col): 
+        if(col<0): col = 0
+        if(col>255): col = 255
+        return(hex(col).upper()[2:].zfill(2))
+    return(convert(r)+convert(g)+convert(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+h0nte
+
+def rgb(r, g, b):
+  l = map(lambda x: 0 if x < 0 else 255 if x > 255 else x, [r,g,b])
+  return "%02X%02X%02X" % tuple(l)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Tweety-FER
+
+def move_to_border(x):
+    if x < 0:
+        return 0
+    if x > 255:
+        return 255
+    return x
+    
+def rgb(*rgb):
+    colors = tuple(map(move_to_border, rgb))
+    return "%02X%02X%02X" % colors
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+an14700
+
+   
+def rgb(r, g, b):
+    a = tuple(map(lambda x: x if x>0 else 0, (r,g,b)))
+    a = tuple(map(lambda x: x if x<256 else 255, a))
+    return "%02X%02X%02X" % a
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nikhil-mohan
+
+def normalize(c):
+    return min(255, max(0, c))
+    
+def rgb(r, g, b):
+    return "%02X%02X%02X" % (normalize(r), normalize(g), normalize(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nikhil-mohan
+
+def rgb(r, g, b):
+    colors = (min(255, max(0, c)) for c in (r, g, b))    
+    return ''.join(hex(c)[2:].zfill(2) for c in colors).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+shimyya
+
+def rgb(r, g, b):
+    conv = lambda x: 255 if x > 255 else 0 if x < 0 else x
+    return "{:02x}{:02x}{:02x}".format(conv(r), conv(g), conv(b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jhoffner
+
+def rgb(*args):
+  return "".join(hex(min(255,max(0,x)))[2:].zfill(2).upper() for x in args)
+Best Practices0Clever3
+0ForkCompare with your solutionLink
+SwingKing
+
+def rgb(r, g, b):
+    if r < 0:
+      r = 0
+    if r > 255:
+      r = 255
+    if g < 0:
+      g = 0
+    if g > 255:
+      g = 255
+    if b < 0:
+      b = 0
+    if b > 255:
+      b = 255
+      
+    
+    values = ['%.2x'.upper() %x for x in [r, g, b]]
+    return ''.join(values)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+marenkovd
+
+def rgb(r, g, b):
+    result = ''
+    for color in [r, g, b]:
+        color = int(round(color))
+        if color < 0:
+            color = 0
+        if color > 255:
+            color = 255
+        value = hex(color)[2:].upper()
+        if len(value) == 1:
+            result += '0'
+        result += value       
+    return result
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+tfdavids
+
+def rgb(r, g, b):
+    if r < 0:
+        r = 0
+    if r > 255:
+        r = 255
+    if g < 0:
+        g = 0
+    if g > 255:
+        g = 255
+    if b < 0:
+        b = 0
+    if b > 255:
+        b = 255
+    
+    r = hex(r)[2:]
+    if len(r) == 1:
+        r = '0' + r
+    g = hex(g)[2:]
+    if len(g) == 1:
+        g = '0' + g
+    b = hex(b)[2:]
+    if len(b) == 1:
+        b = '0' + b
+    
+    return '%s%s%s' % (r.upper(), g.upper(), b.upper())
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jbzdak
+
+def sanitize(a): 
+    return max(0, min(255, int(a)))
+    
+def as_hex(a):
+    return "{:02x}".format(a).upper()
+
+def rgb(r, g, b):
+    r,g,b = map(sanitize, (r, g, b))
+    return "".join(map(as_hex, (r,g,b)))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+reactpro, misuburlacu
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if g < 0: g = 0
+    if b < 0: b = 0
+    if r > 255: r = 255
+    if g > 255: g = 255
+    if b > 255: b = 255
+    return "%02x%02x%02x".upper() % (r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+halex
+
+def rgb(r, g, b):
+    bound = lambda x: min(255, max(0, x))
+    return "%.2X%.2X%.2X" % (bound(r), bound(g), bound(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+djm4686
+
+def rgb(r, g, b):
+    vals = [r, g, b]
+    new_vals = []
+    for x in vals:
+        if x > 255:
+            new_vals.append(255)
+        elif x < 0:
+            new_vals.append(0)
+        else:
+            new_vals.append(x)
+    return "".join([hex(x)[2::] if len(hex(x)) == 4 else "0" + hex(x)[2::] for x in new_vals]).upper()
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+danpelota
+
+def rgb(r, g, b):
+  return to_hex(r) + to_hex(g) + to_hex(b)
+
+def to_hex(dec): 
+    hexed = hex(max(min(dec, 255), 0))[2:]
+    return hexed.zfill(2).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+lowicz
+
+def rgb(r, g, b):
+    if r < 0:
+        r = "00"
+    elif r > 255:
+        r = "FF"
+    elif r < 15:
+        r = "0" + str(hex(r).split("x")[1]).upper()
+    else:
+        r = str(hex(r).split("x")[1]).upper()
+    if g < 0:
+        g = "00"
+    elif g > 255:
+        g = "FF"
+    elif g < 15:
+        g = "0" + str(hex(g).split("x")[1]).upper()
+    else:
+        g = str(hex(g).split("x")[1]).upper()
+    if b < 0:
+        b = "00"
+    elif b > 255:
+        b = "FF"
+    elif b < 15:
+        b = "0" + str(hex(b).split("x")[1]).upper()
+    else:
+        b = str(hex(b).split("x")[1]).upper()
+    return r+g+b
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+mortonfox
+
+def rgb(r, g, b):
+  return ''.join(['%02X' % max(0, min(255, v)) for v in [r,g,b]])
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+jmc04
+
+def rgb(r, g, b):
+    l=[r,g,b]
+    h='0123456789ABCDEF'
+    w=''
+    for x in l:
+        if x>=255:
+            w+='FF'
+        elif x<=0:
+            w+='00'
+        else:
+            w+=h[x/16]
+            w+=h[x%16]
+    return w
+            
+        
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+ordersys
+
+def rgb(r, g, b):
+    tmp = []
+    for p in (r, g, b):
+        if p < 0:
+            p = 0
+        if p > 255:
+            p = 255
+        tmp.append(p)
+    return ''.join(('%02X' % p for p in tmp))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Katzen_gott
+
+rgb=lambda r,g,b:'{:0>2}{:0>2}{:0>2}'.format(hex(fix(r))[2:],hex(fix(g))[2:],hex(fix(b))[2:]).upper()
+fix=lambda n: 0 if n<0 else 255 if n>255 else n
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+SaymV
+
+def rgb(r, g, b):
+    r = sorted([0, r, 255])[1]
+    g = sorted([0, g, 255])[1]
+    b = sorted([0, b, 255])[1]
+    return ('%02x%02x%02x' % (r,g,b)).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+deibyz
+
+def rgb(*p):
+    res = ""
+    for i in p:
+        if i > 255:
+            res += "FF"
+        elif i < 0:
+            res += "00"
+        else:
+            res += "%02X" % i
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+cvk77
+
+def rgb(r, g, b):
+    validHex = lambda v: sorted([0, v, 255])[1]
+    values = tuple(validHex(v) for v in [r,g,b])
+    return ("%02x%02x%02x" % values).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Mslef
+
+def rgb(r, g, b):
+    dec_to_hex = {0:'0', 1:'1', 2:'2', 3:'3', 4:'4', 5:'5', 6:'6',
+        7:'7', 8:'8', 9:'9', 10:'A', 11:'B', 12:'C', 13:'D',
+        14:'E', 15:'F'}    
+    dec_values = [r, g, b]
+    hex_value = ''
+    
+    for i in dec_values :  
+        if i < 0: hex_value += '00'             
+        if i > 255: hex_value += 'FF'
+        if i >= 0 and i <= 255 : 
+            hex_value += (dec_to_hex[i/16]+dec_to_hex[i%16])
+    
+    return hex_value
+    
+print rgb(300, 4, 2)
+print (-20 < 0)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+thingmarius
+
+def rgb(r, g, b):
+
+    def limit(x):
+        return 0 if x < 0 else 255 if x > 255 else x
+
+    def format(x):
+        return "{:02x}".format(x)
+
+    return "".join(map(format, map(limit, (r, g, b)))).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+isma0611
+
+def rgb(r, g, b):
+    
+    if r<0:
+        r=0
+    elif r>255:
+        r=255
+    if g<0:
+        g=0
+    elif g>255:
+        g=255
+    if b<0:
+        b=0
+    elif b>255:
+        b=255
+    s=""    
+    hx=[hex(r).split('x')[1].upper(),hex(g).split('x')[1].upper(),hex(b).split('x')[1].upper()]
+    for h in hx:
+        if len(h)==1:
+            s+="0"+h
+        else:
+            s+=h
+    return s
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+apranav19
+
+def dec_to_hex(n):
+    if n >= 255:
+        return hex(255)[2:].upper()
+    if n <= 16:
+        res = '0'
+        if n <= 0:
+            res += hex(0)[2:].upper()
+        else:
+            res += hex(n)[2:].upper()
+        
+        return res
+    
+    return hex(n)[2:].upper()
+    
+def rgb(r, g, b):
+    res = [dec_to_hex(r), dec_to_hex(g), dec_to_hex(b)]
+    return ('').join(res)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+bkey
+
+def validate_rgb(v):
+    if v > 255:
+        v= 255
+    elif v <0:
+        v = 0
+    return v
+    
+def rgb(r, g, b):
+    r = validate_rgb(r)
+    g = validate_rgb(g)
+    b = validate_rgb(b)
+    
+    return "%0.2X%0.2X%0.2X" % (r,g,b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Simgie
+
+def rgb(r, g, b):
+    return ''.join(map(hexadecimal, [r, g, b]))
+
+def hexadecimal(n):
+    if n < 0:
+        n = 0
+    if n > 255:
+        n = 255
+    result = hex(n)[2:].upper()
+    if len(result) == 1:
+        result = '0' + result
+    return result
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+brooke.angel
+
+
+
+def rgb(r, g, b):
+    rgb=[r,g,b]
+    for i in range(len(rgb)):
+        if rgb[i]<0:
+            rgb[i]=0
+        elif rgb[i]>255:
+            rgb[i]=255
+
+    hexcoords=[str(hex(rgb[0])),str(hex(rgb[1])),str(hex(rgb[2]))]
+    result=""
+    
+    for i in hexcoords:
+        if len(i[2::])>1:
+            result+=i[2::]
+        else:
+            result=result+"0"+i[2::]
+    
+    return result.upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+covix
+
+def rgb(r, g, b):
+    def h(x):
+        x = max(0, x)
+        x = min(255, x)
+        x = hex(x)[2:].upper()
+        return x if len(x) == 2 else "0" + x
+    return "%s%s%s" % (h(r), h(g), h(b))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+PrydeRage
+
+def rgb(r, g, b):
+    lz_r = "0" if r < 16 and r >= 0 else ""
+    lz_g = "0" if g < 16 and g >= 0 else ""
+    lz_b = "0" if b < 16 and b >= 0 else ""
+    rh = "FF" if r > 255 else "00" if r < 0 else str(hex(r))[2:]
+    gh = "FF" if g > 255 else "00" if g < 0 else str(hex(g))[2:]
+    bh = "FF" if b > 255 else "00" if b < 0 else str(hex(b))[2:]
+    return "{0}{1}{2}{3}{4}{5}".format(lz_r, rh, lz_g, gh, lz_b, bh).upper()
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+sandder
+
+def rgb(r, g, b):
+    def round(x):
+        if x>255:
+            return 255
+        elif x<0:
+            return 0
+        else:return x
+    dic="0123456789ABCDEF"
+    l=[round(x) for x in [r,g,b]]
+    o=''
+    for i in l:
+        o=o+dic[i/16]
+        i=i%16
+        o=o+dic[i]
+    return o
+         
+            
+    #your code here :)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Unnamed
+
+rgb = lambda *args: 3 * '%02X' % tuple(sorted((0, x, 255))[1] for x in args)
+Best Practices0Clever7
+0ForkCompare with your solutionLink
+Krydar
+
+def rgb(r, g, b):
+    if r < 0: r = 0
+    if r > 255: r = 255
+    if g < 0: g = 0
+    if g > 255: g = 255
+    if b < 0: b = 0
+    if b > 255: b = 255
+    return '%02x%02x%02x'.upper() % (r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+stfin
+
+def rgb(r, g, b):
+    def enforce(n):
+        if n < 0:
+            return 0
+        if n > 255:
+            return 255
+        return n//1
+    def hexalize(n):
+        if n < 16:
+            return "0" + str(hex(enforce(n)))[-1:].upper()
+        return str(hex(enforce(n)))[-2:].upper()
+    
+    return "{0}{1}{2}".format(hexalize(r),hexalize(g),hexalize(b))
+        
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+nedsociety
+
+rgb = lambda r,g,b: (lambda c: '%02X%02X%02X' % (c(r),c(g),c(b)))(lambda x: 0 if x < 0 else 255 if x > 255 else x)
+    
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+crzdriver
+
+def rgb(r, g, b):
+  r, g, b = [i if i >= 0 else 0 for i in [r,g,b]]
+  r, g, b = [i if i <= 255 else 255 for i in [r,g,b]]
+  return reduce(lambda x, y: x + y, map(lambda x: hex(x).lstrip('0x').upper().zfill(2), [r,g,b]))
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+theinric
+
+def bound_arg(x):
+    if x < 0:
+        x = 0
+    elif x > 255:
+        x = 255
+    return x
+    
+def format_hex(val):
+    val_hex = hex(val)[2:].upper()
+    return val_hex if len(val_hex) > 1 else '0'+ val_hex
+
+def rgb(r, g, b):
+    r = bound_arg(r)
+    g = bound_arg(g)
+    b = bound_arg(b)
+    
+    r_hex = format_hex(r)
+    g_hex = format_hex(g)
+    b_hex = format_hex(b)
+       
+    return r_hex + g_hex + b_hex
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rlaverde
+
+def rgb(r, g, b):
+    r, g, b = [max(0, min(255, x)) for x in [r, g, b]]
+    return "{:02X}{:02X}{:02X}".format(r, g, b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+HouRong
+
+def rgb(r, g, b):
+    return hex(min(max(r, 0), 255))[2:].zfill(2).upper() + hex(min(max(g, 0), 255))[2:].zfill(2).upper() + hex(
+        min(max(b, 0), 255))[2:].zfill(
+        2).upper()
+
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pgurgul
+
+def rgb(r, g, b):
+    hexes = [str(i) for i in range(0, 10)]
+    hexes += [chr(c) for c in range(ord('A'), ord('G'))]
+    out = ''
+    for val in [r, g, b]:
+        val = min(max(val, 0), 255)
+        out += hexes[val/16]
+        out += hexes[val%16]
+    return out
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+michal_niklas
+
+def get_color_val(x):
+  if x < 0:
+    return 0
+  if x > 255:
+    return 255
+  return x
+
+
+def get_color_hex(x):
+  return '%02X' % get_color_val(x)
+
+
+def rgb(r, g, b):
+  return get_color_hex(r) + get_color_hex(g) + get_color_hex(b)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+staticor
+
+def rgb(r, g, b):
+    res = ''
+    for i in (r, g, b):
+        if i > 255:
+            i = 255
+        if i < 1:
+            i = 0
+        temp = hex(i)[2:]
+        if len(temp) < 2:
+            temp = '0' + temp
+        res += temp.upper()
+
+    return res
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+pasher11
+
+def rgb(r, g, b):
+    ret = ''
+    for x in (r,g,b):
+        if(x < 0):
+            x = 0
+        if(x > 255):
+            x = 255
+        if(x < 16):
+            ret += '0'
+        ret += (str(hex(x))[2:]).upper()
+    return ret
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+rai8k
+
+def rgb(r, g, b):
+    #your code here :)
+    r = inputhelper(r)
+    g = inputhelper(g)
+    b = inputhelper(b)
+    return "%02X" % r + "%02X" % g + "%02X" % b
+
+def inputhelper(x):
+    if x < 0:
+        return 0
+    elif x > 255:
+        return 255
+    else:
+        return x
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+Cognar
+
+def rgb(r,g,b):
+    [c,d,e] = [i if i <= 255 and i >= 0 else 0 if i < 0 else 255 for i in [r,g,b]]
+    hexdec = ['0' + hex(i)[-1] if len(str(i)) == 1 else hex(i)[2:].upper() for i in [c,d,e]]
+    return ''.join(hexdec)
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+whiplashoo
+
+
+def rgb(r, g, b):
+  result = ''
+  for col in [r,g,b]:
+    if col <= 0:
+      result += '00'
+    elif col >=255:
+      result += 'FF'
+    else:
+      if len(hex(col))<4:
+        result += '0'
+      result += (hex(col)[2:]).upper()
+  return result
+Best Practices0Clever0
+0ForkCompare with your solutionLink
+charles_lange
+
+import math
+
+def rgb(r, g, b):
+    def hexa(v):
+       if v < 10: return v
+       else:
+           return "ABCDEF"[v-10]
+    if r > 255: r = 255
+    if r < 0: r = 0
+    if g > 255: g = 255
+    if g < 0: g = 0
+    if b > 255: b = 255
+    if b < 0: b = 0
+    r2 = hexa(r % 16)
+    r1 = hexa(int(math.floor(r / 16)))
+    g2 = hexa(g % 16)
+    g1 = hexa(int(math.floor(g / 16)))
+    b2 = hexa(b % 16)
+    b1 = hexa(int(math.floor(b / 16)))
+    return str(r1) + str(r2) + str(g1) + str(g2) + str(b1) + str(b2)
+Best Practices0Clever0
+1ForkCompare with your solutionLink
+Dubochos
+
+def rgb(r, g, b):
+    s1="00"
+    s2="00"
+    s3="00"
+    if (len(str(hex(r)))==3):
+      s1="0"+str(hex(r))[2].upper()
+    else:
+      s1=str(hex(r))[2].upper()+str(hex(r))[3].upper()
+    if (len(str(hex(g)))==3):
+      s2="0"+str(hex(g))[2].upper()
+    else:
+      s2=str(hex(g))[2].upper()+str(hex(g))[3].upper()
+    if (len(str(hex(b)))==3):
+      s3="0"+str(hex(b))[2].upper()
+    else:
+      s3=str(hex(b))[2].upper()+str(hex(b))[3].upper()  
+    if (r<0):
+      s1="00"
+    if (r>255):
+      s1="FF"
+    if (g<0):
+      s2="00"
+    if (g>255):
+      s2="FF"
+    if (b<0):
+      s3="00"
+    if (b>255):
+      s3="FF"
+    return s1+s2+s3

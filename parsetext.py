@@ -1,16 +1,11 @@
 # parsetext.py
 #
-# Takes a solutions_open generator as input,
+# Takes a filepath as input,
 # yields a text file for each solution.
 
-import sys, time
+import os, re, sys, time
 
 def parse_text(solutionsfile):
-	#take a solutions file and yield individual solution open files
-	#import pdb;pdb.set_trace()
-	import os, re
-	#for f in file_gen:
-		#do something with an open file
 	solutionsfile = open(solutionsfile, "r")
 	skip = 0
 	fi = open('t_solution.txt', 'w')
@@ -21,10 +16,6 @@ def parse_text(solutionsfile):
 		elif "Best Practices" in line:
 			skip = 3
 			try:
-				#import pdb;pdb.set_trace()
-				#fi = open('t_solution.txt', 'r')
-				#yield fi
-				#fi.close()
 				with open('t_solution.txt', 'r') as fi:
 					yield fi
 				os.remove('t_solution.txt')
@@ -34,10 +25,8 @@ def parse_text(solutionsfile):
 		else:
 			fi.write(line)
 
-
   
 # Example use
-
 
 
 if __name__ == '__main__':

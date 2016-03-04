@@ -1,0 +1,38 @@
+import random
+from collections import defaultdict
+from itertools import takewhile, count
+
+def amendGraph(g, triplet):
+  for edge in [[triplet[0],triplet[1]],[triplet[1],triplet[2]]]:
+    if edge[0] not in g:
+      g[edge[0]] = [edge[1]]
+    elif edge[1] not in g[edge[0]]:
+      g[edge[0]].append(edge[1])
+  return g
+
+def topoSort(g):
+  levelsByName = {}
+  namesByLevel = defaultdict(set)
+
+  def walkDepthFirst(name):
+    if name in levelsByName:
+      return levelsByName[name]
+    children = g.get(name, None)
+    level = 0 if not children else (1 + max(walkDepthFirst(lname) for lname in children))
+    levelsByName[name] = level
+    namesByLevel[level].add(name)
+    return level
+
+  for name in g:
+    walkDepthFirst(name)
+
+  sorted = [list(x)[0] for x in list(takewhile(lambda x: x is not None, (namesByLevel.get(i, None) for i in count())))]
+  sorted.reverse()
+  return sorted
+
+def recoverSecret(triplets):
+  'triplets is a list of triplets from the secrent string. Return the string.'
+  g = {}
+  for t in triplets:
+    g = amendGraph(g, t)
+  return ''.join(topoSort(g))
