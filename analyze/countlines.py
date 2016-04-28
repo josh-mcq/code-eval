@@ -8,7 +8,7 @@ from parsetext import parse_text
 
 
 def countlines(solutionsfile):
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     for function in parse_text(solutionsfile):
 		function.seek(0)
 		yield ('line count', len(function.readlines()))

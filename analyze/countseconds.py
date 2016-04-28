@@ -11,6 +11,13 @@ import os
 import datetime, time
 import unittest
 
+def equals_atomically (obj1, obj2):
+    if len(obj1) != len(obj2):
+        return False
+    for k in obj1:
+        if obj1[k] != obj2[k]:
+            return False
+    return True
 
 
 def countseconds(solutionsfile):
