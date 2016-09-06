@@ -1,55 +1,29 @@
-import re
-
-def parse_molecule(formula):
-    if formula == '{[Co(NH3)4(OH)2]3Co}(SO4)3': return {'H': 42, 'S': 3, 'Co': 4, 'O': 18, 'N': 12}
-    print formula
-    formula = convert_to_brackets(formula) 
-    chunked_formula = [i[0] for i in re.findall('(\[|(\]\d+)|\]|[A-Z][a-z]?[\d]*)', formula)]
-    elements = {trim(e):0 for e in re.findall('([A-Z][a-z]?\d*)', formula)}                            
-    for element in filter(lambda x: x[1][0] not in '[]', enumerate(chunked_formula)):
-        rightward = [element[1]]+filter(lambda x: x[0] in '[]', chunked_formula[element[0]:])
-        print element, elements[trim(element[1])], int(element_calc(rightward))
-        elements[trim(element[1])] += int(element_calc(rightward))
-    return {trim(k):v for k,v in elements.items()}
-
-def convert_to_brackets(formula):
-    l_brackets, r_brackets = ['(','{'], [')','}']
-    for c in formula:
-        if c in l_brackets+r_brackets:
-            formula = formula.replace(c, '[') if c in l_brackets else formula.replace(c, ']')
-    return formula
-
-def trim(k):
-    if k[-1] in '123456789':
-        i = 0
-        while k[i] not in '123456789':
-            i+=1
-        return k[:i]
-    return k
-
-def element_calc(rightward):
-    if len(rightward)==1:
-        if rightward[0][-1] in '123456789':
-            rightward = rightward[0]
-            return rightward[rightward.index(trim(rightward)[-1])+1:]            
-        else: return 1
-    
-    level, multiplier = 0,[]
-    if rightward[0][-1][-1] in '123456789':
-        multiplier.append(rightward[0][-1][-1])
-    has_seen_left_bracket = False
-    first_item = True
-    for item in rightward[1:]:
-        if item[0] == ']':
-            if len(item)>1 and first_item:
-                multiplier.append(item[1:])
-            if not first_item:
-                level+=1
-                if len(item)>1 and level>0:
-                    multiplier.append(item[-1])
-        else:
-            level-=1
-        if not multiplier: multiplier = [1]
-        first_item = False
-    print 'level: ',level
-    return reduce(lambda a,b: a*b, [int(x) for x in multiplier])
+def rgb(r, g, b):
+    s1="00"
+    s2="00"
+    s3="00"
+    if (len(str(hex(r)))==3):
+      s1="0"+str(hex(r))[2].upper()
+    else:
+      s1=str(hex(r))[2].upper()+str(hex(r))[3].upper()
+    if (len(str(hex(g)))==3):
+      s2="0"+str(hex(g))[2].upper()
+    else:
+      s2=str(hex(g))[2].upper()+str(hex(g))[3].upper()
+    if (len(str(hex(b)))==3):
+      s3="0"+str(hex(b))[2].upper()
+    else:
+      s3=str(hex(b))[2].upper()+str(hex(b))[3].upper()  
+    if (r<0):
+      s1="00"
+    if (r>255):
+      s1="FF"
+    if (g<0):
+      s2="00"
+    if (g>255):
+      s2="FF"
+    if (b<0):
+      s3="00"
+    if (b>255):
+      s3="FF"
+    return s1+s2+s3
